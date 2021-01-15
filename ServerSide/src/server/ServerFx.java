@@ -9,6 +9,6 @@ package server;
  *
  * @author Hossam
  */
-public class ServerHandler {
+public class ServerFx {
     
 }
