@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serverHandler;
+package server;
 
 /**
  *
- * @author ahmed
+ * @author Hossam
  */
-public class testClass {
+public class ServerUtils {
     
 }
