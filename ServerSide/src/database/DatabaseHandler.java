@@ -7,7 +7,7 @@ package database;
 
 /**
  *
- * @author Ahmed
+ * @author Ahmed Mamdouh
  */
 public class DatabaseHandler {
     
