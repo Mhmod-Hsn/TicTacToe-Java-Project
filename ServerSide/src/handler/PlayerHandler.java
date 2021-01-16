@@ -18,12 +18,13 @@ import java.util.Vector;
  */
 
 public class PlayerHandler extends Thread{
-    Socket playerSocket;
-    PlayerInfo player;
     
-    PlayerInfo playerRequest;
-    ObjectInputStream inputStream;
-    ObjectOutputStream outputStream;
+    private Socket playerSocket;
+    private PlayerInfo player;
+    
+    private PlayerInfo playerRequest;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
     
     public static Vector<PlayerInfo> onlinePlayersVect;
     
@@ -100,6 +101,3 @@ public class PlayerHandler extends Thread{
         }
     }
 }
-
-
-
