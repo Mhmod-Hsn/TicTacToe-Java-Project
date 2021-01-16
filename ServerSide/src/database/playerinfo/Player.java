@@ -8,6 +8,7 @@ package database.playerinfo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
  *
  * @author ahmed
  */
+
 public class Player {
     private Long pId ;
     private Long score ;
@@ -25,7 +27,7 @@ public class Player {
     private String email ;
     public  static  enum statusType {offline,online,ingame,none}
     private statusType status ;
-    FileInputStream avatar ;    //need File DataType
+    InputStream avatar ;    //need File DataType
     /*File image = new File("C:/honda.jpg");
     avatar = new FileInputStream(image);*/
     /*Blob imageBlob = resultSet.getBlob(yourBlobColumnIndex);
@@ -47,6 +49,10 @@ public class Player {
         return passwd;
     }
 
+    /*public boolean userSignin (String _username , String _passwd ){
+    
+    }*/ 
+    
     public String getEmail() {
         return email;
     }
@@ -55,7 +61,7 @@ public class Player {
         return status;
     }
 
-    public FileInputStream getAvatar() {
+    public InputStream getAvatar() {
         return avatar;
     }
 
@@ -83,7 +89,7 @@ public class Player {
         this.status = _status;
     }
 
-    public void setAvatar(FileInputStream avatar) {  // new FileInputStream((new File("C:/honda.jpg"))
+    public void setAvatar(InputStream avatar) {  // new FileInputStream((new File("C:/honda.jpg"))
         this.avatar = avatar;
     }
     public void setAvatar(File _avatar) {  
@@ -115,8 +121,8 @@ public class Player {
         Player p ;
         try {
           p = new Player(_rs.getLong("pid"),_rs.getString("username"),_rs.getString("passwd"),_rs.getString("email"));
-          p.setStatus((statusType)_rs.getObject("status"));
-          p.setAvatar((FileInputStream) _rs.getBlob("avatar").getBinaryStream(0, _rs.getBlob("avatar").length() ));
+          p.setStatus(Player.statusType.valueOf(_rs.getString("status")));
+          p.setAvatar((InputStream)null);//_rs.getBlob("avatar").getBinaryStream(0, _rs.getBlob("avatar").length() ));
           System.out.println("creating player ok ");
         } catch (SQLException ex) {
             System.out.println("error creating player");
