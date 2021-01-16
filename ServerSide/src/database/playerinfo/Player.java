@@ -18,11 +18,11 @@ import java.util.logging.Logger;
  * @author ahmed
  */
 public class Player {
-    private Long pid ;
+    private Long pId ;
     private Long score ;
     private String username ;
     private String passwd ;
-     private String email ;
+    private String email ;
     public  static  enum statusType {offline,online,ingame,none}
     private statusType status ;
     FileInputStream avatar ;    //need File DataType
@@ -32,7 +32,7 @@ public class Player {
     InputStream binaryStream = imageBlob.getBinaryStream(0, imageBlob.length());*/
 
     public Long getPid() {
-        return pid;
+        return pId;
     }
 
     public Long getScore() {
@@ -60,7 +60,7 @@ public class Player {
     }
 
     public void setPid(Long _pid) {
-        this.pid = _pid;
+        this.pId = _pid;
     }
 
     public void setScore(Long _score) {
@@ -111,9 +111,6 @@ public class Player {
     }
 
     
-   
-    
-    
     public static Player createPlayer(ResultSet _rs) {
         Player p ;
         try {
@@ -129,7 +126,7 @@ public class Player {
     }
 
     public Player(Long pid, String username, String passwd, String email) {
-        this.pid = pid;
+        this.pId = pid;
         this.username = username;
         this.passwd = passwd;
         this.email = email;

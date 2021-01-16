@@ -24,7 +24,7 @@ public class DatabaseDriver {
     private Connection connection;
     private Statement statement;
     private PreparedStatement preparedStatement;
-    private String querystr;
+    private String queryStr;
     private ResultSet resultSet; // used for store data from database    
 
 
@@ -44,8 +44,8 @@ public class DatabaseDriver {
         this.preparedStatement = preparedStatement;
     }
 
-    public void setQuerystr(String querystr) {
-        this.querystr = querystr;
+    public void setQueryStr(String querystr) {
+        this.queryStr = querystr;
     }
 
     public void setResultSet(ResultSet resultSet) {
@@ -64,8 +64,8 @@ public class DatabaseDriver {
         return preparedStatement;
     }
 
-    public String getQuerystr() {
-        return querystr;
+    public String getQueryStr() {
+        return queryStr;
     }
 
     public ResultSet getResultSet() {
