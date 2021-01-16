@@ -433,7 +433,62 @@ public class PlayerModel {
                 return null ;
             }
     }
+    // check 
+     public boolean selectWhereUsrPass(String _username ,String _passwd ){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("select * from players where username= '"+_username+"' and passwd = '"+_passwd+"'");
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().next() == false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    System.err.println("false select");
+                    return false ;
+                }
+                else{
+                    System.out.println("true select");
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return true ;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error select");
+                return false ;
+            }
+    }
     
+     public Player selectPlayerWhereUsrPass(String _username ,String _passwd ){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("select * from players where username= '"+_username+"' and passwd = '"+_passwd+"'");
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().next() == false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    System.err.println("false select");
+                    return null ;
+                }
+                else{
+                    Player p = Player.createPlayer(db.getResultSet()) ;
+                    System.out.println("true select");
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return p ;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error select");
+                return null ;
+            }
+    } 
+     
     public String selectMailWhereUsr(String _username ){
          try {
                 db.startConnection();
@@ -537,7 +592,42 @@ public class PlayerModel {
                     return null ;
                 }
                 else{
-                    Vector<Player>  tmpUsrs = null ;
+                    
+                    Vector<Player>  tmpUsrs =  new Vector<Player>(); 
+                    tmpUsrs.add(Player.createPlayer(db.getResultSet()));
+                    while(db.getResultSet().next()){
+                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
+                    }
+                    System.out.println("true Array");
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return tmpUsrs ;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error select");
+                return null ;
+            }
+      }
+      // check 
+     public Vector<Player> selectAllPlayers(){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("select * from players ");
+  
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+                
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().isBeforeFirst()== false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    System.err.println("false select");
+                    return null ;
+                }
+                else{
+                    //db.getResultSet().first() ;
+                    Vector<Player>  tmpUsrs = new Vector<Player>(); 
                     while(db.getResultSet().next()){
                         tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     }
