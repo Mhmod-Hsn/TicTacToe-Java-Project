@@ -6,6 +6,7 @@
 package handler;
 
 
+import database.playerinfo.Player;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,15 +21,15 @@ import java.util.Vector;
 public class PlayerHandler extends Thread{
     
     private Socket playerSocket;
-    private PlayerInfo player;
+    private Player player;
     
-    private PlayerInfo playerRequest;
+    private Player playerRequest;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     
-    public static Vector<PlayerInfo> onlinePlayersVect;
+    public static Vector<Player> onlinePlayersVect;
     
-    public PlayerHandler(Socket socket, PlayerInfo playerInfo)
+    public PlayerHandler(Socket socket, Player playerInfo)
     {
         this.playerSocket = socket;
         this.player = playerInfo;
@@ -63,7 +64,7 @@ public class PlayerHandler extends Thread{
         while (true)
         {
             try {
-                playerRequest = (PlayerInfo)inputStream.readObject();
+//                playerRequest = (player)inputStream.readObject();
                 
                 /*
                 if () //Sign in request

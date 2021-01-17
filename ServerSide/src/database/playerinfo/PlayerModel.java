@@ -42,7 +42,7 @@ public class PlayerModel {
                 int checkNew=db.getStatement().executeUpdate("INSERT INTO players ( username, passwd, email, status, score, avatar) VALUES( '"+_username+"', '"+_passwd+"', '"+_email+"', '"+_status+"', "+_score+", '"+_avatar+"' )"); 
                 db.endStatConnection();
                 if(checkNew >= 1){
-                    System.out.println("new ok ");                   
+                    System.out.println("new ok ");                
                     return true ;
                     /*TestDB2.this.rs=stmt.executeQuery("select * from persontb");
                     refreshPersonList(rs);                            
@@ -476,7 +476,7 @@ public class PlayerModel {
                     return null ;
                 }
                 else{
-                    Player p = Player.createPlayer(db.getResultSet()) ;
+                    Player p = Player.createPlayer(db.getResultSet());
                     System.out.println("true select");
                     db.endResultSet();
                     db.endStatConnection();

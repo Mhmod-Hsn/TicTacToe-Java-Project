@@ -5,6 +5,8 @@
  */
 package handler;
 
+import appinfo.AppDbOperation;
+import database.playerinfo.Player;
 import java.io.IOException;
 
 import java.io.DataInputStream;
@@ -28,56 +30,14 @@ import java.util.logging.Logger;
  * @author Hossam
  */
 
-
-class UserRequestInfo {
-    
-    private String uname;
-    private String password;
-    private boolean isSignIn;
-
-    
-    public UserRequestInfo(String uname, String password, boolean isSignIn) {
-        this.password = password;
-        this.uname = uname;
-        this.isSignIn = isSignIn;
-    }
-
-    public UserRequestInfo() {
-        this.password = null;
-        this.uname = null;
-        this.isSignIn = false;
-    }
-        
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUname() {
-        return uname;
-    }
-
-    public void setUname(String uname) {
-        this.uname = uname;
-    }
-
-    public boolean isSignIn() {
-        return isSignIn;
-    }
-
-    public void setIsSignIn(boolean isSignIn) {
-        this.isSignIn = isSignIn;
-    }
-}
-
-
 public class AuthenHandler extends Thread {
     
     Socket socket;
     UserRequestInfo userReqInfo;
+    AppDbOperation dbOperation;
+    String errorMsg;
+    JSONObject jsonObj;
+    Player curPlayer;
     
     DataInputStream inputStream;
     DataOutputStream outputStream;
@@ -86,19 +46,23 @@ public class AuthenHandler extends Thread {
     
     public AuthenHandler(Socket socket)
     {
+        this.dbOperation = new AppDbOperation();
         this.socket = socket;
         try {
             //Create the input and output channels
             inputStream = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
             
+            
             //create object of the request
             userReqInfo = new UserRequestInfo();
+            
             
             //Start the thread
             this.start();
             
         } catch (IOException ex) {
+            System.out.println("AuthenticationHandler input and output constructor catch");
             ex.printStackTrace();
         }
     }
@@ -117,12 +81,28 @@ public class AuthenHandler extends Thread {
                 {
                     if (userReqInfo.isSignIn()) //Sign in request
                     {
-                        PlayerInfo result = signIn(userReqInfo.getUname(),userReqInfo.getPassword());
+                        Player result = signIn(userReqInfo.getUname(),userReqInfo.getPassword());
+                        
+                        if (userRequestResponse(result, Requests.SIGN_IN)) {
+                            //new PlayerHandler(socket, result);
+                            System.out.println("Client has signed up");
+                            this.close();
+                        }else
+                            System.out.println("Sign in rejected " + errorMsg);
+                        
                     }
                     
                     else//Sign up request
                     {
-                        boolean result = signUp(userReqInfo.getUname(),userReqInfo.getPassword());
+                        Player result = signUp(userReqInfo.getUname(),userReqInfo.getPassword());
+                        
+                        if (userRequestResponse(result, Requests.SIGN_UP)) {
+                            //new PlayerHandler(socket, result);
+                            System.out.println("Client has signed up");
+                            this.close();
+                        }else
+                            System.out.println("Sign up rejected " + errorMsg);
+                        
                     }
                     
                 }
@@ -179,7 +159,6 @@ public class AuthenHandler extends Thread {
             
             userReqInfo.setPassword((String)json.get("password"));
             userReqInfo.setUname((String)json.get("uname"));
-           
             
         } catch (ParseException ex) {
             ex.printStackTrace();
@@ -190,29 +169,123 @@ public class AuthenHandler extends Thread {
     }
     
     
-    private PlayerInfo signIn(String uname, String password)
-    {
-        PlayerInfo result = new PlayerInfo();
-        System.out.println("sign in function");   
-        return result;
+    
+    private JSONObject playerToJson(Player player)
+    {   
+        JSONObject json = new JSONObject();
+        json.put("id", player.getPid());
+        json.put("username", player.getUsername());
+        json.put("status", player.getStatus().toString());
+        json.put("score", player.getScore());
+        json.put("avatar", player.getAvatar());
+        
+        return json;
     }
     
-    private boolean signUp (String uname, String password)
-    {
-        
-        boolean result = false;
-        System.out.println("sign up function");
-        return result;
+    private boolean userRequestResponse(Player player, String requestType) throws IOException{
+        if (player != null) {
+            jsonObj =  playerToJson(player);
+            jsonObj.put("type", requestType);
+            jsonObj.put("responseStatus", true);
+            outputStream.writeUTF(jsonObj.toString());
+            
+            return true;
+        }
+        else{
+            outputStream.writeUTF(errorToJson(requestType, errorMsg).toString());
+            
+            return false;
+        }
+
     }
+     
+
+    private Player signIn(String uname, String password)
+    {
+        if (dbOperation.isUserExists(uname, password)) {
+            if (dbOperation.isLoggedIn(uname, password)) {
+                errorMsg = Errors.SIGNNED_IN;
+                System.out.println("already logged in");
+            }else{
+               return dbOperation.login(uname, password);
+            }
+        }else{
+            errorMsg = Errors.NOT_EXIST;
+            System.out.println("Not Exist");
+        }
+        return null;
+    }
+    
+    private Player signUp (String uname, String password)
+    {
+        curPlayer = dbOperation.register(uname, password);
+        if (curPlayer == null)
+            errorMsg = Errors.EXISTS;
+        return curPlayer;
+    }
+    
+    
+    
+    
+    
     
     public void close()
     {
         try {
             socket.close();
             this.stop();
+            System.out.println("Authentication handler closed");
 
         } catch (IOException ex) {
             ex.printStackTrace();
+            System.out.println("Authentication handler exception");
         }
+    }
+}
+
+
+
+class UserRequestInfo {
+    
+    private String uname;
+    private String password;
+    private boolean isSignIn;
+    
+
+    
+    public UserRequestInfo(String uname, String password, boolean isSignIn) {
+        this.password = password;
+        this.uname = uname;
+        this.isSignIn = isSignIn;
+    }
+
+    public UserRequestInfo() {
+        this.password = null;
+        this.uname = null;
+        this.isSignIn = false;
+    }
+        
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public boolean isSignIn() {
+        return isSignIn;
+    }
+
+    public void setIsSignIn(boolean isSignIn) {
+        this.isSignIn = isSignIn;
     }
 }

@@ -11,11 +11,15 @@ package database;
  */
 public interface DBConfig {
     
+//    com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/persondatabase", "root", ""
+    
     static final String DB_URL = "jdbc:mysql://localhost:3306/tictactoedb";
 
     //   static final String DB_DRV = "com.mysql.jdbc.Driver";
-    static final String DB_DRV = "com.mysql.cj.jdbc.Driver";
-    static final String DB_USER = "game";
-    static final String DB_PASSWD = "123";
+    static final String DB_DRV = "com.mysql.jdbc.Driver";
+    static final String DB_USER = "root";
+    static final String DB_PASSWD = "";
+    
+//    "com.mysql.cj.jdbc.Driver"
 
 }

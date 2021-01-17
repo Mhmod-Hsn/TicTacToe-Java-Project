@@ -32,6 +32,9 @@ public class Player {
     avatar = new FileInputStream(image);*/
     /*Blob imageBlob = resultSet.getBlob(yourBlobColumnIndex);
     InputStream binaryStream = imageBlob.getBinaryStream(0, imageBlob.length());*/
+    
+    public Player(){
+    }
 
     public Long getPid() {
         return pId;
@@ -123,6 +126,7 @@ public class Player {
           p = new Player(_rs.getLong("pid"),_rs.getString("username"),_rs.getString("passwd"),_rs.getString("email"));
           p.setStatus(Player.statusType.valueOf(_rs.getString("status")));
           p.setAvatar((InputStream)null);//_rs.getBlob("avatar").getBinaryStream(0, _rs.getBlob("avatar").length() ));
+          p.setScore(_rs.getLong("score"));
           System.out.println("creating player ok ");
         } catch (SQLException ex) {
             System.out.println("error creating player");

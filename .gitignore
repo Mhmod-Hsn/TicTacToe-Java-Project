@@ -4,8 +4,8 @@
 /ServerSide/nbproject/
 /ServerSide/build/
 /ServerSide/dist/
-
-
+/ServerSide/test/
+/ServerSide/manifest.mf/
 
 
 
