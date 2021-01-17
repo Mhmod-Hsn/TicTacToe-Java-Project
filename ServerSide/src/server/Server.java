@@ -4,9 +4,14 @@
  * and open the template in the editor.
  */
 package server;
+
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import server.utils.ServerUtils;
+        
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,11 +26,17 @@ public class Server {
     private ServerSocket serverSocket;
     private boolean isServerUp;
     private ClientAcceptListener clientAcceptListener;
-    
+ 
     //Client accept listener inner class
     private class ClientAcceptListener extends Thread {
 
         private Socket clientSocket;
+        
+        //constructor 
+        ClientAcceptListener()
+        {
+            this.start();
+        }
         
         //Listen to connection request
         @Override
@@ -33,31 +44,40 @@ public class Server {
             while (true){
                 try {
                     clientSocket = serverSocket.accept();
+
+                    //New client is accepted
+                    System.out.println("Client is accepted. ");
+                    
                     //init thread to receive the client
                     new AuthenHandler(clientSocket);
                     
                 } catch (IOException ex) {
+                    System.out.println("Connection dropped client not accepted. ");
                     ex.printStackTrace();
                 }
             }
         }
     }
+
     
     //Start the server
     public void start()
     {
+       
         try {
-        
-        //Create the server socket
-        serverSocket = new ServerSocket(ServerUtils.PORT_NUMBER);
+            //Create the server socket
+            serverSocket = new ServerSocket(ServerUtils.PORT_NUMBER);
             
-        //Create the clients connection request accept thread
-        clientAcceptListener = new ClientAcceptListener();
+            //Create the clients connection request accept thread
+            clientAcceptListener = new ClientAcceptListener();
             
-        //set server is up flag
-        isServerUp = true;
-        
+            //set server is up flag
+            isServerUp = true;
+            
+            System.out.println("Server is up on port:" + ServerUtils.PORT_NUMBER); 
+
         } catch (IOException ex) {
+            System.out.print("Exception in server start");
             ex.printStackTrace();
         }
     }
@@ -76,9 +96,15 @@ public class Server {
         //reset server is up flag
         isServerUp = false;
         
+        System.out.println("Server is stopped.");
+        
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-
+    
+    public static void main(String [] args)
+    {
+        new Server().start();
+    }
 }

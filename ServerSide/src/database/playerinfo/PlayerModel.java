@@ -438,8 +438,8 @@ public class PlayerModel {
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select * from players where username= '"+_username+"' and passwd = '"+_passwd+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+                db.setQueryStr("select * from players where username= '"+_username+"' and passwd = '"+_passwd+"'");
+                db.setResultSet(db.getStatement().executeQuery(db.getQueryStr()));  
 
                 //boolean checkFirst = TestDB2.this.rs.first() ;
                 if(db.getResultSet().next() == false){
@@ -465,8 +465,8 @@ public class PlayerModel {
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select * from players where username= '"+_username+"' and passwd = '"+_passwd+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+                db.setQueryStr("select * from players where username= '"+_username+"' and passwd = '"+_passwd+"'");
+                db.setResultSet(db.getStatement().executeQuery(db.getQueryStr()));  
 
                 //boolean checkFirst = TestDB2.this.rs.first() ;
                 if(db.getResultSet().next() == false){
@@ -614,9 +614,9 @@ public class PlayerModel {
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select * from players ");
+                db.setQueryStr("select * from players ");
   
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+                db.setResultSet(db.getStatement().executeQuery(db.getQueryStr()));  
                 
                 //boolean checkFirst = TestDB2.this.rs.first() ;
                 if(db.getResultSet().isBeforeFirst()== false){

@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server;
+package server.utils;
 
 /**
  *
  * @author Hossam
  */
-public class ServerFx {
+public class Requests {
     
-    
+    public static final String SIGN_IN = "signin";
+    public static final String SIGN_UP = "signup";
+    public static final String UNKNOWN = "unknown";
 }
+
