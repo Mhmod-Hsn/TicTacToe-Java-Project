@@ -5,9 +5,9 @@
  */
 package database;
 
-import database.playerinfo.Player;
-import database.playerinfo.PlayerModel;
+
 import java.util.Vector;
+import playerinfo.Player;
 
 /**
  *
@@ -15,15 +15,15 @@ import java.util.Vector;
  */
 public class TestPlayerModel {
     public static void main(String[] args) {
-       PlayerModel p = new PlayerModel() ;
+       //Player p = new Player() ;
       // p.insertRecord("ahmedd", "456","ah@test","none" ,20,null) ;
        //p.updateIdRecord(2,"test", "4556","testname@test","ingame" ,200,null) ;
        //p.deleteIdRecord(2) ;
        //Long l = p.selectScoreWhereUsr("ahmed");
-       Vector<Player> pList = p.selectAllPlayers() ;
-       if(p.selectWhereUsrPass("user1", "123"))
+       Vector<Player> pList = Player.getAll() ;
+       if(Player.check("user1", "123"))
            System.out.println("exist");
-       Player user = p.selectPlayerWhereUsrPass("user1", "123") ;
+       Player user = Player.get("user1", "123") ;
        System.out.println(user.getStatus().toString());
        //Vector<Player> pList = p.selectAllWhereStatus("offline") ;
        for(int i=0 ;i<pList.size();i++ ){
