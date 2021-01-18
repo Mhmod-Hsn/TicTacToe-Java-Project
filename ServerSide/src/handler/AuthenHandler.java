@@ -85,7 +85,7 @@ public class AuthenHandler extends Thread {
                         
                         if (userRequestResponse(result, Requests.SIGN_IN)) {
                             //new PlayerHandler(socket, result);
-                            System.out.println("Client has signed up");
+                            System.out.println("Client has signed in");
                             this.close();
                         }else
                             System.out.println("Sign in rejected " + errorMsg);
@@ -172,7 +172,7 @@ public class AuthenHandler extends Thread {
     private JSONObject playerToJson(Player player)
     {   
         JSONObject json = new JSONObject();
-        json.put("id", player.getPid());
+//        json.put("id", player.getPid());
         json.put("username", player.getUsername());
         json.put("status", player.getStatus().toString());
         json.put("score", player.getScore());
@@ -186,6 +186,7 @@ public class AuthenHandler extends Thread {
             jsonObj =  playerToJson(player);
             jsonObj.put("type", requestType);
             jsonObj.put("responseStatus", true);
+            
             outputStream.writeUTF(jsonObj.toString());
             
             return true;
@@ -227,15 +228,12 @@ public class AuthenHandler extends Thread {
     
     public void close()
     {
-        try {
-            socket.close();
+        
+//            socket.close();
             this.stop();
             System.out.println("Authentication handler closed");
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.out.println("Authentication handler exception");
-        }
+        
     }
 }
 

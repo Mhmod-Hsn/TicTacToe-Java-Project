@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientside.GameFXMLController">
+   <children>
+      <Line endX="-67.0" endY="-90.0" layoutX="304.0" layoutY="159.0" startX="-67.0" startY="250.0" />
+      <Line endX="-100.0" endY="333.0" layoutX="459.0" layoutY="73.0" startX="-100.0" />
+      <Line endX="287.0" endY="22.0" layoutX="170.0" layoutY="263.0" startX="-52.0" startY="22.0" />
+      <Line endX="237.0" layoutX="218.0" layoutY="181.0" startX="-100.0" />
+      <Label fx:id="cell1" alignment="CENTER" layoutX="113.0" layoutY="60.0" onMouseReleased="#cell1Handler" prefHeight="122.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="cell2" alignment="CENTER" layoutX="239.0" layoutY="60.0" onMouseReleased="#cell2Handler" prefHeight="122.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="cell3" alignment="CENTER" layoutX="359.0" layoutY="60.0" onMouseReleased="#cell3Handler" prefHeight="122.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="cell4" alignment="CENTER" layoutX="113.0" layoutY="181.0" onMouseReleased="#cell4Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="cell5" alignment="CENTER" layoutX="239.0" layoutY="180.0" onMouseReleased="#cell5Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="cell6" alignment="CENTER" layoutX="359.0" layoutY="180.0" onMouseReleased="#cell6Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="cell7" alignment="CENTER" layoutX="113.0" layoutY="286.0" onMouseReleased="#cell7Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="cell8" alignment="CENTER" layoutX="239.0" layoutY="286.0" onMouseReleased="#cell8Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="cell9" alignment="CENTER" layoutX="359.0" layoutY="286.0" onMouseReleased="#cell9Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
