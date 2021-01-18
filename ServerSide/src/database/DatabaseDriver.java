@@ -44,7 +44,7 @@ public class DatabaseDriver {
         this.preparedStatement = preparedStatement;
     }
 
-    public void setQueryStr(String querystr) {
+    public void setQuerystr(String querystr) {
         this.queryStr = querystr;
     }
 
@@ -64,7 +64,7 @@ public class DatabaseDriver {
         return preparedStatement;
     }
 
-    public String getQueryStr() {
+    public String getQuerystr() {
         return queryStr;
     }
 

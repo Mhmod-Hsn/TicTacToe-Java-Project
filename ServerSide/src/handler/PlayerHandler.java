@@ -6,7 +6,7 @@
 package handler;
 
 
-import database.playerinfo.Player;
+import playerinfo.Player;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,7 +18,6 @@ import java.util.Vector;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 /**
  *
  * @author Hossam

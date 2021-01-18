@@ -15,11 +15,11 @@ public interface DBConfig {
     
     static final String DB_URL = "jdbc:mysql://localhost:3306/tictactoedb";
 
+
     //   static final String DB_DRV = "com.mysql.jdbc.Driver";
     static final String DB_DRV = "com.mysql.jdbc.Driver";
     static final String DB_USER = "root";
     static final String DB_PASSWD = "";
     
 //    "com.mysql.cj.jdbc.Driver"
-
 }

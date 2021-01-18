@@ -3,38 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.playerinfo;
+package gameinfo;
 
 import database.DatabaseDriver;
-//import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author ahmed
  */
-public class PlayerModel {
-    private static DatabaseDriver db = new DatabaseDriver() ;
-
-    public PlayerModel() {
-        //con=DriverManager.getConnection("jdbc:mysql://localhost:3306/persondb","root","");  //here sonoo is database name, root is username and password   create conn
-   //    db.setStatement(db.getConnection().createStatement()) ;
-        //stmt=con.createStatement();                         // create state 
-   //     db.setQuerystr("querystr");
-   //     db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));
-        //rs=stmt.executeQuery("select * from persontb");  // exe str query 
-        
-    }
-    
-    public boolean insertRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+public interface  GameModel {
+    static final DatabaseDriver db = new DatabaseDriver() ;
+ // ( `gid` SERIAL NOT NULL , `created_at` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , `turn` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell0` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell1` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell2` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell3` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell4` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell5` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `player1` BIGINT UNSIGNED NOT NULL , `player2` BIGINT UNSIGNED NOT NULL , PRIMARY KEY (`gid`), INDEX (`player1`), INDEX (`player2`)) ENGINE = InnoDB;
+  //  ( `gid` SERIAL NOT NULL , `created_at` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , `turn` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell0` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell1` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell2` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell3` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell4` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell5` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `player1` BIGINT UNSIGNED NOT NULL , `player2` BIGINT UNSIGNED NOT NULL 
+  /*  static boolean insertRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
          try {
-                //TestDB2.this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/persondb","root",""); 
                 db.startConnection();
-                //stmt=con.createStatement(); 
                 db.setStatement(db.getConnection().createStatement()) ;
                 
                 //int checkNew=stmt.executeUpdate("insert into persontb values( "+idInfo.getText()+","+ "'"+pFnameInfo.getText()+"'"+","+ "'"+pMnameInfo.getText()+"'"+","+ "'"+pLnameInfo.getText()+"'"+","+ "'"+pEmailInfo.getText()+"'"+","+ "'"+pPhoneInfo.getText()+"' )");  
@@ -50,7 +37,7 @@ public class PlayerModel {
                     //displayPerson(pList.get(curIndex)) ; 
                     newFlag = false ;
                     newBtn.setText("Saved");*/
-                }
+/*                }
                 else{
                     System.out.println("new error");
                     return false ;
@@ -63,7 +50,7 @@ public class PlayerModel {
             }
     } 
     // update DML  update record [ id or user or user,pass]  and Field score or status [ user or user,pass ]
-    public boolean updateIdRecord(long _pid ,String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+    static boolean updateIdRecord(long _pid ,String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -87,7 +74,7 @@ public class PlayerModel {
             }
     } 
     
-    public boolean updateUsrRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+/*    static boolean updateUsrRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -111,7 +98,7 @@ public class PlayerModel {
             }
     } 
     
-    public boolean updateUsrFieldStatus(String _username , String _status ){
+    static boolean updateUsrFieldStatus(String _username , String _status ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -135,7 +122,7 @@ public class PlayerModel {
             }
     } 
     
-    public boolean updateUsrFieldScore(String _username , long _score ){
+    static boolean updateUsrFieldScore(String _username , long _score ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -159,7 +146,7 @@ public class PlayerModel {
             }
     } 
     
-    public boolean updateUsrPassRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+    static boolean updateUsrPassRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -182,7 +169,7 @@ public class PlayerModel {
                 return false ;
             }
     }
-    public boolean updateUsrPassFieldStatus(String _username , String _passwd , String _status ){
+    static boolean updateUsrPassFieldStatus(String _username , String _passwd , String _status ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -205,7 +192,7 @@ public class PlayerModel {
                 return false ;
             }
     }
-    public boolean updateUsrPassFieldScore(String _username , String _passwd ,long _score ){
+    static boolean updateUsrPassFieldScore(String _username , String _passwd ,long _score ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -229,7 +216,7 @@ public class PlayerModel {
             }
     }
     // delete DML  with id or username or mail or user,pass or mail,pass
-    public boolean deleteIdRecord(long _pid){
+    static boolean deleteIdRecord(long _pid){
          try {
                 //TestDB2.this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/persondb","root",""); 
                 db.startConnection();
@@ -249,7 +236,7 @@ public class PlayerModel {
                     //displayPerson(pList.get(curIndex)) ; 
                     newFlag = false ;
                     newBtn.setText("Saved");*/
-                }
+/*                }
                 else{
                     System.out.println("del error");
                     return false ;
@@ -262,7 +249,7 @@ public class PlayerModel {
             }
     } 
     
-    public boolean deleteUsrRecord(String _username){
+    static boolean deleteUsrRecord(String _username){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -284,7 +271,7 @@ public class PlayerModel {
             }
     } 
     
-    public boolean deleteMailRecord(String _email){
+    static boolean deleteMailRecord(String _email){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -306,7 +293,7 @@ public class PlayerModel {
             }
     } 
     
-    public boolean deleteMailPassRecord(String _email, String _passwd){
+    static boolean deleteMailPassRecord(String _email, String _passwd){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -327,7 +314,7 @@ public class PlayerModel {
                 return false ;
             }
     } 
-    public boolean deleteUsrPassRecord(String _username, String _passwd){
+    static boolean deleteUsrPassRecord(String _username, String _passwd){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -351,7 +338,7 @@ public class PlayerModel {
     
     
     // DML Select
-    public Long selectScoreWhereUsr(String _username ){
+    static Long selectScoreWhereUsr(String _username ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -379,7 +366,7 @@ public class PlayerModel {
             }
     }
     
-    public String selectStatusWhereUsr(String _username ){
+    static String selectStatusWhereUsr(String _username ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -406,7 +393,7 @@ public class PlayerModel {
                 return null ;
             }
     }
-    public String selectPassWhereUsr(String _username ){
+    static String selectPassWhereUsr(String _username ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -434,7 +421,7 @@ public class PlayerModel {
             }
     }
     // check 
-     public boolean selectWhereUsrPass(String _username ,String _passwd ){
+     static boolean selectWhereUsrPass(String _username ,String _passwd ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -461,7 +448,7 @@ public class PlayerModel {
             }
     }
     
-     public Player selectPlayerWhereUsrPass(String _username ,String _passwd ){
+     static Player selectPlayerWhereUsrPass(String _username ,String _passwd ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -489,7 +476,7 @@ public class PlayerModel {
             }
     } 
      
-    public String selectMailWhereUsr(String _username ){
+    static String selectMailWhereUsr(String _username ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -517,7 +504,7 @@ public class PlayerModel {
             }
     }
     
-     public Long selectScoreWhereUsrPass(String _username ,String _passwd ){
+     static Long selectScoreWhereUsrPass(String _username ,String _passwd ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -545,7 +532,7 @@ public class PlayerModel {
             }
     }
      
-      public String selectStatusWhereUsrPass(String _username ,String _passwd ){
+      static String selectStatusWhereUsrPass(String _username ,String _passwd ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -576,7 +563,7 @@ public class PlayerModel {
      // not tested to be continued ..... abd change above avatar with correct DT
       
       
-    public Vector<Player> selectAllWhereStatus(String _status ){
+    static Vector<Player> selectAllWhereStatus(String _status ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -610,7 +597,7 @@ public class PlayerModel {
             }
       }
       // check 
-     public Vector<Player> selectAllPlayers(){
+     static Vector<Player> selectAllPlayers(){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -642,4 +629,37 @@ public class PlayerModel {
                 return null ;
             }
       }
+     
+     static Vector<Player> selectAllPlayersOrderByDESC(String colName ){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("select * from players ORDER BY "+colName+" DESC ");
+  
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+                
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().isBeforeFirst()== false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    System.err.println("false select");
+                    return null ;
+                }
+                else{
+                    //db.getResultSet().first() ;
+                    Vector<Player>  tmpUsrs = new Vector<Player>(); 
+                    while(db.getResultSet().next()){
+                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
+                    }
+                    System.out.println("true Array");
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return tmpUsrs ;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error select");
+                return null ;
+            }
+      }*/
 }

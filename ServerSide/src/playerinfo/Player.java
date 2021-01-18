@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.playerinfo;
+package playerinfo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,25 +20,36 @@ import java.util.logging.Logger;
  * @author ahmed
  */
 
+
 public class Player {
-    private Long pId ;
+    public  static  enum statusType {offline,online,busy,none}   // modification 17/1 ingame -> busy
+    public  static  enum orderType {ASC,DESC}   // modification 17/1 ingame -> busy
+    private static orderType order ;
+
+    public static orderType getOrder() {
+        return Player.order ;
+    }
+
+    public static void setOrder(orderType _order) {
+        Player.order = _order;
+    }
+    
+
+    private Long pid ;
     private Long score ;
     private String username ;
     private String passwd ;
-    private String email ;
-    public  static  enum statusType {offline,online,ingame,none}
+    private String email ; 
     private statusType status ;
     InputStream avatar ;    //need File DataType
+    
     /*File image = new File("C:/honda.jpg");
     avatar = new FileInputStream(image);*/
     /*Blob imageBlob = resultSet.getBlob(yourBlobColumnIndex);
     InputStream binaryStream = imageBlob.getBinaryStream(0, imageBlob.length());*/
-    
-    public Player(){
-    }
 
     public Long getPid() {
-        return pId;
+        return pid;
     }
 
     public Long getScore() {
@@ -69,7 +81,7 @@ public class Player {
     }
 
     public void setPid(Long _pid) {
-        this.pId = _pid;
+        this.pid = _pid;
     }
 
     public void setScore(Long _score) {
@@ -112,14 +124,23 @@ public class Player {
         this.status = status;
         this.avatar = avatar;
     }
-
     public Player(String username, String passwd, String email) {
         this.username = username;
         this.passwd = passwd;
         this.email = email;
     }
-
+    public Player(String username, String passwd) {
+        this.username = username;
+        this.passwd = passwd;
+    }
+    public Player(Long pid, String username, String passwd, String email) {
+        this.pid = pid;
+        this.username = username;
+        this.passwd = passwd;
+        this.email = email;
+    }
     
+    // add 
     public static Player createPlayer(ResultSet _rs) {
         Player p ;
         try {
@@ -134,12 +155,4 @@ public class Player {
         }
         return p;
     }
-
-    public Player(Long pid, String username, String passwd, String email) {
-        this.pId = pid;
-        this.username = username;
-        this.passwd = passwd;
-        this.email = email;
-    }
-    
 }

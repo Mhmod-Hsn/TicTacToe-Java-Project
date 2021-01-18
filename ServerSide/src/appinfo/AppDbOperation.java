@@ -5,8 +5,9 @@
  */
 package appinfo;
 
-import database.playerinfo.Player;
-import database.playerinfo.PlayerModel;
+import playerinfo.DbMethods;
+import playerinfo.Player;
+
 
 /**
  *
@@ -22,24 +23,24 @@ public class AppDbOperation {
 //    getalluser
 //    getallgame
     
-    PlayerModel model = new PlayerModel();
+
     
     public Player login(String username, String password){
-        Player p = model.selectPlayerWhereUsrPass(username, password);
+        Player p = DbMethods.selectPlayerWhereUsrPass(username, password);
         
         if (p != null) {
-            model.updateUsrFieldStatus(username, String.valueOf(Player.statusType.online));
+            DbMethods.updateUsrFieldStatus(username, String.valueOf(Player.statusType.online));
             p.setStatus(Player.statusType.online);
         }
         return p;
     }
 
     public boolean isUserExists(String username, String password){
-        return model.selectWhereUsrPass(username, password);
+        return DbMethods.selectWhereUsrPass(username, password);
     }
     
     public boolean isLoggedIn(String username, String password){
-        String status = model.selectStatusWhereUsr(username);
+        String status = DbMethods.selectStatusWhereUsr(username);
         if ( status.equals("online") || status.equals("ingame")) {
             return true;
         }
@@ -52,7 +53,7 @@ public class AppDbOperation {
         Player newPlayer = new Player(username, password, null);
         newPlayer.setScore((long)0);
         newPlayer.setStatus(Player.statusType.online);
-        if (model.insertRecord(newPlayer.getUsername() ,newPlayer.getPasswd(),null, String.valueOf(newPlayer.getStatus()), newPlayer.getScore(), null)){
+        if (PlayerModel.insertRecord(newPlayer.getUsername() ,newPlayer.getPasswd(),null, String.valueOf(newPlayer.getStatus()), newPlayer.getScore(), null)){
            return newPlayer;
         }
         return null;  

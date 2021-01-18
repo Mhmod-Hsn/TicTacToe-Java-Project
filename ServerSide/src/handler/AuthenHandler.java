@@ -6,7 +6,7 @@
 package handler;
 
 import appinfo.AppDbOperation;
-import database.playerinfo.Player;
+import playerinfo.Player;
 import java.io.IOException;
 
 import java.io.DataInputStream;
