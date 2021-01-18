@@ -179,6 +179,10 @@ public class Player {
     public static boolean updateStatus(String _username , String _newStatus ){
         return PlayerModel.updateUsrFieldStatus(_username, _newStatus) ;
     }
+    //update all status with no check (String _status)
+    public static boolean updateStatus( String _newStatus ){
+        return PlayerModel.updateFieldStatus(_newStatus) ;
+    }
      public static boolean updateStatusWithCheck(String _username , String _passwd , String _newStatus ){
         return PlayerModel.updateUsrPassFieldStatus(_username, _passwd, _newStatus) ;
     }

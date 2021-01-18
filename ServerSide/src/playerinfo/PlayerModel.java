@@ -130,6 +130,29 @@ public interface PlayerModel {
                 return false ;
             }
     } 
+    static boolean updateFieldStatus(String _status){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ; 
+                //UPDATE `players` SET `pid`=[value-1],`username`=[value-2],`passwd`=[value-3],`email`=[value-4],`status`=[value-5],`score`=[value-6],`avatar`=[value-7] WHERE 1
+
+                int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET status='"+_status+"'"); 
+                db.endStatConnection();
+                if(checkUpdate >= 1){
+                    System.out.println("update ok ");                
+                    return true ;
+                }
+                else{
+                    System.out.println("update error");
+                    return false ;
+                }
+                //db.endStatConnection();
+            } catch (SQLException ex) {
+                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error update");
+                return false ;
+            }
+    } 
     
     static boolean updateUsrFieldScore(String _username , long _score ){
          try {

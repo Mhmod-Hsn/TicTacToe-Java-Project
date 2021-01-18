@@ -17,9 +17,9 @@ import java.util.logging.Logger;
  */
 public interface  GameModel {
     static final DatabaseDriver db = new DatabaseDriver() ;
-/*
+ // ( `gid` SERIAL NOT NULL , `created_at` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , `turn` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell0` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell1` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell2` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell3` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell4` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell5` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `player1` BIGINT UNSIGNED NOT NULL , `player2` BIGINT UNSIGNED NOT NULL , PRIMARY KEY (`gid`), INDEX (`player1`), INDEX (`player2`)) ENGINE = InnoDB;
   //  ( `gid` SERIAL NOT NULL , `created_at` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , `turn` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell0` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell1` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell2` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell3` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell4` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell5` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `player1` BIGINT UNSIGNED NOT NULL , `player2` BIGINT UNSIGNED NOT NULL 
-    static boolean insertRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+  /*  static boolean insertRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -74,7 +74,7 @@ public interface  GameModel {
             }
     } 
     
-    static boolean updateUsrRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+/*    static boolean updateUsrRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 

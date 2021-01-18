@@ -16,10 +16,10 @@ import playerinfo.Player;
 public class TestPlayerModel {
     public static void main(String[] args) {
        //Player p = new Player() ;
-      // p.insertRecord("ahmedd", "456","ah@test","none" ,20,null) ;
-       //p.updateIdRecord(2,"test", "4556","testname@test","ingame" ,200,null) ;
-       //p.deleteIdRecord(2) ;
-       //Long l = p.selectScoreWhereUsr("ahmed");
+      //Player.add("ahmedd", "456","ah@test","none" ,20,null) ;
+       //Player.update(2,"test", "4556","testname@test","ingame" ,200,null) ;
+       //Player.delete(2)
+       //Long l = Player.getScore("ahmed");
        Vector<Player> pList = Player.getAll() ;
        if(Player.check("user1", "123"))
            System.out.println("exist");
