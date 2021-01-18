@@ -12,7 +12,7 @@ package server.utils;
 public class Errors {
     
     public static final String INVALID = "invalid";
-    public static final String NOT_EXIST = "not exists";
-    public static final String EXISTS = "exists";
-    public static final String SIGNNED_IN = "signned in";
+    public static final String NOT_EXIST = "fail";
+    public static final String EXISTS = "fail";
+    public static final String SIGNNED_IN = "signedin";
 }

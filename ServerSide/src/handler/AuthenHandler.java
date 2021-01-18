@@ -158,7 +158,7 @@ public class AuthenHandler extends Thread {
             }
             
             userReqInfo.setPassword((String)json.get("password"));
-            userReqInfo.setUname((String)json.get("uname"));
+            userReqInfo.setUname((String)json.get("username"));
             
         } catch (ParseException ex) {
             ex.printStackTrace();
@@ -167,7 +167,6 @@ public class AuthenHandler extends Thread {
         
         return true;
     }
-    
     
     
     private JSONObject playerToJson(Player player)
@@ -224,10 +223,7 @@ public class AuthenHandler extends Thread {
         return curPlayer;
     }
     
-    
-    
-    
-    
+ 
     
     public void close()
     {

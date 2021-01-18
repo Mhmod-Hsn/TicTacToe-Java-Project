@@ -7,11 +7,17 @@ package handler;
 
 
 import database.playerinfo.Player;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
 import java.net.Socket;
 import java.util.Vector;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -24,8 +30,12 @@ public class PlayerHandler extends Thread{
     private Player player;
     
     private Player playerRequest;
-    private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
+    
+    private DataInputStream inputStream;
+    private DataOutputStream outputStream;
+    
+    private JSONObject json;
+    private JSONParser parser;
     
     public static Vector<Player> onlinePlayersVect;
     
@@ -34,12 +44,15 @@ public class PlayerHandler extends Thread{
         this.playerSocket = socket;
         this.player = playerInfo;
         
+        json = new JSONObject();
+        parser = new JSONParser();
+        
         try {
             //Create the input and output channels
-            inputStream = new ObjectInputStream(socket.getInputStream());
-            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            inputStream = new DataInputStream(socket.getInputStream());
+            outputStream = new DataOutputStream(socket.getOutputStream());
             
-            //return the info to the player (logged in client)
+            //return the info to the list of players (logged in client)
             outputStream.writeObject(player);
             
             //add the player to the online players vector
