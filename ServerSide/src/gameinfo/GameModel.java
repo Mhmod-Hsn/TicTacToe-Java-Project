@@ -6,6 +6,7 @@
 package gameinfo;
 
 import database.DatabaseDriver;
+import gameinfo.Game.cellType;
 import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -19,44 +20,43 @@ public interface  GameModel {
     static final DatabaseDriver db = new DatabaseDriver() ;
  // ( `gid` SERIAL NOT NULL , `created_at` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , `turn` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell0` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell1` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell2` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell3` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell4` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell5` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `player1` BIGINT UNSIGNED NOT NULL , `player2` BIGINT UNSIGNED NOT NULL , PRIMARY KEY (`gid`), INDEX (`player1`), INDEX (`player2`)) ENGINE = InnoDB;
   //  ( `gid` SERIAL NOT NULL , `created_at` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , `turn` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell0` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell1` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell2` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell3` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell4` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `cell5` ENUM('X','O','none') NOT NULL DEFAULT 'none' , `player1` BIGINT UNSIGNED NOT NULL , `player2` BIGINT UNSIGNED NOT NULL 
-  /*  static boolean insertRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+    static boolean insertRecord(cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                
-                //int checkNew=stmt.executeUpdate("insert into persontb values( "+idInfo.getText()+","+ "'"+pFnameInfo.getText()+"'"+","+ "'"+pMnameInfo.getText()+"'"+","+ "'"+pLnameInfo.getText()+"'"+","+ "'"+pEmailInfo.getText()+"'"+","+ "'"+pPhoneInfo.getText()+"' )");  
-                //INSERT INTO `players`(`pid`, `username`, `passwd`, `email`, `status`, `score`, `avatar`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6],[value-7])
-                int checkNew=db.getStatement().executeUpdate("INSERT INTO players ( username, passwd, email, status, score, avatar) VALUES( '"+_username+"', '"+_passwd+"', '"+_email+"', '"+_status+"', "+_score+", '"+_avatar+"' )"); 
+                if(_board.length != 9){
+                     System.out.println("new array error");
+                    db.endStatConnection();
+                    return false ;
+                }
+                int checkNew=db.getStatement().executeUpdate("INSERT INTO games ( turn, cell0, cell1, cell2 , cell3 , cell4 ,cell5 ,cell6,cell7,cell8, player1 , player2 ) VALUES( '"+_turn+"', '"+_board[0]+"', '"+_board[1]+"', '"+_board[2]+"', '"+_board[3]+"', '"+_board[4]+"', '"+_board[5]+"', '"+_board[6]+"', '"+_board[7]+"', '"+_board[8]+"', "+_player1+", "+_player2+" )"); 
                 db.endStatConnection();
                 if(checkNew >= 1){
                     System.out.println("new ok ");                   
                     return true ;
-                    /*TestDB2.this.rs=stmt.executeQuery("select * from persontb");
-                    refreshPersonList(rs);                            
-                    curIndex = pList.size()-1 ;
-                    //displayPerson(pList.get(curIndex)) ; 
-                    newFlag = false ;
-                    newBtn.setText("Saved");*/
-/*                }
+                }
                 else{
                     System.out.println("new error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error new");
                 return false ;
             }
     } 
     // update DML  update record [ id or user or user,pass]  and Field score or status [ user or user,pass ]
-    static boolean updateIdRecord(long _pid ,String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+   static boolean updateIdRecord(Long _gid ,cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
-                //UPDATE `players` SET `pid`=[value-1],`username`=[value-2],`passwd`=[value-3],`email`=[value-4],`status`=[value-5],`score`=[value-6],`avatar`=[value-7] WHERE 1
-
-                int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET username= '"+_username+"' , passwd= '"+_passwd+"' , email= '"+_email+"' , status='"+_status+"' , score= "+_score+" ,avatar= '"+_avatar+"' WHERE pid = "+_pid); 
+                if(_board.length != 9){
+                    System.out.println("update array error");
+                    db.endStatConnection();
+                    return false ;
+                }
+                int checkUpdate=db.getStatement().executeUpdate("UPDATE games SET turn= '"+_turn+"' , cell0= '"+_board[0]+"' , cell1= '"+_board[1]+"' , cell2= '"+_board[2]+"' , cell3= '"+_board[3]+"' , cell4= '"+_board[4]+"' , cell5= '"+_board[5]+"' , cell6= '"+_board[6]+"' , cell7= '"+_board[7]+"' , cell8= '"+_board[8]+"' , player1= "+_player1+" , player2= "+_player2+" WHERE gid = "+_gid); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
                     System.out.println("update ok ");                
@@ -68,114 +68,23 @@ public interface  GameModel {
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
-                return false ;
-            }
-    } 
-    
-/*    static boolean updateUsrRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ; 
-                //UPDATE `players` SET `pid`=[value-1],`username`=[value-2],`passwd`=[value-3],`email`=[value-4],`status`=[value-5],`score`=[value-6],`avatar`=[value-7] WHERE 1
-
-                int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET passwd= '"+_passwd+"' , email= '"+_email+"' , status='"+_status+"' , score= "+_score+" ,avatar= '"+_avatar+"' WHERE username = '"+_username+"'"); 
-                db.endStatConnection();
-                if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
-                    return true ;
-                }
-                else{
-                    System.out.println("update error");
-                    return false ;
-                }
-                //db.endStatConnection();
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
-                return false ;
-            }
-    } 
-    
-    static boolean updateUsrFieldStatus(String _username , String _status ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ; 
-                //UPDATE `players` SET `pid`=[value-1],`username`=[value-2],`passwd`=[value-3],`email`=[value-4],`status`=[value-5],`score`=[value-6],`avatar`=[value-7] WHERE 1
-
-                int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET status='"+_status+"' WHERE username = '"+_username+"'"); 
-                db.endStatConnection();
-                if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
-                    return true ;
-                }
-                else{
-                    System.out.println("update error");
-                    return false ;
-                }
-                //db.endStatConnection();
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
-                return false ;
-            }
-    } 
-    
-    static boolean updateUsrFieldScore(String _username , long _score ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ; 
-                //UPDATE `players` SET `pid`=[value-1],`username`=[value-2],`passwd`=[value-3],`email`=[value-4],`status`=[value-5],`score`=[value-6],`avatar`=[value-7] WHERE 1
-
-                int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET score="+_score+" WHERE username = '"+_username+"'"); 
-                db.endStatConnection();
-                if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
-                    return true ;
-                }
-                else{
-                    System.out.println("update error");
-                    return false ;
-                }
-                //db.endStatConnection();
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
-                return false ;
-            }
-    } 
-    
-    static boolean updateUsrPassRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ; 
-                //UPDATE `players` SET `pid`=[value-1],`username`=[value-2],`passwd`=[value-3],`email`=[value-4],`status`=[value-5],`score`=[value-6],`avatar`=[value-7] WHERE 1
-
-                int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET email= '"+_email+"' , status='"+_status+"' , score= "+_score+" ,avatar= '"+_avatar+"' WHERE username = '"+_username+"' and passwd= '"+_passwd+"'"); 
-                db.endStatConnection();
-                if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
-                    return true ;
-                }
-                else{
-                    System.out.println("update error");
-                    return false ;
-                }
-                //db.endStatConnection();
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error update");
                 return false ;
             }
     }
-    static boolean updateUsrPassFieldStatus(String _username , String _passwd , String _status ){
+   
+    
+    static boolean updateBoardWhereP1P2( cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
-                //UPDATE `players` SET `pid`=[value-1],`username`=[value-2],`passwd`=[value-3],`email`=[value-4],`status`=[value-5],`score`=[value-6],`avatar`=[value-7] WHERE 1
-
-                int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET status='"+_status+"' WHERE username = '"+_username+"' and passwd= '"+_passwd+"'"); 
+                if(_board.length != 9){
+                    System.out.println("update array error");
+                    db.endStatConnection();
+                    return false ;
+                }
+                int checkUpdate=db.getStatement().executeUpdate("UPDATE games SET turn= '"+_turn+"' , cell0= '"+_board[0]+"' , cell1= '"+_board[1]+"' , cell2= '"+_board[2]+"' , cell3= '"+_board[3]+"' , cell4= '"+_board[4]+"' , cell5= '"+_board[5]+"' , cell6= '"+_board[6]+"' , cell7= '"+_board[7]+"' , cell8= '"+_board[8]+"'  WHERE player1="+_player1+" and player2= "+_player2); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
                     System.out.println("update ok ");                
@@ -187,18 +96,21 @@ public interface  GameModel {
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error update");
                 return false ;
             }
-    }
-    static boolean updateUsrPassFieldScore(String _username , String _passwd ,long _score ){
+    } 
+     static boolean updateBoardWhereP1P2Date( cellType _turn , cellType[] _board , Long _player1  , Long _player2 ,String _created_at ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
-                //UPDATE `players` SET `pid`=[value-1],`username`=[value-2],`passwd`=[value-3],`email`=[value-4],`status`=[value-5],`score`=[value-6],`avatar`=[value-7] WHERE 1
-
-                int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET score='"+_score+"' WHERE username = '"+_username+"' and passwd= '"+_passwd+"'"); 
+                if(_board.length != 9){
+                    System.out.println("update array error");
+                    db.endStatConnection();
+                    return false ;
+                }
+                int checkUpdate=db.getStatement().executeUpdate("UPDATE games SET turn= '"+_turn+"' , cell0= '"+_board[0]+"' , cell1= '"+_board[1]+"' , cell2= '"+_board[2]+"' , cell3= '"+_board[3]+"' , cell4= '"+_board[4]+"' , cell5= '"+_board[5]+"' , cell6= '"+_board[6]+"' , cell7= '"+_board[7]+"' , cell8= '"+_board[8]+"'  WHERE player1="+_player1+" and player2= "+_player2+" and created_at= '"+_created_at+"'"); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
                     System.out.println("update ok ");                
@@ -210,51 +122,42 @@ public interface  GameModel {
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error update");
                 return false ;
             }
-    }
+    } 
+    
+ 
     // delete DML  with id or username or mail or user,pass or mail,pass
-    static boolean deleteIdRecord(long _pid){
+    static boolean deleteIdRecord(long _gid){
          try {
-                //TestDB2.this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/persondb","root",""); 
                 db.startConnection();
-                //stmt=con.createStatement(); 
                 db.setStatement(db.getConnection().createStatement()) ;
                 
-                //int checkNew=stmt.executeUpdate("insert into persontb values( "+idInfo.getText()+","+ "'"+pFnameInfo.getText()+"'"+","+ "'"+pMnameInfo.getText()+"'"+","+ "'"+pLnameInfo.getText()+"'"+","+ "'"+pEmailInfo.getText()+"'"+","+ "'"+pPhoneInfo.getText()+"' )");  
-                //INSERT INTO `players`(`pid`, `username`, `passwd`, `email`, `status`, `score`, `avatar`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6],[value-7])
-                int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE pid="+_pid); 
+                int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE gid="+_gid); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
                     System.out.println("del ok ");                   
                     return true ;
-                    /*TestDB2.this.rs=stmt.executeQuery("select * from persontb");
-                    refreshPersonList(rs);                            
-                    curIndex = pList.size()-1 ;
-                    //displayPerson(pList.get(curIndex)) ; 
-                    newFlag = false ;
-                    newBtn.setText("Saved");*/
-/*                }
+                }
                 else{
                     System.out.println("del error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error del");
                 return false ;
             }
     } 
-    
-    static boolean deleteUsrRecord(String _username){
+    static boolean deleteP1Record(long _player1){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                // (`pid`, `username`, `passwd`, `email`, `status`, `score`, `avatar`)
-                int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE username= '"+_username+"'"); 
+                
+                int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE player1="+_player1); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
                     System.out.println("del ok ");                   
@@ -264,19 +167,19 @@ public interface  GameModel {
                     System.out.println("del error");
                     return false ;
                 }
+                //db.endStatConnection();
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error del");
                 return false ;
             }
-    } 
-    
-    static boolean deleteMailRecord(String _email){
+    }
+     static boolean deleteP2Record(long _player2){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                // (`pid`, `username`, `passwd`, `email`, `status`, `score`, `avatar`)
-                int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE email= '"+_email+"'"); 
+                
+                int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE player2="+_player2); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
                     System.out.println("del ok ");                   
@@ -286,19 +189,19 @@ public interface  GameModel {
                     System.out.println("del error");
                     return false ;
                 }
+                //db.endStatConnection();
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error del");
                 return false ;
             }
-    } 
-    
-    static boolean deleteMailPassRecord(String _email, String _passwd){
+    }
+     static boolean deleteP1P2Record(long _player1 ,long _player2){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                // (`pid`, `username`, `passwd`, `email`, `status`, `score`, `avatar`)
-                int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE email= '"+_email+"' and passwd= '"+_passwd+"'"); 
+                
+                int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE player2="+_player2+" and player1="+_player1); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
                     System.out.println("del ok ");                   
@@ -308,266 +211,101 @@ public interface  GameModel {
                     System.out.println("del error");
                     return false ;
                 }
+                //db.endStatConnection();
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error del");
                 return false ;
-            }
-    } 
-    static boolean deleteUsrPassRecord(String _username, String _passwd){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ;
-                // (`pid`, `username`, `passwd`, `email`, `status`, `score`, `avatar`)
-                int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE email= '"+_username+"' and passwd= '"+_passwd+"'"); 
-                db.endStatConnection();  // for statment with no resultset
-                if(checkDelete >= 1){
-                    System.out.println("del ok ");                   
-                    return true ;
-                }
-                else{
-                    System.out.println("del error");
-                    return false ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error del");
-                return false ;
-            }
-    } 
-    
-    
-    // DML Select
-    static Long selectScoreWhereUsr(String _username ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select score from players where username= '"+_username+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
-
-                //boolean checkFirst = TestDB2.this.rs.first() ;
-                if(db.getResultSet().next() == false){
-                    db.endResultSet();
-                    db.endStatConnection();
-                    System.err.println("false select");
-                    return null ;
-                }
-                else{
-                    Long tmpScore = db.getResultSet().getLong("score") ;
-                    System.out.println(tmpScore);
-                    db.endResultSet();
-                    db.endStatConnection();
-                    return tmpScore ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
-                return null ;
-            }
-    }
-    
-    static String selectStatusWhereUsr(String _username ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select status from players where username= '"+_username+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
-
-                //boolean checkFirst = TestDB2.this.rs.first() ;
-                if(db.getResultSet().next() == false){
-                    db.endResultSet();
-                    db.endStatConnection();
-                    System.err.println("false select");
-                    return null ;
-                }
-                else{
-                    String tmpStatus = db.getResultSet().getString("status") ;
-                    System.out.println(tmpStatus);
-                    db.endResultSet();
-                    db.endStatConnection();
-                    return tmpStatus ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
-                return null ;
-            }
-    }
-    static String selectPassWhereUsr(String _username ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select passwd from players where username= '"+_username+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
-
-                //boolean checkFirst = TestDB2.this.rs.first() ;
-                if(db.getResultSet().next() == false){
-                    db.endResultSet();
-                    db.endStatConnection();
-                    System.err.println("false select");
-                    return null ;
-                }
-                else{
-                    String tmpPasswd = db.getResultSet().getString("passwd") ;
-                    System.out.println(tmpPasswd);
-                    db.endResultSet();
-                    db.endStatConnection();
-                    return tmpPasswd ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
-                return null ;
-            }
-    }
-    // check 
-     static boolean selectWhereUsrPass(String _username ,String _passwd ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select * from players where username= '"+_username+"' and passwd = '"+_passwd+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
-
-                //boolean checkFirst = TestDB2.this.rs.first() ;
-                if(db.getResultSet().next() == false){
-                    db.endResultSet();
-                    db.endStatConnection();
-                    System.err.println("false select");
-                    return false ;
-                }
-                else{
-                    System.out.println("true select");
-                    db.endResultSet();
-                    db.endStatConnection();
-                    return true ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
-                return false ;
-            }
-    }
-    
-     static Player selectPlayerWhereUsrPass(String _username ,String _passwd ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select * from players where username= '"+_username+"' and passwd = '"+_passwd+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
-
-                //boolean checkFirst = TestDB2.this.rs.first() ;
-                if(db.getResultSet().next() == false){
-                    db.endResultSet();
-                    db.endStatConnection();
-                    System.err.println("false select");
-                    return null ;
-                }
-                else{
-                    Player p = Player.createPlayer(db.getResultSet()) ;
-                    System.out.println("true select");
-                    db.endResultSet();
-                    db.endStatConnection();
-                    return p ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
-                return null ;
-            }
-    } 
-     
-    static String selectMailWhereUsr(String _username ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select email from players where username= '"+_username+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
-
-                //boolean checkFirst = TestDB2.this.rs.first() ;
-                if(db.getResultSet().next() == false){
-                    db.endResultSet();
-                    db.endStatConnection();
-                    System.err.println("false select");
-                    return null ;
-                }
-                else{
-                    String tmpEmail = db.getResultSet().getString("email") ;
-                    System.out.println(tmpEmail);
-                    db.endResultSet();
-                    db.endStatConnection();
-                    return tmpEmail ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
-                return null ;
-            }
-    }
-    
-     static Long selectScoreWhereUsrPass(String _username ,String _passwd ){
-         try {
-                db.startConnection();
-                db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select score from players where username= '"+_username+"' and passwd='"+_passwd+"'");
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
-
-                //boolean checkFirst = TestDB2.this.rs.first() ;
-                if(db.getResultSet().next() == false){
-                    db.endResultSet();
-                    db.endStatConnection();
-                    System.err.println("false select");
-                    return null ;
-                }
-                else{
-                    Long tmpScore = db.getResultSet().getLong("score") ;
-                    System.out.println(tmpScore);
-                    db.endResultSet();
-                    db.endStatConnection();
-                    return tmpScore ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
-                return null ;
             }
     }
      
-      static String selectStatusWhereUsrPass(String _username ,String _passwd ){
+       static boolean deleteP1P2Record(long _player1 ,long _player2, String  _created_at){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select status from players where username= '"+_username+"' and passwd='"+_passwd+"'");
+                
+                int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE player2="+_player2+" and player1="+_player1+" and created_at= '"+_created_at+"'"); 
+                db.endStatConnection();  // for statment with no resultset
+                if(checkDelete >= 1){
+                    System.out.println("del ok ");                   
+                    return true ;
+                }
+                else{
+                    System.out.println("del error");
+                    return false ;
+                }
+                //db.endStatConnection();
+            } catch (SQLException ex) {
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error del");
+                return false ;
+            }
+    }
+   static Game selectGameWhereId (Long _gid ){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("select * from games where gid= "+_gid);
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().next() == false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    System.err.println("false select");
+                    return null ;
+                }
+                else{
+                    Game g = Game.createGame(db.getResultSet()) ;
+                    System.out.println("true select");
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return g ;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error select");
+                return null ;
+            }
+    } 
+    
+    static Game selectGameWhereP1P2Date (Long _player1 , Long _player2 ,String _created_at){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("select * from games where player1= "+_player1+" and player2="+_player2+" and created_at= '"+_created_at+"'");
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().next() == false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    System.err.println("false select");
+                    return null ;
+                }
+                else{
+                    Game g = Game.createGame(db.getResultSet()) ;
+                    System.out.println("true select");
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return g ;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error select");
+                return null ;
+            }
+    }
   
-                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
-
-                //boolean checkFirst = TestDB2.this.rs.first() ;
-                if(db.getResultSet().next() == false){
-                    db.endResultSet();
-                    db.endStatConnection();
-                    System.err.println("false select");
-                    return null ;
-                }
-                else{
-                    String tmpStatus = db.getResultSet().getString("status") ;
-                    System.out.println(tmpStatus);
-                    db.endResultSet();
-                    db.endStatConnection();
-                    return tmpStatus ;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
-                return null ;
-            }
-      }
-     // not tested to be continued ..... abd change above avatar with correct DT
+   
+    
       
-      
-    static Vector<Player> selectAllWhereStatus(String _status ){
+     
+  static Vector<Game> selectAllWhereP1P2(Long _player1 , Long _player2 ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select * from players where status= '"+_status+"'");
+                db.setQuerystr("select * from games where player1= "+_player1+" and player2="+_player2);
   
                 db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
                 
@@ -580,28 +318,28 @@ public interface  GameModel {
                 }
                 else{
                     
-                    Vector<Player>  tmpUsrs =  new Vector<Player>(); 
-                    tmpUsrs.add(Player.createPlayer(db.getResultSet()));
+                    Vector<Game>  tmpGames =  new Vector<Game>(); 
+                    tmpGames.add(Game.createGame(db.getResultSet()));
                     while(db.getResultSet().next()){
-                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
+                        tmpGames.add(Game.createGame(db.getResultSet()));
                     }
                     System.out.println("true Array");
                     db.endResultSet();
                     db.endStatConnection();
-                    return tmpUsrs ;
+                    return tmpGames ;
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error select");
                 return null ;
             }
       }
       // check 
-     static Vector<Player> selectAllPlayers(){
+     static Vector<Game> selectAllGames(){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select * from players ");
+                db.setQuerystr("select * from games ");
   
                 db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
                 
@@ -614,27 +352,27 @@ public interface  GameModel {
                 }
                 else{
                     //db.getResultSet().first() ;
-                    Vector<Player>  tmpUsrs = new Vector<Player>(); 
+                    Vector<Game>  tmpGames = new Vector<Game>(); 
                     while(db.getResultSet().next()){
-                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
+                        tmpGames.add(Game.createGame(db.getResultSet()));
                     }
                     System.out.println("true Array");
                     db.endResultSet();
                     db.endStatConnection();
-                    return tmpUsrs ;
+                    return tmpGames ;
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error select");
                 return null ;
             }
       }
      
-     static Vector<Player> selectAllPlayersOrderByDESC(String colName ){
+     static Vector<Game> selectAllGamesOrderByDESC(String colName ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
-                db.setQuerystr("select * from players ORDER BY "+colName+" DESC ");
+                db.setQuerystr("select * from games ORDER BY "+colName+" DESC ");
   
                 db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
                 
@@ -647,19 +385,51 @@ public interface  GameModel {
                 }
                 else{
                     //db.getResultSet().first() ;
-                    Vector<Player>  tmpUsrs = new Vector<Player>(); 
+                    Vector<Game>  tmpGames = new Vector<Game>(); 
                     while(db.getResultSet().next()){
-                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
+                        tmpGames.add(Game.createGame(db.getResultSet()));
                     }
                     System.out.println("true Array");
                     db.endResultSet();
                     db.endStatConnection();
-                    return tmpUsrs ;
+                    return tmpGames ;
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error select");
                 return null ;
             }
-      }*/
+      }
+     static Vector<Game> selectAllGamesOrderByASC(String colName ){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("select * from games ORDER BY "+colName+" ASC ");
+  
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+                
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().isBeforeFirst()== false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    System.err.println("false select");
+                    return null ;
+                }
+                else{
+                    //db.getResultSet().first() ;
+                    Vector<Game>  tmpGames = new Vector<Game>(); 
+                    while(db.getResultSet().next()){
+                        tmpGames.add(Game.createGame(db.getResultSet()));
+                    }
+                    System.out.println("true Array");
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return tmpGames ;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error select");
+                return null ;
+            }
+      }
 }

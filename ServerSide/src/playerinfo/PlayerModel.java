@@ -397,7 +397,33 @@ public interface PlayerModel {
                 return null ;
             }
     }
-    
+    static Long selectIdWhereUsr(String _username ){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("select pid from players where username= '"+_username+"'");
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().next() == false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    System.err.println("false select");
+                    return null ;
+                }
+                else{
+                    Long tmpPid = db.getResultSet().getLong("pid") ;
+                    System.out.println(tmpPid);
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return tmpPid ;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("error select");
+                return null ;
+            }
+    }
     static String selectStatusWhereUsr(String _username ){
          try {
                 db.startConnection();
@@ -480,7 +506,7 @@ public interface PlayerModel {
             }
     }
     
-     static playerinfo.Player selectPlayerWhereUsrPass(String _username ,String _passwd ){
+     static Player selectPlayerWhereUsrPass(String _username ,String _passwd ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -495,7 +521,7 @@ public interface PlayerModel {
                     return null ;
                 }
                 else{
-                    playerinfo.Player p = playerinfo.Player.createPlayer(db.getResultSet()) ;
+                    Player p = Player.createPlayer(db.getResultSet()) ;
                     System.out.println("true select");
                     db.endResultSet();
                     db.endStatConnection();
@@ -595,7 +621,7 @@ public interface PlayerModel {
      // not tested to be continued ..... abd change above avatar with correct DT
       
       
-    static Vector<playerinfo.Player> selectAllWhereStatus(String _status ){
+    static Vector<Player> selectAllWhereStatus(String _status ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -612,10 +638,10 @@ public interface PlayerModel {
                 }
                 else{
                     
-                    Vector<playerinfo.Player>  tmpUsrs =  new Vector<playerinfo.Player>(); 
-                    tmpUsrs.add(playerinfo.Player.createPlayer(db.getResultSet()));
+                    Vector<Player>  tmpUsrs =  new Vector<Player>(); 
+                    tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     while(db.getResultSet().next()){
-                        tmpUsrs.add(playerinfo.Player.createPlayer(db.getResultSet()));
+                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     }
                     System.out.println("true Array");
                     db.endResultSet();
@@ -629,7 +655,7 @@ public interface PlayerModel {
             }
       }
       // check 
-     static Vector<playerinfo.Player> selectAllPlayers(){
+     static Vector<Player> selectAllPlayers(){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -646,9 +672,9 @@ public interface PlayerModel {
                 }
                 else{
                     //db.getResultSet().first() ;
-                    Vector<playerinfo.Player>  tmpUsrs = new Vector<playerinfo.Player>(); 
+                    Vector<Player>  tmpUsrs = new Vector<Player>(); 
                     while(db.getResultSet().next()){
-                        tmpUsrs.add(playerinfo.Player.createPlayer(db.getResultSet()));
+                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     }
                     System.out.println("true Array");
                     db.endResultSet();
@@ -662,7 +688,7 @@ public interface PlayerModel {
             }
       }
      
-     static Vector<playerinfo.Player> selectAllPlayersOrderByDESC(String colName ){
+     static Vector<Player> selectAllPlayersOrderByDESC(String colName ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -679,9 +705,9 @@ public interface PlayerModel {
                 }
                 else{
                     //db.getResultSet().first() ;
-                    Vector<playerinfo.Player>  tmpUsrs = new Vector<playerinfo.Player>(); 
+                    Vector<Player>  tmpUsrs = new Vector<Player>(); 
                     while(db.getResultSet().next()){
-                        tmpUsrs.add(playerinfo.Player.createPlayer(db.getResultSet()));
+                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     }
                     System.out.println("true Array");
                     db.endResultSet();
@@ -695,7 +721,7 @@ public interface PlayerModel {
             }
       }
      
-     static Vector<playerinfo.Player> selectAllPlayersOrderByASC(String colName ){
+     static Vector<Player> selectAllPlayersOrderByASC(String colName ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -712,9 +738,9 @@ public interface PlayerModel {
                 }
                 else{
                     //db.getResultSet().first() ;
-                    Vector<playerinfo.Player>  tmpUsrs = new Vector<playerinfo.Player>(); 
+                    Vector<Player>  tmpUsrs = new Vector<Player>(); 
                     while(db.getResultSet().next()){
-                        tmpUsrs.add(playerinfo.Player.createPlayer(db.getResultSet()));
+                        tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     }
                     System.out.println("true Array");
                     db.endResultSet();

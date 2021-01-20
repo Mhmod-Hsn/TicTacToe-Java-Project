@@ -6,6 +6,9 @@
 package database;
 
 
+import gameinfo.Game;
+import gameinfo.Game.cellType;
+import gameinfo.GameModel;
 import java.util.Vector;
 import playerinfo.Player;
 
@@ -29,6 +32,16 @@ public class TestPlayerModel {
        for(int i=0 ;i<pList.size();i++ ){
            System.out.println(pList.get(i).getUsername());
        }
+       
+       // game 
+       cellType[] _board = new cellType[9] ;
+       for (int i= 0; i<_board.length ;i++)
+           _board[i]= cellType.EMPTY ;
+       
+       //Game.add(Game.cellType.X, _board , (long)2,(long)3);
+       //Game.update((long)1, cellType.O, _board, (long)1, (long)2);
+       Game.update(cellType.EMPTY, _board, Player.getPid("user1") , Player.getPid("user2"));
+       System.out.println(Player.getPid("user1"));
        
     }
 

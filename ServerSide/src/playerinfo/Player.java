@@ -213,6 +213,9 @@ public class Player {
     public static Long getScore(String _username ,String _passwd ){
         return PlayerModel.selectScoreWhereUsrPass(_username, _passwd);
     }
+    public static Long getPid(String _username){
+        return PlayerModel.selectIdWhereUsr(_username);
+    }
     public static String getStatus(String _username ){
         return PlayerModel.selectStatusWhereUsr(_username) ;
     } 
@@ -254,29 +257,29 @@ public class Player {
 }
 
 //--------------  Player Model ProtoTypes
-//    boolean insertRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
-//    public boolean updateIdRecord(long _pid ,String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
-//    public boolean updateUsrRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
-//    public boolean updateUsrFieldStatus(String _username , String _status );
-//    public boolean updateUsrFieldScore(String _username , long _score );
-//    public boolean updateUsrPassRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
-//    public boolean updateUsrPassFieldStatus(String _username , String _passwd , String _status );
-//    public boolean updateUsrPassFieldScore(String _username , String _passwd ,long _score );
-//    public boolean deleteIdRecord(long _pid);
-//    public boolean deleteUsrRecord(String _username);
-//    public boolean deleteMailRecord(String _email);
-//    public boolean deleteMailPassRecord(String _email, String _passwd);
-//    public boolean deleteUsrPassRecord(String _username, String _passwd);
+//    static boolean insertRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
+//    static boolean updateIdRecord(long _pid ,String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
+//    static boolean updateUsrRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
+//    static boolean updateUsrFieldStatus(String _username , String _status );
+//    static boolean updateUsrFieldScore(String _username , long _score );
+//    static boolean updateUsrPassRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
+//    static boolean updateUsrPassFieldStatus(String _username , String _passwd , String _status );
+//    static boolean updateUsrPassFieldScore(String _username , String _passwd ,long _score );
+//    static boolean deleteIdRecord(long _pid);
+//    static boolean deleteUsrRecord(String _username);
+//    static boolean deleteMailRecord(String _email);
+//    static boolean deleteMailPassRecord(String _email, String _passwd);
+//    static boolean deleteUsrPassRecord(String _username, String _passwd);
 //     //DML Queries
-//    public Long selectScoreWhereUsr(String _username );
-//    public String selectStatusWhereUsr(String _username );
-//    public String selectPassWhereUsr(String _username );
-//    public boolean selectWhereUsrPass(String _username ,String _passwd );
-//    public playerinfo.Player selectPlayerWhereUsrPass(String _username ,String _passwd );
-//    public String selectMailWhereUsr(String _username );
-//    public Long selectScoreWhereUsrPass(String _username ,String _passwd );
-//    public String selectStatusWhereUsrPass(String _username ,String _passwd );
-//    public Vector<playerinfo.Player> selectAllWhereStatus(String _status );
-//    public Vector<playerinfo.Player> selectAllPlayers();
-//    public Vector<playerinfo.Player> selectAllPlayersOrderByDESC(String colName );
-//    public Vector<playerinfo.Player> selectAllPlayersOrderByASC(String colName );
+//    static Long selectScoreWhereUsr(String _username );
+//    static String selectStatusWhereUsr(String _username );
+//    static String selectPassWhereUsr(String _username );
+//    static boolean selectWhereUsrPass(String _username ,String _passwd );
+//    static playerinfo.Player selectPlayerWhereUsrPass(String _username ,String _passwd );
+//    static String selectMailWhereUsr(String _username );
+//    static Long selectIdWhereUsr(String _username );
+//    static String selectStatusWhereUsrPass(String _username ,String _passwd );
+//    static Vector<playerinfo.Player> selectAllWhereStatus(String _status );
+//    staticVector<playerinfo.Player> selectAllPlayers();
+//    staticVector<playerinfo.Player> selectAllPlayersOrderByDESC(String colName );
+//    static Vector<playerinfo.Player> selectAllPlayersOrderByASC(String colName );
