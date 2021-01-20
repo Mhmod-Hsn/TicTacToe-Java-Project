@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import handler.*;
 
+
 /**
  *
  * @author Hossam
@@ -25,6 +26,9 @@ public class Server {
     
     private ServerSocket serverSocket;
     private boolean isServerUp;
+    private UpdatesHandler updateHandler;
+    private final PlayerHandler playerHandler = new PlayerHandler();
+    
     private ClientAcceptListener clientAcceptListener;
  
     //Client accept listener inner class
@@ -59,7 +63,6 @@ public class Server {
         }
     }
 
-    
     //Start the server
     public void start()
     {
@@ -73,6 +76,15 @@ public class Server {
             
             //set server is up flag
             isServerUp = true;
+            
+            //reset the online handlers
+             playerHandler.resetHandlers();
+             
+            //reset all players to offline
+            new  AppDbOperation().setAllOffline();
+            
+            //start update thread
+            updateHandler = new UpdatesHandler();
             
             System.out.println("Server is up on port:" + ServerUtils.PORT_NUMBER); 
 
@@ -93,8 +105,12 @@ public class Server {
         //close the listener thread
         clientAcceptListener.stop();
         
+        //stop the update handler thread
+        updateHandler.close();
+        
         //reset server is up flag
         isServerUp = false;
+        
         
         System.out.println("Server is stopped.");
         

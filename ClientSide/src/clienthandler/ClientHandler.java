@@ -97,6 +97,7 @@ public class ClientHandler {
             while (running) {
                 try {
                     response = ds.readUTF();
+                    System.out.println(response);
                     if (response != null) {
                         handleResponse(response);
                     }

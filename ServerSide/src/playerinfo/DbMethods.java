@@ -17,7 +17,7 @@ import playerinfo.Player.orderType;
 public abstract class DbMethods {
     
     // public static methods 
-    public static boolean add(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
+    public static boolean addPlayer(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
         return PlayerModel.insertRecord(_username, _passwd, _email, _status, _score, _avatar) ;
     }
 
@@ -83,16 +83,16 @@ public abstract class DbMethods {
     public static String getPass(String _username ){
         return PlayerModel.selectPassWhereUsr(_username);
     } 
-    public static boolean check(String _username ,String _passwd ){
+    public static boolean isRecordExists(String _username ,String _passwd ){
         return PlayerModel.selectWhereUsrPass(_username, _passwd);
     }
-    public static Player get(String _username ,String _passwd ){
+    public static Player getPlayer(String _username ,String _passwd ){
         return PlayerModel.selectPlayerWhereUsrPass(_username, _passwd);
     }
-    public static Vector<Player> getAll(String _status ){
+    public static Vector<Player> getAllRecords(String _status ){
         return PlayerModel.selectAllWhereStatus(_status) ;
     }
-    public static Vector<Player> getAll(){   
+    public static Vector<Player> getAllRecords(){   
         return PlayerModel.selectAllPlayers() ;
     }
     

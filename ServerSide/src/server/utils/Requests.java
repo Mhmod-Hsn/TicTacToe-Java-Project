@@ -11,8 +11,17 @@ package server.utils;
  */
 public class Requests {
     
+    //Authentication related
     public static final String SIGN_IN = "signin";
     public static final String SIGN_UP = "signup";
+    public static final String SIGN_OUT = "signout";
+
+    //Game playing related
+    public static final String PLAY_INVITATION = "player invite";
+    public static final String UPDATE_SCORE = "update score";
+    
+    //Unkown requests
     public static final String UNKNOWN = "unknown";
+    
 }
 

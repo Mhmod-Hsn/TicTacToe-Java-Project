@@ -5,7 +5,7 @@
  */
 package handler;
 
-import appinfo.AppDbOperation;
+import server.AppDbOperation;
 import playerinfo.Player;
 import java.io.IOException;
 
@@ -84,7 +84,9 @@ public class AuthenHandler extends Thread {
                         Player result = signIn(userReqInfo.getUname(),userReqInfo.getPassword());
                         
                         if (userRequestResponse(result, Requests.SIGN_IN)) {
-                            //new PlayerHandler(socket, result);
+                            
+                            new PlayerHandler(socket, result);
+                            
                             System.out.println("Client has signed in");
                             this.close();
                         }else
@@ -97,7 +99,9 @@ public class AuthenHandler extends Thread {
                         Player result = signUp(userReqInfo.getUname(),userReqInfo.getPassword());
                         
                         if (userRequestResponse(result, Requests.SIGN_UP)) {
-                            //new PlayerHandler(socket, result);
+                            
+                            new PlayerHandler(socket, result);
+                            
                             System.out.println("Client has signed up");
                             this.close();
                         }else
@@ -115,9 +119,14 @@ public class AuthenHandler extends Thread {
                 //Connection Drop
             } catch (IOException ex) { 
                 System.out.println("Dropped client");
-                //close this socket and end this thread
-                close();
                 
+                try {
+                    //close this socket and end this thread
+                    socket.close();
+                } catch (IOException ex1) {
+                    System.out.println("Couldn't close the socket.");
+                    }
+                close();
             } 
         }
     }
@@ -228,15 +237,10 @@ public class AuthenHandler extends Thread {
     
     public void close()
     {
-        
-//            socket.close();
-            this.stop();
-            System.out.println("Authentication handler closed");
-
-        
+        this.stop();
+        System.out.println("Authentication handler closed");
     }
 }
-
 
 
 class UserRequestInfo {

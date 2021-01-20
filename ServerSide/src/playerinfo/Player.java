@@ -22,18 +22,11 @@ import java.util.logging.Logger;
 
 
 public class Player {
+    
     public  static  enum statusType {offline,online,busy,none}   // modification 17/1 ingame -> busy
     public  static  enum orderType {ASC,DESC}   // modification 17/1 ingame -> busy
     private static orderType order ;
 
-    public static orderType getOrder() {
-        return Player.order ;
-    }
-
-    public static void setOrder(orderType _order) {
-        Player.order = _order;
-    }
-    
 
     private Long pid ;
     private Long score ;
@@ -48,6 +41,45 @@ public class Player {
     /*Blob imageBlob = resultSet.getBlob(yourBlobColumnIndex);
     InputStream binaryStream = imageBlob.getBinaryStream(0, imageBlob.length());*/
 
+    public Player() {
+        this.score = (long)0;
+        this.username = null;
+        this.passwd = null;
+        this.email = null;
+        this.status = statusType.none;
+        this.avatar = null;
+    }
+    
+    public Player(Long score, String username, String passwd, String email, statusType status, FileInputStream avatar) {
+        this.score = score;
+        this.username = username;
+        this.passwd = passwd;
+        this.email = email;
+        this.status = status;
+        this.avatar = avatar;
+    }
+    public Player(String username, String passwd, String email) {
+        this.username = username;
+        this.passwd = passwd;
+        this.email = email;
+    }
+    public Player(String username, String passwd) {
+        this.username = username;
+        this.passwd = passwd;
+    }
+    public Player(Long pid, String username, String passwd, String email) {
+        this.pid = pid;
+        this.username = username;
+        this.passwd = passwd;
+        this.email = email;
+    }
+    
+    public static orderType getOrder() {
+        return Player.order ;
+    }
+
+
+    
     public Long getPid() {
         return pid;
     }
@@ -115,29 +147,10 @@ public class Player {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     
-    public Player(Long score, String username, String passwd, String email, statusType status, FileInputStream avatar) {
-        this.score = score;
-        this.username = username;
-        this.passwd = passwd;
-        this.email = email;
-        this.status = status;
-        this.avatar = avatar;
-    }
-    public Player(String username, String passwd, String email) {
-        this.username = username;
-        this.passwd = passwd;
-        this.email = email;
-    }
-    public Player(String username, String passwd) {
-        this.username = username;
-        this.passwd = passwd;
-    }
-    public Player(Long pid, String username, String passwd, String email) {
-        this.pid = pid;
-        this.username = username;
-        this.passwd = passwd;
-        this.email = email;
+    public static void setOrder(orderType _order) {
+        Player.order = _order;
     }
     
     // add 
