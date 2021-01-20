@@ -6,8 +6,6 @@ package clientside;
 import clientHandler.ClientHandler;
 import clientHandler.Player;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,8 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import org.json.simple.JSONObject;
 
-public class FXMLDocumentController implements Initializable {
+public class LoginFXMLController implements Initializable {
 
     @FXML
     private Button btnSignup;
@@ -68,11 +67,11 @@ public class FXMLDocumentController implements Initializable {
             ClientHandler.setPlayer(player); 
                     
             //Generate a new login request to the server.
-            Map<String, String> map = new HashMap<>();
-            map.put("type", "signin");
-            map.put("username", username);
-            map.put("password", password);
-            ClientHandler.sendRequest(map);
+            JSONObject loginReq = new JSONObject();
+            loginReq.put("type", "signin");
+            loginReq.put("username", username);
+            loginReq.put("password", password);
+            ClientHandler.sendRequest(loginReq);
         }                
     }
 
@@ -97,11 +96,11 @@ public class FXMLDocumentController implements Initializable {
             ClientHandler.setPlayer(player);
                     
             //Generate a new sign up request to the server.
-            Map<String, String> map = new HashMap<>();
-            map.put("type", "signup");
-            map.put("username", username);
-            map.put("password", password);
-            ClientHandler.sendRequest(map);
+            JSONObject signReq = new JSONObject();
+            signReq.put("type", "signup");
+            signReq.put("username", username);
+            signReq.put("password", password);
+            ClientHandler.sendRequest(signReq);
         }
     }   
     

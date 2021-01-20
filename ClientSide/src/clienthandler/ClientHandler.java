@@ -6,21 +6,25 @@
 package clientHandler;
 
 import clientside.ClientSide;
-import clientside.FXMLDocumentController;
+import clientside.LoginFXMLController;
+import clientside.LoadgameFXMLController;
+import clientside.NewgameFXMLController;
+import clientside.StartFXMLController;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -32,11 +36,14 @@ import org.json.simple.parser.ParseException;
 public class ClientHandler {
     private static Socket clientSocket;
     private static DataInputStream ds;
-    private static DataOutputStream dOut;
     private static Stage window;
     private static Player player;
+    private static String currentScene;
     private static DataOutputStream ps;
-    private static FXMLDocumentController loginctrl;
+    private static LoginFXMLController loginctrl;
+    private static StartFXMLController startctrl;
+    private static NewgameFXMLController newgamectrl;
+    private static LoadgameFXMLController loadgamectrl;
      
     public ClientHandler(){  
     }
@@ -62,7 +69,7 @@ public class ClientHandler {
      */
     public static void closeCon(){
         try{
-            dOut.close();
+            ps.close();
             ds.close();
             clientSocket.close();
         }
@@ -72,13 +79,10 @@ public class ClientHandler {
     }
     
     /** Send a new request to the server
-     ** @param fields. : a map object containing the request attributes.
+     * @param jsonMsg
      */
-    public static void sendRequest(Map<String, String> fields)
+    public static void sendRequest(JSONObject jsonMsg)
     {
-        System.out.println(fields);
-        JSONObject jsonMsg = new JSONObject();
-        jsonMsg.putAll(fields);
         try {
             ps.writeUTF(jsonMsg.toJSONString());
         } catch (IOException ex) {
@@ -97,14 +101,13 @@ public class ClientHandler {
             while (running) {
                 try {
                     response = ds.readUTF();
-                    System.out.println(response);
                     if (response != null) {
                         handleResponse(response);
                     }
                 } catch (IOException ex) {
                     System.out.println("Connection is down.");
                     running=false;
-                    changeScene("ConfailedFXML");
+                    changeScene("Confailed");
                 }
             }
         }
@@ -115,6 +118,7 @@ public class ClientHandler {
      */
     public static void handleResponse(String response)
     {
+        System.out.println("Received a new response: "+response);
         try {
             JSONParser parser = new JSONParser();
             JSONObject jsonMsg = (JSONObject) parser.parse(response);
@@ -125,6 +129,13 @@ public class ClientHandler {
                 case "signup":
                     Login(jsonMsg);
                     break;
+                case "updateStatus":
+                    updateStatus(jsonMsg);
+                    break;
+                case "updateList":
+                    if ( notBusy())
+                        updateList(jsonMsg);
+                break;
             }
         } catch (ParseException ex) {
             System.out.println("Exception in handle response.");
@@ -132,15 +143,16 @@ public class ClientHandler {
     }
 
     /** Change displayed scene to the given FXML.
-     * @param fxml.
+     * @param newScene
      */
     @FXML
-    public static void changeScene(String fxml)
+    public static void changeScene(String newScene)
     {   
-        System.out.println("Changing scene to:"+fxml);
+        System.out.println("Changing scene to: "+newScene);
+        setScene(newScene);
         Platform.runLater(() -> {   
             try {
-                Parent root = FXMLLoader.load(ClientSide.class.getResource(fxml+".fxml"));
+                Parent root = FXMLLoader.load(ClientSide.class.getResource(newScene+"FXML.fxml"));
                 Scene scene = new Scene(root);
                 window.setScene(scene);
                 window.setResizable(false);
@@ -160,6 +172,9 @@ public class ClientHandler {
     public static Stage getWindow() {
         return window;
     }
+    public static void setScene(String scene) {
+        currentScene = scene;
+    }
     
     /** Set the player to the current user player.
      * @param p
@@ -171,12 +186,21 @@ public class ClientHandler {
         return player;
     }
     
-    /** Set the login scene controller to be able to access and change it.
+    /** Set scene controllers to be able to access and change them.
      * @param ctrl 
      */
-    public static void setLoginCtrl(FXMLDocumentController ctrl) {
+    public static void setLoginCtrl(LoginFXMLController ctrl) {
         loginctrl=ctrl;
     }
+    public static void setStartCtrl(StartFXMLController ctrl) {
+        startctrl=ctrl;
+    }
+    public static void setNewgameCtrl(NewgameFXMLController ctrl) {
+        newgamectrl=ctrl;
+    }
+   public static void setLoadgameCtrl(LoadgameFXMLController ctrl){
+       loadgamectrl=ctrl;
+   }
 
     /** Login response handler.
      * @param response : response of login requests including signup and signin.
@@ -187,11 +211,10 @@ public class ClientHandler {
         String resStatus = response.get("responseStatus").toString();
         if(resStatus.equals("true")){
             System.out.println(response);
-//            player.setId( Integer.parseInt(response.get("id").toString()));
             player.setScore(Integer.parseInt(response.get("score").toString()));
             player.setUsername(response.get("username").toString());
             player.setStatus(response.get("status").toString());
-            changeScene("WelcomeFXML");
+            changeScene("Welcome");
         }
         else{
             String error = response.get("errorMsg").toString();
@@ -208,5 +231,56 @@ public class ClientHandler {
             System.out.println("Error :"+warning);
             Platform.runLater(() -> {loginctrl.getLabel().setText(warning);});
         }
+    }
+    
+    public static void updateStatus(JSONObject response){
+        String resStatus = response.get("responseStatus").toString();
+        if(resStatus.equals("true")){
+            System.out.println(response);
+            player.setStatus(response.get("status").toString());
+            //changeScene("Game");
+        }
+        
+    }
+    
+    public static void updateList(JSONObject response){
+        JSONObject JSONplayer;
+        JSONParser parser = new JSONParser();
+        JSONArray list =(JSONArray) response.get("list");
+        
+        ObservableList<String> name = FXCollections.observableArrayList ();
+        ObservableList<String> status = FXCollections.observableArrayList ();
+        ObservableList<String> score= FXCollections.observableArrayList ();
+        System.out.println(" list size : "+list.size());
+        for (int i = 0 ; i < list.size(); i++) {
+            try {
+                JSONplayer  = (JSONObject) parser.parse(list.get(i).toString());
+                name.add(JSONplayer.get("username").toString());
+                score.add(JSONplayer.get("score").toString());
+                status.add(JSONplayer.get("status").toString());
+            } catch (ParseException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        switch (currentScene) {
+        case "Start":
+            startctrl.updateTable(name, score, status);
+            break;
+        case "Newgame":
+            newgamectrl.updateTable(name, score, status);
+            break;
+        case "Loadgame":
+            loadgamectrl.updateTable(name, score, status);
+            break;
+        default:
+            break;
+        }
+    }
+    
+    public static boolean notBusy()
+    {
+       boolean check = currentScene.equals("Start") || currentScene.equals("Newgame") || currentScene.equals("Loadgame")|| currentScene.equals("Invite");
+       return check;
+  
     }
 }

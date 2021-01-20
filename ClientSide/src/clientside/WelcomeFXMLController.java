@@ -5,6 +5,8 @@ package clientside;
 
 import clientHandler.ClientHandler;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import org.json.simple.JSONObject;
 
 
 public class WelcomeFXMLController implements Initializable {
@@ -25,7 +28,7 @@ public class WelcomeFXMLController implements Initializable {
     // StartPlaying button handler switch the scene to StartPane
     @FXML
     private void startPlayingHandler(MouseEvent event) {
-           ClientHandler.changeScene("GameFXML");
+        ClientHandler.changeScene("Start");
     }
     
     @Override

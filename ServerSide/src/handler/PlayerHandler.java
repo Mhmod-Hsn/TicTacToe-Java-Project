@@ -62,22 +62,22 @@ public class PlayerHandler extends Thread{
         json = new JSONObject();
         parser = new JSONParser();
         
-        try {
-            JSONArray jsonList =(JSONArray)parser.parse(response);
-            
-            //EXTRACT JSON OBJECTS
-            jsonList.forEach(function);
-            
-            /////////OR/////////
-            for (int indx = 0 ; indx < jsonList.size() ; indx++)
-            {
-                jsonObj = jsonList.get(indx);
-                ///USE JSON OBJ
-            }
-
-        } catch (ParseException ex) {
-            Logger.getLogger(PlayerHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            JSONArray jsonList =(JSONArray)parser.parse(response);
+//            
+//            //EXTRACT JSON OBJECTS
+//            jsonList.forEach(function);
+//            
+//            /////////OR/////////
+//            for (int indx = 0 ; indx < jsonList.size() ; indx++)
+//            {
+//                jsonObj = jsonList.get(indx);
+//                ///USE JSON OBJ
+//            }
+//
+//        } catch (ParseException ex) {
+//            Logger.getLogger(PlayerHandler.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         try {
             //Create the input and output channels

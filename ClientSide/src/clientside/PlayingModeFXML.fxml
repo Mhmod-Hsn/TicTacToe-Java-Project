@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="clientside.PlayingModeFXMLController">
+   <children>
+      <Button fx:id="easyBtn" alignment="BASELINE_CENTER" layoutX="235.0" layoutY="117.0" mnemonicParsing="false" onAction="#easyBtnHandler" prefHeight="53.0" prefWidth="130.0" text="Easy" textAlignment="CENTER" />
+      <Button fx:id="mediumBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="235.0" layoutY="174.0" mnemonicParsing="false" onAction="#mediumBtnHandler" prefHeight="53.0" prefWidth="130.0" text="Medium" textAlignment="CENTER" />
+      <Button fx:id="hardBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="235.0" layoutY="233.0" mnemonicParsing="false" onAction="#hardBtnHandler" prefHeight="53.0" prefWidth="130.0" text="Hard" textAlignment="CENTER" />
+   </children>
+</AnchorPane>

@@ -1,5 +1,7 @@
 package clientHandler;
+import java.util.HashMap;
 import java.util.regex.Pattern;
+import org.json.simple.JSONObject;
 
 public class Player {
     private int id;
@@ -84,5 +86,13 @@ public class Player {
         }
         
         return check;
+    }
+    
+    public void updateStatus(String status){
+        JSONObject newstatus = new JSONObject();
+        newstatus.put("type", "updateStatus");
+        newstatus.put("username", username);
+        newstatus.put("status", status);
+        ClientHandler.sendRequest(newstatus);
     }
 }

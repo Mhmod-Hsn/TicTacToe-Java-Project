@@ -25,7 +25,7 @@ public class ConfailedFXMLController implements Initializable {
             System.out.println("Connected successfully.");
             Thread readerThread = new Thread(new ClientHandler.recieveRespone());
             readerThread.start();
-            ClientHandler.changeScene("FXMLDocument");
+            ClientHandler.changeScene("Login");
         }
         else{
             System.out.println("Failed to Connect.");

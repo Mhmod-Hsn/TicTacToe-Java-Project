@@ -199,7 +199,7 @@ public class LoginFXMLDocumentBase extends BorderPane {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 String username = txtUsername.getText();
                 String password = txtPassword.getText();                
-                loader.setLocation(FXMLDocumentController.class.getResource("/clientside/WelcomeFXML.fxml"));
+                loader.setLocation(LoginFXMLController.class.getResource("/clientside/WelcomeFXML.fxml"));
                 
                 boolean checkUname = player.checkUsername(username);
                 boolean checkPass = player.checkPassword(password);
@@ -224,7 +224,7 @@ public class LoginFXMLDocumentBase extends BorderPane {
                         window.setScene(welcomeScene);
                         window.show();
                     } catch (IOException ex) {
-                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(LoginFXMLController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }                
             }
@@ -237,7 +237,7 @@ public class LoginFXMLDocumentBase extends BorderPane {
                 String name=txtUsername.getText();
                 String password=txtPassword.getText();
                 
-                loader.setLocation(FXMLDocumentController.class.getResource("/clientside/WelcomeFXML.fxml"));
+                loader.setLocation(LoginFXMLController.class.getResource("/clientside/WelcomeFXML.fxml"));
                 
                 boolean checkUname = player.checkUsername(name);
                 boolean checkPass = player.checkPassword(password);
@@ -263,7 +263,7 @@ public class LoginFXMLDocumentBase extends BorderPane {
                         window.setScene(welcomeScene);
                         window.show();
                     } catch (IOException ex) {
-                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(LoginFXMLController.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }

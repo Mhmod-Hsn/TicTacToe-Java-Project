@@ -1,60 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientside.GameFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientside.GameFXMLController">
    <children>
-      <Line endX="-67.0" endY="-90.0" layoutX="304.0" layoutY="159.0" startX="-67.0" startY="250.0" />
-      <Line endX="-100.0" endY="333.0" layoutX="459.0" layoutY="73.0" startX="-100.0" />
-      <Line endX="287.0" endY="22.0" layoutX="170.0" layoutY="263.0" startX="-52.0" startY="22.0" />
-      <Line endX="237.0" layoutX="218.0" layoutY="181.0" startX="-100.0" />
-      <Label fx:id="cell1" alignment="CENTER" layoutX="113.0" layoutY="60.0" onMouseReleased="#cell1Handler" prefHeight="122.0" prefWidth="123.0" textAlignment="CENTER">
+      <Line endX="200.0" layoutX="299.0" layoutY="195.0" startX="-200.0" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="3.0" />
+      <Line endX="200.0" layoutX="302.0" layoutY="291.0" startX="-200.0" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="3.0" />
+      <Line endX="100.0" layoutX="278.0" layoutY="240.0" rotate="90.0" startX="-200.0" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="3.0" />
+      <Line endX="100.0" layoutX="419.0" layoutY="240.0" rotate="90.0" startX="-200.0" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="3.0" />
+      <Label fx:id="cell1" alignment="BASELINE_CENTER" layoutX="99.0" layoutY="97.0" onMouseClicked="#cell1Handler" prefHeight="98.0" prefWidth="129.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
-      <Label fx:id="cell2" alignment="CENTER" layoutX="239.0" layoutY="60.0" onMouseReleased="#cell2Handler" prefHeight="122.0" prefWidth="123.0" textAlignment="CENTER">
+      <Label fx:id="cell2" alignment="BASELINE_CENTER" layoutX="234.0" layoutY="97.0" onMouseClicked="#cell2Handler" prefHeight="98.0" prefWidth="135.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
-      <Label fx:id="cell3" alignment="CENTER" layoutX="359.0" layoutY="60.0" onMouseReleased="#cell3Handler" prefHeight="122.0" prefWidth="123.0" textAlignment="CENTER">
+      <Label fx:id="cell3" alignment="BASELINE_CENTER" layoutX="369.0" layoutY="97.0" onMouseClicked="#cell3Handler" prefHeight="98.0" prefWidth="135.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
-      <Label fx:id="cell4" alignment="CENTER" layoutX="113.0" layoutY="181.0" onMouseReleased="#cell4Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+      <Label fx:id="cell4" alignment="BASELINE_CENTER" layoutX="96.0" layoutY="201.0" onMouseClicked="#cell4Handler" prefHeight="90.0" prefWidth="129.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
-      <Label fx:id="cell5" alignment="CENTER" layoutX="239.0" layoutY="180.0" onMouseReleased="#cell5Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+      <Label fx:id="cell5" alignment="BASELINE_CENTER" layoutX="235.0" layoutY="195.0" onMouseClicked="#cell5Handler" prefHeight="56.0" prefWidth="129.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
-      <Label fx:id="cell6" alignment="CENTER" layoutX="359.0" layoutY="180.0" onMouseReleased="#cell6Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+      <Label fx:id="cell6" alignment="BASELINE_CENTER" layoutX="372.0" layoutY="201.0" onMouseClicked="#cell6Handler" prefHeight="10.0" prefWidth="129.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
-      <Label fx:id="cell7" alignment="CENTER" layoutX="113.0" layoutY="286.0" onMouseReleased="#cell7Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+      <Label fx:id="cell7" alignment="BASELINE_CENTER" layoutX="99.0" layoutY="294.0" onMouseClicked="#cell7Handler" prefHeight="10.0" prefWidth="129.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
-      <Label fx:id="cell8" alignment="CENTER" layoutX="239.0" layoutY="286.0" onMouseReleased="#cell8Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+      <Label fx:id="cell8" alignment="BASELINE_CENTER" layoutX="234.0" layoutY="294.0" onMouseClicked="#cell8Handler" prefHeight="90.0" prefWidth="135.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
-      <Label fx:id="cell9" alignment="CENTER" layoutX="359.0" layoutY="286.0" onMouseReleased="#cell9Handler" prefHeight="105.0" prefWidth="123.0" textAlignment="CENTER">
+      <Label fx:id="cell9" alignment="BASELINE_CENTER" layoutX="374.0" layoutY="294.0" onMouseClicked="#cell9Handler" prefHeight="90.0" prefWidth="129.0">
          <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="96.0" />
+            <Font size="76.0" />
          </font>
       </Label>
+      <AnchorPane fx:id="resultAnchor" layoutX="162.0" layoutY="107.0">
+         <children>
+            <SubScene fx:id="resultSubscene" blendMode="SRC_ATOP" height="287.0" width="274.0">
+              <root>
+                <Region />
+              </root>
+            </SubScene>
+            <Label fx:id="winnerLabel" alignment="BASELINE_CENTER" layoutX="19.0" layoutY="14.0" prefHeight="49.0" prefWidth="237.0" text="winnerLabel" />
+            <Button fx:id="retryBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="85.0" layoutY="91.0" mnemonicParsing="false" onAction="#retryBtnHandler" prefHeight="43.0" prefWidth="104.0" text="Retry" textAlignment="CENTER" />
+            <Button fx:id="backBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="85.0" layoutY="144.0" mnemonicParsing="false" onAction="#backBtnHandler" prefHeight="43.0" prefWidth="104.0" text="Back" textAlignment="CENTER" />
+            <Button fx:id="exitBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="85.0" layoutY="201.0" mnemonicParsing="false" onAction="#exitBtnHandler" prefHeight="43.0" prefWidth="104.0" text="Exit" textAlignment="CENTER" />
+         </children>
+      </AnchorPane>
+      <Label fx:id="player1Label" alignment="BASELINE_CENTER" layoutX="17.0" layoutY="14.0" prefHeight="55.0" prefWidth="159.0" text="player1Label" textAlignment="CENTER" />
+      <Label fx:id="player2Label" alignment="BASELINE_CENTER" layoutX="425.0" layoutY="14.0" prefHeight="55.0" prefWidth="159.0" text="player2Label" textAlignment="CENTER" />
+      <Button fx:id="quitBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="124.0" layoutY="443.0" mnemonicParsing="false" onAction="#quitBtnHandler" prefHeight="43.0" prefWidth="104.0" text="Quit" textAlignment="CENTER" />
+      <Button fx:id="saveBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="364.0" layoutY="443.0" mnemonicParsing="false" onAction="#saveBtnHandler" prefHeight="43.0" prefWidth="104.0" text="Save" textAlignment="CENTER" />
    </children>
 </AnchorPane>

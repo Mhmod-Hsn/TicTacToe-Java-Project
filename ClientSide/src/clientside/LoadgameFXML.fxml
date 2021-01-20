@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientside.LoadgameFXMLController">
+    <children>
+      <ImageView fitHeight="504.0" fitWidth="637.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/playerbg.jpg" />
+         </image>
+      </ImageView>
+      <ComboBox layoutX="120.0" layoutY="320.0" prefWidth="150.0" />
+      <Text layoutX="55.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a game " textAlignment="CENTER" wrappingWidth="282.99999038130045">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="28.0" />
+         </font>
+      </Text>
+      <Button layoutX="169.0" layoutY="372.0" mnemonicParsing="false" style="-fx-background-color: #CBF0EB;" text="Start">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="backbtn" layoutX="19.0" layoutY="459.0" mnemonicParsing="false" onMousePressed="#backHandler" style="-fx-background-color: #CBF0EB;" text="back">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="231.0" fitWidth="210.0" layoutX="115.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/tictactoe.jpeg" />
+         </image>
+      </ImageView>
+      <Text layoutX="379.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="     Player       Status     Score" wrappingWidth="211.50000584870577">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="18.0" />
+         </font>
+      </Text>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0f7bda00" height="453.0" layoutX="378.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="210.0" />
+      <Line endX="235.0" endY="421.5" layoutX="231.0" layoutY="55.0" startX="235.0" startY="-27.0" strokeWidth="2.0" />
+      <Line endX="264.0" endY="405.5" layoutX="269.0" layoutY="72.0" startX="264.0" startY="-45.0" strokeWidth="2.0" />
+      <ListView fx:id="playerList" layoutX="380.0" layoutY="54.0" mouseTransparent="true" pickOnBounds="false" prefHeight="423.0" prefWidth="85.0" />
+      <ListView fx:id="statusList" layoutX="467.0" layoutY="54.0" mouseTransparent="true" pickOnBounds="false" prefHeight="423.0" prefWidth="65.0" />
+      <ListView fx:id="scoreList" layoutX="534.0" layoutY="54.0" mouseTransparent="true" pickOnBounds="false" prefHeight="423.0" prefWidth="52.0">
+         <effect>
+            <Blend />
+         </effect>
+      </ListView>
+      <Line endX="108.0" layoutX="479.0" layoutY="53.0" startX="-100.0" strokeWidth="2.0" />
+      <ImageView fitHeight="103.0" fitWidth="126.0" layoutX="132.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/dance.gif" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>

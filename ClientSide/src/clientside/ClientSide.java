@@ -22,13 +22,14 @@ public class ClientSide extends Application {
     public void start(Stage stage) throws Exception {
         if (connected){
             System.out.println("Connected To server.");
-            root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+            root = FXMLLoader.load(getClass().getResource("LoginFXML.fxml"));
+            
             Thread readerThread = new Thread(new ClientHandler.recieveRespone());
             readerThread.start();
         }
         else{
             System.out.println("Connection Failed.");
-            root = FXMLLoader.load(getClass().getResource("confailedFXML.fxml"));
+            root = FXMLLoader.load(getClass().getResource("ConfailedFXML.fxml"));
         }
         //Parent root = new LoginFXMLDocumentBase();
         Scene scene = new Scene(root);
