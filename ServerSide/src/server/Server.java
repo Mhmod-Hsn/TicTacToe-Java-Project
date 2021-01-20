@@ -81,7 +81,7 @@ public class Server {
              playerHandler.resetHandlers();
              
             //reset all players to offline
-            new  AppDbOperation().setAllOffline();
+            DBOperations.setAllOffline();
             
             //start update thread
             updateHandler = new UpdatesHandler();

@@ -5,7 +5,7 @@
  */
 package handler;
 
-import server.AppDbOperation;
+import server.DBOperations;
 import playerinfo.Player;
 import java.io.IOException;
 
@@ -34,7 +34,6 @@ public class AuthenHandler extends Thread {
     
     Socket socket;
     UserRequestInfo userReqInfo;
-    AppDbOperation dbOperation;
     String errorMsg;
     JSONObject jsonObj;
     Player curPlayer;
@@ -46,7 +45,6 @@ public class AuthenHandler extends Thread {
     
     public AuthenHandler(Socket socket)
     {
-        this.dbOperation = new AppDbOperation();
         this.socket = socket;
         try {
             //Create the input and output channels
@@ -211,12 +209,12 @@ public class AuthenHandler extends Thread {
 
     private Player signIn(String uname, String password)
     {
-        if (dbOperation.isUserExists(uname, password)) {
-            if (dbOperation.isLoggedIn(uname, password)) {
+        if (DBOperations.isUserExists(uname, password)) {
+            if (DBOperations.isLoggedIn(uname, password)) {
                 errorMsg = Errors.SIGNNED_IN;
                 System.out.println("already logged in");
             }else{
-               return dbOperation.login(uname, password);
+               return DBOperations.login(uname, password);
             }
         }else{
             errorMsg = Errors.NOT_EXIST;
@@ -227,7 +225,7 @@ public class AuthenHandler extends Thread {
     
     private Player signUp (String uname, String password)
     {
-        curPlayer = dbOperation.register(uname, password);
+        curPlayer = DBOperations.register(uname, password);
         if (curPlayer == null)
             errorMsg = Errors.EXISTS;
         return curPlayer;

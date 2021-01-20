@@ -10,7 +10,8 @@ import java.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import playerinfo.Player;
-import server.AppDbOperation;
+import server.DBOperations;
+import server.utils.Requests;
 
 /**
  *
@@ -18,7 +19,6 @@ import server.AppDbOperation;
  */
 public class UpdatesHandler extends Thread{
     
-    private static final AppDbOperation DB_OBJ = new AppDbOperation();
     private Vector <Player> playerVect;
     private Vector <PlayerHandler> handlersVect;
     
@@ -34,11 +34,11 @@ public class UpdatesHandler extends Thread{
         {
             //Check if the db has changed from the last iteration
 
-            if(AppDbOperation.isDBChanged())
+            if(DBOperations.isDBChanged())
             {
                 
                 //update players list
-                playerVect = DB_OBJ.getAllPlayers();
+                playerVect = DBOperations.getAllPlayers();
 
                 //update handlers
                 handlersVect = PlayerHandler.getOnlinePlayerHandlers();
@@ -64,12 +64,17 @@ public class UpdatesHandler extends Thread{
     {
         //construct json array
         JSONArray jsonArray = playerListToJSONArray(playerList);
+        JSONObject json = new JSONObject();
+
+        json.put("type", Requests.UPDATE_LIST);
+        json.put("list", jsonArray);
         
+
         //Broadcast the json array
         for(PlayerHandler handler: handlersVect)
         {
             try {
-                handler.getOutputStream().writeUTF(jsonArray.toJSONString());
+                handler.getOutputStream().writeUTF(json.toString());
             } catch (IOException ex) {
                 
                 //Client has dropped remove this client
@@ -82,12 +87,13 @@ public class UpdatesHandler extends Thread{
     {
         //Construct json array
         JSONArray jsonPlayersList = new JSONArray();
-    
+        
         for (Player playerInfo : playerList)
         {
             jsonPlayersList.add(playerToJson(playerInfo));   
         }
         
+
         return jsonPlayersList;
     }
     
@@ -97,7 +103,7 @@ public class UpdatesHandler extends Thread{
        
        json.put("username", player.getUsername());
        json.put("score", player.getScore());
-       json.put("status", player.getStatus());
+       json.put("status", player.getStatus().toString());
        json.put("avatar", player.getAvatar());
        
        return json;

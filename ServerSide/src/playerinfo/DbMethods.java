@@ -90,7 +90,7 @@ public abstract class DbMethods {
         return PlayerModel.selectPlayerWhereUsrPass(_username, _passwd);
     }
     public static Vector<Player> getAllRecords(String _status ){
-        return PlayerModel.selectAllWhereStatus(_status) ;
+        return PlayerModel.selectAllWhereStatus(_status);
     }
     public static Vector<Player> getAllRecords(){   
         return PlayerModel.selectAllPlayers() ;

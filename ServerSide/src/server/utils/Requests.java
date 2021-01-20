@@ -17,11 +17,15 @@ public class Requests {
     public static final String SIGN_OUT = "signout";
 
     //Game playing related
-    public static final String PLAY_INVITATION = "player invite";
-    public static final String UPDATE_SCORE = "update score";
+    public static final String SEND_INVITATION = "invitePlayer";
+    public static final String RECEIVE_INVITATION = "invitation";
+    public static final String UPDATE_SCORE = "updateScore";
     
     //Unkown requests
     public static final String UNKNOWN = "unknown";
+    
+    //List
+    public static final String UPDATE_LIST = "updateList";
     
 }
 

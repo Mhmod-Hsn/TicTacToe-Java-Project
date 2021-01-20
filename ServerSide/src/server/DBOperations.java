@@ -15,7 +15,7 @@ import playerinfo.Player;
  * @author ahmed mamoduh 2
  */
 
-public class AppDbOperation {
+public abstract class DBOperations {
     //indicates if the db is updated from the last check
     private static boolean isDBChanged = false;
     
@@ -36,7 +36,7 @@ public class AppDbOperation {
         isDBChanged = false;
     }
     
-    public Player login(String username, String password){
+    public static Player login(String username, String password){
         Player p = DbMethods.getPlayer(username, password);
         
         if (p != null) {
@@ -49,11 +49,11 @@ public class AppDbOperation {
         return p;
     }
 
-    public boolean isUserExists(String username, String password){
+    public static boolean isUserExists(String username, String password){
         return DbMethods.isRecordExists(username, password);
     }
     
-    public boolean isLoggedIn(String username, String password){
+    public static boolean isLoggedIn(String username, String password){
         String status = DbMethods.getStatus(username);
         
         if ( status.equals("online") || status.equals("busy")) 
@@ -64,18 +64,18 @@ public class AppDbOperation {
         return false;
     }
     
-    public boolean logout (String username)
+    public static boolean logout (String username)
     {
         //assign the db changed flag 
         isDBChanged = true;
         return DbMethods.updateStatus(username, (Player.statusType.offline).toString());
     }
     
-    public boolean updatePlayerScore (String username, long newScore)
+    public static boolean updatePlayerScore (String username, long newScore)
     {
         return (DbMethods.updateScore(username, newScore));
     }
-    public Player register(String username, String password){
+    public static Player register(String username, String password){
         
         Player newPlayer = new Player(username, password);
         
@@ -95,19 +95,19 @@ public class AppDbOperation {
         return null;  
     }
 
-    public Vector <Player> getAllPlayers()
+    public static Vector <Player> getAllPlayers()
     {
-        return DbMethods.getAllRecords();
+        return DbMethods.getAllOrderedDesc("score");
     }
     
-    public boolean setAllOffline()
+    public static boolean setAllOffline()
     {
         //assign the db changed flag 
         isDBChanged = true;
         return DbMethods.updateStatus(Player.statusType.offline.toString());
     }
     
-    public Vector <Player> getOnlinePlayers()
+    public static Vector <Player> getOnlinePlayers()
     {
         Vector<Player> onlinePlayers = DbMethods.getAllRecords(Player.statusType.online.toString());
              
@@ -116,12 +116,12 @@ public class AppDbOperation {
         return onlinePlayers;
     }
     
-    public Vector <Player> getBusyPlayers()
+    public static Vector <Player> getBusyPlayers()
     {
         return DbMethods.getAllRecords(Player.statusType.busy.toString());
     }
     
-    public Vector <Player> getOfflinePlayers()
+    public static Vector <Player> getOfflinePlayers()
     {
         return DbMethods.getAllRecords(Player.statusType.offline.toString());
     }

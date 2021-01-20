@@ -23,7 +23,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import server.AppDbOperation;
+import server.DBOperations;
 import server.utils.Requests;
 /**
  *
@@ -42,9 +42,7 @@ public class PlayerHandler extends Thread{
     
     private JSONObject json;
     private JSONParser parser;
-    
-    private AppDbOperation dbObj;
-    
+        
     private static Vector <PlayerHandler> onlinePlayerHandlers = new Vector <>();
     
     public PlayerHandler ()
@@ -56,9 +54,7 @@ public class PlayerHandler extends Thread{
     {
         this.playerSocket = socket;
         this.player = playerInfo;
-        
-        dbObj = new AppDbOperation();
-        
+                
         json = new JSONObject();
         parser = new JSONParser();
         
@@ -109,10 +105,16 @@ public class PlayerHandler extends Thread{
         }
     }
     
+    public Player getPlayerInfo(){
+        return player;
+    }
     
 
     public DataOutputStream getOutputStream() {
         return outputStream;
+    }
+    public DataInputStream getInputStream() {
+        return inputStream;
     }
 
     public static Vector<PlayerHandler> getOnlinePlayerHandlers() {
@@ -124,7 +126,7 @@ public class PlayerHandler extends Thread{
         onlinePlayerHandlers.clear();
     }
     
-    private JSONObject playerToJson(Player player)
+    public JSONObject playerToJson(Player player)
     {
        JSONObject json = new JSONObject();
        
@@ -155,7 +157,7 @@ public class PlayerHandler extends Thread{
                 signOut();
                 break;
                 
-            case Requests.PLAY_INVITATION:
+            case Requests.SEND_INVITATION:
                // playerInvite(this.player.getUsername());
                 break;
             
@@ -178,7 +180,7 @@ public class PlayerHandler extends Thread{
     
     private boolean updatePlayerScore(long newScore)
     {
-        return (dbObj.updatePlayerScore(player.getUsername(), newScore));
+        return (DBOperations.updatePlayerScore(player.getUsername(), newScore));
     }
     
     private void signOut()
@@ -192,7 +194,7 @@ public class PlayerHandler extends Thread{
         try {
             
             //Signout this player
-            dbObj.logout(player.getUsername());
+            DBOperations.logout(player.getUsername());
             
             //remove this current player from online vector
             onlinePlayerHandlers.remove(this);
