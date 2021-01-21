@@ -14,9 +14,10 @@ public class Requests {
     //Authentication related
     public static final String SIGN_IN = "signin";
     public static final String SIGN_UP = "signup";
+    public static final String CLOSE = "close";
     public static final String SIGN_OUT = "signout";
 
-    //Game playing related
+    //Game related
     public static final String SEND_INVITATION = "invitePlayer";
     public static final String RECEIVE_INVITATION = "invitation";
     public static final String UPDATE_SCORE = "updateScore";

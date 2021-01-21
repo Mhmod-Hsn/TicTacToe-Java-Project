@@ -13,17 +13,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.net.Socket;
 
-import server.utils.Errors;
-import server.utils.Requests;
+import server.utils.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  *
@@ -33,7 +30,6 @@ import java.util.logging.Logger;
 public class AuthenHandler extends Thread {
     
     Socket socket;
-    UserRequestInfo userReqInfo;
     String errorMsg;
     JSONObject jsonObj;
     Player curPlayer;
@@ -50,12 +46,7 @@ public class AuthenHandler extends Thread {
             //Create the input and output channels
             inputStream = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
-            
-            
-            //create object of the request
-            userReqInfo = new UserRequestInfo();
-            
-            
+
             //Start the thread
             this.start();
             
@@ -72,47 +63,11 @@ public class AuthenHandler extends Thread {
         while (true)
         {
             try {
-                
-                isRequestValid = parseToUserReq(inputStream.readUTF());
-                
-                if (isRequestValid) //valid signin/signup request
-                {
-                    if (userReqInfo.isSignIn()) //Sign in request
-                    {
-                        Player result = signIn(userReqInfo.getUname(),userReqInfo.getPassword());
-                        
-                        if (userRequestResponse(result, Requests.SIGN_IN)) {
-                            
-                            new PlayerHandler(socket, result);
-                            
-                            System.out.println("Client has signed in");
-                            this.close();
-                        }else
-                            System.out.println("Sign in rejected " + errorMsg);
-                        
-                    }
-                    
-                    else//Sign up request
-                    {
-                        Player result = signUp(userReqInfo.getUname(),userReqInfo.getPassword());
-                        
-                        if (userRequestResponse(result, Requests.SIGN_UP)) {
-                            
-                            new PlayerHandler(socket, result);
-                            
-                            System.out.println("Client has signed up");
-                            this.close();
-                        }else
-                            System.out.println("Sign up rejected " + errorMsg);
-                        
-                    }
-                    
-                }
-                else //invalid request  
-                {   
-                    //respond with error message (invalid) to the type (unknown)
-                    outputStream.writeUTF(errorToJson(Requests.UNKNOWN,Errors.INVALID).toString());
-                }
+                //handle user requests
+                jsonObj = userRequestHandler(inputStream.readUTF());
+
+                //send response to the user               
+                outputStream.writeUTF(jsonObj.toString());
                 
                 //Connection Drop
             } catch (IOException ex) { 
@@ -125,100 +80,94 @@ public class AuthenHandler extends Thread {
                     System.out.println("Couldn't close the socket.");
                     }
                 close();
+            } catch (ParseException ex) {
+                Logger.getLogger(AuthenHandler.class.getName()).log(Level.SEVERE, null, ex);
             } 
         }
     }
     
-    private JSONObject errorToJson(String type, String errorMsg)
+    
+    private JSONObject userRequestHandler(String jsonStr) throws ParseException, IOException
     {
-        //Construct the json object
-        JSONObject json = new JSONObject();
         
-        //add the relevent fields
-        json.put("type",type);
-        json.put("responseStatus",false);
-        json.put("errorMsg",errorMsg);
-        
-        return json;
-    }
-    
-    private boolean parseToUserReq(String jsonStr)
-    {
-        JSONParser parser = new JSONParser();
-        
-        try {
-            JSONObject json = (JSONObject)parser.parse(jsonStr);
-            
-            //Signin request
-            if (Requests.SIGN_IN.equals((String)json.get("type")))
-            {
-                userReqInfo.setIsSignIn((true));
-            }
-            //signup request
-            else if (Requests.SIGN_UP.equals((String)json.get("type")))
-            {
-                userReqInfo.setIsSignIn((false));
-            }
-            else //Unknown request
-            {
-                return false;
-            }
-            
-            userReqInfo.setPassword((String)json.get("password"));
-            userReqInfo.setUname((String)json.get("username"));
-            
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-        
-        return true;
-    }
-    
-    
-    private JSONObject playerToJson(Player player)
-    {   
-        JSONObject json = new JSONObject();
-//        json.put("id", player.getPid());
-        json.put("username", player.getUsername());
-        json.put("status", player.getStatus().toString());
-        json.put("score", player.getScore());
-        json.put("avatar", player.getAvatar());
-        
-        return json;
-    }
-    
-    private boolean userRequestResponse(Player player, String requestType) throws IOException{
-        if (player != null) {
-            jsonObj =  playerToJson(player);
-            jsonObj.put("type", requestType);
-            jsonObj.put("responseStatus", true);
-            
-            outputStream.writeUTF(jsonObj.toString());
-            
-            return true;
-        }
-        else{
-            outputStream.writeUTF(errorToJson(requestType, errorMsg).toString());
-            
-            return false;
-        }
 
-    }
-     
+        JSONObject responseJsonObj = JSONHandeling.parseStringToJson(jsonStr);
+        Player playerInfo;
 
+        //findout which request
+        String requestType = (String)responseJsonObj.get("type");
+        
+        switch (requestType)
+        {
+            //sign in pr sign up request
+            case (Requests.SIGN_IN): case(Requests.SIGN_UP):
+                
+                if (requestType.equals(Requests.SIGN_IN))
+                {
+                    playerInfo = signIn((String)responseJsonObj.get("username"),(String)responseJsonObj.get("password"));
+                }
+                else 
+                {
+                    playerInfo = signUp((String)responseJsonObj.get("username"),(String)responseJsonObj.get("password"));
+                }
+
+                //valid sign in
+                if (playerInfo != null) 
+                {
+                    //construct the player info
+                    responseJsonObj = JSONHandeling.playerToJson(playerInfo);
+
+                    //add the json response construction
+                    responseJsonObj = JSONHandeling.constructJsonResponse(responseJsonObj, requestType);
+
+                    System.out.println("Client has signed in");
+
+                    signInRoutine(playerInfo);
+                }
+                
+                //already signed in or doesn't exist
+                else
+                {
+                    responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
+                    System.out.println(requestType+" rejected: error msg [" + errorMsg+ " ]");
+                }
+                break;
+
+
+            //close request
+            case (Requests.CLOSE):
+                
+                //Terminate this thread
+                System.out.println("Client closed");
+                this.close(); 
+                break;
+
+            //unknown request
+            default:
+                System.out.println("Unkown request");
+                responseJsonObj = JSONHandeling.errorToJson(Requests.UNKNOWN, Errors.INVALID); 
+                break;
+        } 
+            //output the result
+            return responseJsonObj;
+    }
+    
     private Player signIn(String uname, String password)
     {
-        if (DBOperations.isUserExists(uname, password)) {
-            if (DBOperations.isLoggedIn(uname, password)) {
+        if (DBOperations.isUserExists(uname, password)) 
+        {
+            if (DBOperations.isLoggedIn(uname, password)) 
+            {
                 errorMsg = Errors.SIGNNED_IN;
-                System.out.println("already logged in");
-            }else{
+            }
+            else
+            {
                return DBOperations.login(uname, password);
             }
-        }else{
+        }
+        else
+        {
             errorMsg = Errors.NOT_EXIST;
-            System.out.println("Not Exist");
         }
         return null;
     }
@@ -226,62 +175,26 @@ public class AuthenHandler extends Thread {
     private Player signUp (String uname, String password)
     {
         curPlayer = DBOperations.register(uname, password);
+        
         if (curPlayer == null)
+        {
             errorMsg = Errors.EXISTS;
+        }
         return curPlayer;
     }
     
- 
+   private void signInRoutine (Player playerInfo) throws IOException
+    {
+        // init the player handler 
+        new PlayerHandler(this.socket, playerInfo);
+        
+        this.close();
+    }
     
+   
     public void close()
     {
-        this.stop();
         System.out.println("Authentication handler closed");
-    }
-}
-
-
-class UserRequestInfo {
-    
-    private String uname;
-    private String password;
-    private boolean isSignIn;
-    
-
-    
-    public UserRequestInfo(String uname, String password, boolean isSignIn) {
-        this.password = password;
-        this.uname = uname;
-        this.isSignIn = isSignIn;
-    }
-
-    public UserRequestInfo() {
-        this.password = null;
-        this.uname = null;
-        this.isSignIn = false;
-    }
-        
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUname() {
-        return uname;
-    }
-
-    public void setUname(String uname) {
-        this.uname = uname;
-    }
-
-    public boolean isSignIn() {
-        return isSignIn;
-    }
-
-    public void setIsSignIn(boolean isSignIn) {
-        this.isSignIn = isSignIn;
+        this.stop();
     }
 }
