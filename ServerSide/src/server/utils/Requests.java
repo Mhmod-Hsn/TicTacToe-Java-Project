@@ -21,6 +21,7 @@ public class Requests {
     public static final String SEND_INVITATION = "invitePlayer";
     public static final String RECEIVE_INVITATION = "invitation";
     public static final String UPDATE_SCORE = "updateScore";
+    public static final String UPDATE_STATUS = "updateStatus";
     
     //Unkown requests
     public static final String UNKNOWN = "unknown";

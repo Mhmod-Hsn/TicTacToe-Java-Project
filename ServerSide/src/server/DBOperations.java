@@ -75,6 +75,12 @@ public abstract class DBOperations {
     {
         return (DbMethods.updateScore(username, newScore));
     }
+    
+    public static boolean updatePlayerStatus (String username, String newScore)
+    {
+        return (DbMethods.updateStatus(username, newScore));
+    }
+    
     public static Player register(String username, String password){
         
         Player newPlayer = new Player(username, password);
@@ -94,6 +100,7 @@ public abstract class DBOperations {
         
         return null;  
     }
+    
 
     public static Vector <Player> getAllPlayers()
     {
@@ -125,7 +132,6 @@ public abstract class DBOperations {
     {
         return DbMethods.getAllRecords(Player.statusType.offline.toString());
     }
-    
     
     
     

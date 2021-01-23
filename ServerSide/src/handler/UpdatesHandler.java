@@ -5,14 +5,17 @@
  */
 package handler;
 
-import java.io.IOException;
+
 import java.util.Vector;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+
 import playerinfo.Player;
 import server.DBOperations;
-import server.utils.Requests;
+import server.utils.*;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.IOException;
 /**
  *
  * @author Hossam
@@ -44,12 +47,12 @@ public class UpdatesHandler extends Thread{
                 handlersVect = PlayerHandler.getOnlinePlayerHandlers();
 
                 //Notify all players
-                notifyNewPlayerList(playerVect);
+                //notifyNewPlayerList(playerVect);
             }
            // if not skip this iteration
 
             try {
-                sleep(1000);
+                sleep(500);
             } catch (InterruptedException ex) {
 
             }
@@ -63,7 +66,7 @@ public class UpdatesHandler extends Thread{
     private void notifyNewPlayerList(Vector <Player> playerList)
     {
         //construct json array
-        JSONArray jsonArray = playerListToJSONArray(playerList);
+        JSONArray jsonArray = JSONHandeling.playerListToJSONArray(playerList);
         JSONObject json = new JSONObject();
 
         json.put("type", Requests.UPDATE_LIST);
@@ -81,32 +84,6 @@ public class UpdatesHandler extends Thread{
                 handler.close();
             }
         }
-    }
-    
-    private JSONArray playerListToJSONArray(Vector <Player> playerList)
-    {
-        //Construct json array
-        JSONArray jsonPlayersList = new JSONArray();
-        
-        for (Player playerInfo : playerList)
-        {
-            jsonPlayersList.add(playerToJson(playerInfo));   
-        }
-        
-
-        return jsonPlayersList;
-    }
-    
-    private JSONObject playerToJson(Player player)
-    {
-       JSONObject json = new JSONObject();
-       
-       json.put("username", player.getUsername());
-       json.put("score", player.getScore());
-       json.put("status", player.getStatus().toString());
-       json.put("avatar", player.getAvatar());
-       
-       return json;
     }
     
     public void close()

@@ -5,22 +5,19 @@
  */
 package handler;
 
-import server.DBOperations;
-import playerinfo.Player;
-import java.io.IOException;
 
+import java.net.Socket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-import java.net.Socket;
-
+import server.DBOperations;
+import playerinfo.Player;
 import server.utils.*;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.json.simple.JSONObject;
+
+import java.io.IOException;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -59,7 +56,6 @@ public class AuthenHandler extends Thread {
     @Override
     public void run()
     {
-        
         while (true)
         {
             try {
@@ -71,17 +67,11 @@ public class AuthenHandler extends Thread {
                 
                 //Connection Drop
             } catch (IOException ex) { 
-                System.out.println("Dropped client");
-                
-                try {
-                    //close this socket and end this thread
-                    socket.close();
-                } catch (IOException ex1) {
-                    System.out.println("Couldn't close the socket.");
-                    }
+                System.out.println("[AuthenHandler] Client connection dropped");
                 close();
             } catch (ParseException ex) {
-                Logger.getLogger(AuthenHandler.class.getName()).log(Level.SEVERE, null, ex);
+               System.out.println("[AuthenHandler] Parse Exception");
+               System.out.println(jsonObj);
             } 
         }
     }
@@ -89,26 +79,26 @@ public class AuthenHandler extends Thread {
     
     private JSONObject userRequestHandler(String jsonStr) throws ParseException, IOException
     {
+        jsonObj =  JSONHandeling.parseStringToJson(jsonStr);
+        JSONObject responseJsonObj = new JSONObject();
         
-
-        JSONObject responseJsonObj = JSONHandeling.parseStringToJson(jsonStr);
         Player playerInfo;
 
         //findout which request
-        String requestType = (String)responseJsonObj.get("type");
+        String requestType = (String)jsonObj.get("type");
         
         switch (requestType)
         {
-            //sign in pr sign up request
+            //sign in or sign up request
             case (Requests.SIGN_IN): case(Requests.SIGN_UP):
                 
                 if (requestType.equals(Requests.SIGN_IN))
                 {
-                    playerInfo = signIn((String)responseJsonObj.get("username"),(String)responseJsonObj.get("password"));
+                    playerInfo = signIn((String)jsonObj.get("username"),(String)jsonObj.get("password"));
                 }
                 else 
                 {
-                    playerInfo = signUp((String)responseJsonObj.get("username"),(String)responseJsonObj.get("password"));
+                    playerInfo = signUp((String)jsonObj.get("username"),(String)jsonObj.get("password"));
                 }
 
                 //valid sign in
@@ -121,7 +111,10 @@ public class AuthenHandler extends Thread {
                     responseJsonObj = JSONHandeling.constructJsonResponse(responseJsonObj, requestType);
 
                     System.out.println("Client has signed in");
-
+                    
+                    //send response to the user               
+                    outputStream.writeUTF(responseJsonObj.toString());
+                    
                     signInRoutine(playerInfo);
                 }
                 
@@ -144,7 +137,7 @@ public class AuthenHandler extends Thread {
 
             //unknown request
             default:
-                System.out.println("Unkown request");
+                System.out.println("Unknown request");
                 responseJsonObj = JSONHandeling.errorToJson(Requests.UNKNOWN, Errors.INVALID); 
                 break;
         } 
@@ -187,14 +180,26 @@ public class AuthenHandler extends Thread {
     {
         // init the player handler 
         new PlayerHandler(this.socket, playerInfo);
-        
-        this.close();
+        //stop this thread
+        this.stop();
     }
     
-   
     public void close()
     {
-        System.out.println("Authentication handler closed");
-        this.stop();
+
+       try {
+            System.out.println("Authentication handler closed");
+            
+            //Close the connection
+            socket.close();
+
+            //close this thread
+            this.stop();
+
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("[AuthenHandler] user socket can't be closed.");
+        }
     }
 }

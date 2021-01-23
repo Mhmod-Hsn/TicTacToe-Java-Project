@@ -6,26 +6,23 @@
 package handler;
 
 
-import playerinfo.Player;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
-import java.io.IOException;
-
 import java.net.Socket;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import playerinfo.Player;
+import server.DBOperations;
+import server.utils.*;
 
 import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.JSONParser;
+
 import org.json.simple.parser.ParseException;
-import server.DBOperations;
-import server.utils.Errors;
-import server.utils.Requests;
+import java.io.IOException;
+
 /**
  *
  * @author Hossam
@@ -36,12 +33,12 @@ public class PlayerHandler extends Thread{
     private Socket playerSocket;
     private Player player;
     
-    private Player playerRequest;
-    
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
     
-    private JSONObject json;
+    private String errorMsg;
+    
+    private JSONObject jsonObj;
     private JSONParser parser;
         
     private static Vector <PlayerHandler> onlinePlayerHandlers = new Vector <>();
@@ -72,25 +69,29 @@ public class PlayerHandler extends Thread{
                 senderJson = new JSONObject();
 
                 //Construct invitation json object
-                receiverJson = senderPlayerHandler.playerToJson(senderPlayerHandler.getPlayerInfo());
-                receiverJson.put("type", Requests.RECEIVE_INVITATION);
+                receiverJson = JSONHandeling.playerToJson(senderPlayerHandler.getPlayerInfo());
+                receiverJson = JSONHandeling.addToJsonObject(receiverJson,"type", Requests.RECEIVE_INVITATION);
 
                 //Send invitation to player 2
                 receiverPlayerHandler.getOutputStream().writeUTF(receiverJson.toString());
 
                 //wait for response on the same request from player 2
                 do {
-                    receiverJson = parseStrToJson(receiverPlayerHandler.getInputStream().readUTF());
+ 
+                    receiverJson = JSONHandeling.parseStringToJson(receiverPlayerHandler.getInputStream().readUTF());
+                    System.out.println(receiverJson.toString());
+                    
                 } while (!receiverJson.get("type").equals(Requests.RECEIVE_INVITATION));
 
-                //Construct response for player 1 (in case of valid delivery)
-                senderJson = receiverPlayerHandler.playerToJson(receiverPlayerHandler.getPlayerInfo());
                 
-                senderJson.put("type", Requests.SEND_INVITATION);
-                senderJson.put("responseStatus", true);
-                senderJson.put("errorMsg", "");
-                senderJson.put("invitationStatus", (boolean) receiverJson.get("invitationStatus"));
+                
+                //Construct response for player 1 (in case of valid delivery)
+                senderJson = JSONHandeling.playerToJson(receiverPlayerHandler.getPlayerInfo());
+                senderJson = JSONHandeling.constructJsonResponse(senderJson ,Requests.SEND_INVITATION);
+                receiverJson = JSONHandeling.addToJsonObject(receiverJson,"invitationStatus"
+                        ,(boolean) receiverJson.get("invitationStatus"));
 
+                //send the response to the sender player
                 senderPlayerHandler.getOutputStream().writeUTF(senderJson.toString());
 
                 //establish game if the invitation is accepted
@@ -98,25 +99,24 @@ public class PlayerHandler extends Thread{
                     // Start Game 
                 }
                 
+                //close this thrad 
+                close();
+                
             } catch (IOException ex) {
                 //Conection Failed
-                System.out.println("Connection failed to close game from gamee stablish handler");
-                Logger.getLogger(GameEstablishHandler.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("[GameEstablishHandler] Player connection dropped");
+                close();
             } catch (ParseException ex) {
-                Logger.getLogger(GameEstablishHandler.class.getName()).log(Level.SEVERE, null, ex);
+               System.out.println("[GameEstablishHandler] Parse Exception");
+               ex.printStackTrace();
             }   
         }
 
         public void close()
         {
-            this.stop();
             System.out.println("GameEstablishHander closed");
+            this.stop(); 
         }
-    }
-    
-    public PlayerHandler ()
-    {
-        
     }
     
     public PlayerHandler(Socket socket, Player playerInfo)
@@ -124,7 +124,7 @@ public class PlayerHandler extends Thread{
         this.playerSocket = socket;
         this.player = playerInfo;
                 
-        json = new JSONObject();
+        jsonObj = new JSONObject();
         parser = new JSONParser();
         
         try {
@@ -139,7 +139,7 @@ public class PlayerHandler extends Thread{
             this.start();
             
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Client dropped in PlayerHandler");
             close();
         }
     }
@@ -150,7 +150,22 @@ public class PlayerHandler extends Thread{
         //Listen to the requests of the players
         while (true)
         {
+            try {
+                //handle user requests
+                jsonObj = playerRequestHandler(inputStream.readUTF());
 
+                //send response to the user               
+                outputStream.writeUTF(jsonObj.toString());
+                
+                //Connection Drop
+            } catch (IOException ex) { 
+                System.out.println("[PlayerHandler]: player connection dropped"); 
+                close();
+                
+            } catch (ParseException ex) {
+                System.out.println("[PlayerHandler]: Parse Exception"); 
+                System.out.println(jsonObj);
+            } 
         }
     }
     
@@ -164,6 +179,7 @@ public class PlayerHandler extends Thread{
     public DataInputStream getInputStream() {
         return inputStream;
     }
+    
     public static Vector<PlayerHandler> getOnlinePlayerHandlers() {
         return onlinePlayerHandlers;
     }
@@ -193,80 +209,157 @@ public class PlayerHandler extends Thread{
             System.out.println("[PlayerHandler] Player socket can't be closed.");
         }
     }
+    
     //empty the online list
-    public void resetHandlers()
+    public static void resetHandlers()
     {
         onlinePlayerHandlers.clear();
     }
     
 
-    //Methods used for json object handeling
-    
-    //convert player object to json object
-    public JSONObject playerToJson(Player player)
-    {
-       JSONObject json = new JSONObject();
-       
-       json.put("username", player.getUsername());
-       json.put("score", player.getScore());
-       json.put("Status", player.getStatus());
-       json.put("avatar", player.getAvatar());
-       
-       return json;
-    }
-    //convert string to json object
-    private JSONObject parseStrToJson(String jsonStr) throws ParseException
-    {
-        JSONParser parser = new JSONParser();
-        
-        JSONObject json = (JSONObject)parser.parse(jsonStr);
-        
-        return json;
-    }
-    
-    
     //Players Requests handeling
-    
-    private boolean handlePlayerRequest(JSONObject json)
+    private JSONObject playerRequestHandler(String jsonStr) throws ParseException
     {
-
-        switch ((String)json.get("type"))
+        jsonObj = JSONHandeling.parseStringToJson(jsonStr);
+        JSONObject responseJsonObj = new JSONObject();
+        
+        //findout which request
+        String requestType = (String)jsonObj.get("type");
+        
+        //is the request proccessed successfully 
+        boolean isSuccess = false;
+        
+        switch (requestType)
         {
             //Signout request
             case Requests.SIGN_OUT:
-                signOut();
+                //signout from the account
+                System.out.println("Player loggedout");
+                close();
+                isSuccess = true;
                 break;
                 
+            //Send invitation request
             case Requests.SEND_INVITATION:
-               // playerInvite(this.player.getUsername());
+                //send invitation to another player
+                isSuccess = playerInvite(jsonObj.get("username").toString());
                 break;
             
-            case Requests.UPDATE_SCORE:
-                
-                updatePlayerScore((long)json.get("score"));
+            //update status request
+            case Requests.UPDATE_STATUS:
+                //update the player status
+                isSuccess = updatePlayerStatus(jsonObj.get("status").toString());
+                break;
+            
+            //update score request   
+            case Requests.UPDATE_SCORE:       
+                //update the player score
+                isSuccess =  updatePlayerScore((long)jsonObj.get("score"));
                 break;
                 
+            //Unknown request
             default:
-                return false;
+                requestType =  Requests.UNKNOWN;
+                errorMsg = Errors.INVALID;
+                isSuccess = false;
+                
+                break;
+        }
+        
+        if (isSuccess)
+        {
+            responseJsonObj = JSONHandeling.constructJsonResponse(responseJsonObj, requestType);
+            System.out.println("Player Request [ "+requestType+"] is a success");
+        }
+        else 
+        {
+            responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
+            System.out.println("Player Request [ "+requestType+"] is a faliure");
         }
 
-        return true;
+        return responseJsonObj;
     }
+    
     //invite player request
-    private boolean playerInvite()
+    private boolean playerInvite(String username)
     {
+        PlayerHandler playerToInvite = isPlayerHandlerExists(username);
+        errorMsg = "";
+                
+        //player wasn't found
+        if (playerToInvite == null)
+        {
+            errorMsg = Errors.NOT_EXIST;
+            return false;
+        }
+        //check if player is not online
+        if (! playerToInvite.getPlayerInfo().getStatus().toString().equals("online"))
+        {
+            errorMsg = Errors.BUSY;
+            return false;
+        }
+        //start game Game Establish thread
+        new GameEstablishHandler (this, playerToInvite);
         return true;
     }
+     
     //update player score request
     private boolean updatePlayerScore(long newScore)
     {
-        return (DBOperations.updatePlayerScore(player.getUsername(), newScore));
-    }
-    //signout request
-    private void signOut()
-    {
-        //signout successfully
-        this.close();
-    }
+        errorMsg = "";
+        
+        if (! DBOperations.updatePlayerScore(player.getUsername(), newScore))
+        {
+            errorMsg = Errors.NOT_EXIST;
+            return false;
+        }
+        //update current player
+        this.player.setScore(newScore);
 
+        return true;
+    }
+    
+    //update player status
+    private boolean updatePlayerStatus(String newStatus)
+    {   
+        errorMsg = "";
+        
+        //check allowed status
+        if ( ! (newStatus.equals(Player.statusType.busy.toString()) ||
+            newStatus.equals(Player.statusType.online.toString())))
+        {
+            errorMsg = Errors.INVALID;
+            return false;
+        }
+        if (! DBOperations.updatePlayerStatus(player.getUsername(),newStatus))
+        {
+            errorMsg = Errors.NOT_EXIST;
+            return false;
+        }
+        
+        //update current status
+        if (newStatus.equals(Player.statusType.busy.toString()))
+        {
+            this.player.setStatus(Player.statusType.busy);
+        }
+        else 
+        {
+            this.player.setStatus(Player.statusType.online);
+        }
+        return true;
+    }
+    
+    //Check if a player is online
+    private PlayerHandler isPlayerHandlerExists (String  username)
+    {
+        for (PlayerHandler handler : onlinePlayerHandlers)
+        {
+            if (handler.getPlayerInfo().getUsername().equals(username))
+            {
+                return handler;
+            }
+        }
+        //player was not found
+        return null;
+    }
 }

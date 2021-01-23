@@ -5,6 +5,8 @@
  */
 package server.utils;
 
+import java.util.Vector;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -73,5 +75,16 @@ public abstract class JSONHandeling {
         return jsonObj;
     }
     
+    public static JSONArray playerListToJSONArray(Vector <Player> playerList)
+    {
+        //Construct json array
+        JSONArray jsonPlayersList = new JSONArray();
+        
+        playerList.forEach((playerInfo) -> {
+            jsonPlayersList.add(playerToJson(playerInfo));
+        });
+        
+        return jsonPlayersList;
+    }
     
 }

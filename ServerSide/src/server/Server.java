@@ -6,16 +6,18 @@
 package server;
 
 
-import java.io.IOException;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import server.utils.ServerUtils;
-        
+import handler.*;      
+
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import handler.*;
+
 
 
 /**
@@ -27,7 +29,6 @@ public class Server {
     private ServerSocket serverSocket;
     private boolean isServerUp;
     private UpdatesHandler updateHandler;
-    private final PlayerHandler playerHandler = new PlayerHandler();
     
     private ClientAcceptListener clientAcceptListener;
  
@@ -78,7 +79,7 @@ public class Server {
             isServerUp = true;
             
             //reset the online handlers
-             playerHandler.resetHandlers();
+             PlayerHandler.resetHandlers();
              
             //reset all players to offline
             DBOperations.setAllOffline();
