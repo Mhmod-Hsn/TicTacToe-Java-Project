@@ -22,6 +22,8 @@ import org.json.simple.parser.JSONParser;
 
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,10 +31,11 @@ import java.io.IOException;
  */
 
 public class PlayerHandler extends Thread{
-    
-    private Socket playerSocket;
+ 
+    private JSONObject lastRequest;
+    public Socket playerSocket;
     private Player player;
-    
+
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
     
@@ -47,15 +50,14 @@ public class PlayerHandler extends Thread{
 
         PlayerHandler senderPlayerHandler;
         PlayerHandler receiverPlayerHandler;
-        
-        String errorMsg;
+  
         JSONObject senderJson, receiverJson;
 
         public GameEstablishHandler(PlayerHandler senderhHandler, PlayerHandler receiverHandler)
         {
             this.senderPlayerHandler = senderhHandler;
             this.receiverPlayerHandler = receiverHandler;
-
+                       
             //Start the thread
             this.start();   
         }
@@ -74,26 +76,40 @@ public class PlayerHandler extends Thread{
 
                 //Send invitation to player 2
                 receiverPlayerHandler.getOutputStream().writeUTF(receiverJson.toString());
+                
+                System.out.println("sent to player2: "+ receiverJson.toString());
 
+   
                 //wait for response on the same request from player 2
-                do {
- 
-                    receiverJson = JSONHandeling.parseStringToJson(receiverPlayerHandler.getInputStream().readUTF());
-                    System.out.println(receiverJson.toString());
-                    
-                } while (!receiverJson.get("type").equals(Requests.RECEIVE_INVITATION));
+                while(true) {
 
-                
-                
+                    receiverJson = receiverPlayerHandler.getlastRequest();
+                    
+                    if (receiverJson == null)
+                    {
+                        continue;
+                    }
+                    if (receiverJson.get("type").equals(Requests.RECEIVE_INVITATION))
+                    {
+                        break;
+                    }
+                }
+    
+                System.out.println("received from player2: "+ receiverJson.toString());
+               
                 //Construct response for player 1 (in case of valid delivery)
                 senderJson = JSONHandeling.playerToJson(receiverPlayerHandler.getPlayerInfo());
+                
                 senderJson = JSONHandeling.constructJsonResponse(senderJson ,Requests.SEND_INVITATION);
-                receiverJson = JSONHandeling.addToJsonObject(receiverJson,"invitationStatus"
+                
+                senderJson = JSONHandeling.addToJsonObject(senderJson,"invitationStatus"
                         ,(boolean) receiverJson.get("invitationStatus"));
 
                 //send the response to the sender player
                 senderPlayerHandler.getOutputStream().writeUTF(senderJson.toString());
-
+                
+                System.out.println("sent to player1: "+ senderJson.toString());
+                
                 //establish game if the invitation is accepted
                 if ((boolean) receiverJson.get("invitationStatus")) {
                     // Start Game 
@@ -106,10 +122,11 @@ public class PlayerHandler extends Thread{
                 //Conection Failed
                 System.out.println("[GameEstablishHandler] Player connection dropped");
                 close();
-            } catch (ParseException ex) {
-               System.out.println("[GameEstablishHandler] Parse Exception");
-               ex.printStackTrace();
-            }   
+            }
+//            } catch (ParseException ex) {
+//               System.out.println("[GameEstablishHandler] Parse Exception");
+//               ex.printStackTrace();
+//            }   
         }
 
         public void close()
@@ -154,9 +171,11 @@ public class PlayerHandler extends Thread{
                 //handle user requests
                 jsonObj = playerRequestHandler(inputStream.readUTF());
 
-                //send response to the user               
-                outputStream.writeUTF(jsonObj.toString());
-                
+                if (jsonObj != null)
+                {
+                    //send response to the user               
+                    outputStream.writeUTF(jsonObj.toString());
+                }  
                 //Connection Drop
             } catch (IOException ex) { 
                 System.out.println("[PlayerHandler]: player connection dropped"); 
@@ -170,7 +189,12 @@ public class PlayerHandler extends Thread{
     }
     
     //Getters
-    public Player getPlayerInfo(){
+    
+    public JSONObject getlastRequest(){
+        return lastRequest;
+    }
+
+    public Player getPlayerInfo() {
         return player;
     }
     public DataOutputStream getOutputStream() {
@@ -220,17 +244,23 @@ public class PlayerHandler extends Thread{
     //Players Requests handeling
     private JSONObject playerRequestHandler(String jsonStr) throws ParseException
     {
-        jsonObj = JSONHandeling.parseStringToJson(jsonStr);
+        
+        lastRequest = JSONHandeling.parseStringToJson(jsonStr);
         JSONObject responseJsonObj = new JSONObject();
         
-        //findout which request
-        String requestType = (String)jsonObj.get("type");
+        //find out which request
+        String requestType = (String)lastRequest.get("type");
         
         //is the request proccessed successfully 
         boolean isSuccess = false;
         
         switch (requestType)
         {
+            
+            case Requests.RECEIVE_INVITATION:
+                //forward the request
+                return null;
+
             //Signout request
             case Requests.SIGN_OUT:
                 //signout from the account
@@ -242,19 +272,19 @@ public class PlayerHandler extends Thread{
             //Send invitation request
             case Requests.SEND_INVITATION:
                 //send invitation to another player
-                isSuccess = playerInvite(jsonObj.get("username").toString());
+                isSuccess = playerInvite(lastRequest.get("username").toString());
                 break;
             
             //update status request
             case Requests.UPDATE_STATUS:
                 //update the player status
-                isSuccess = updatePlayerStatus(jsonObj.get("status").toString());
+                isSuccess = updatePlayerStatus(lastRequest.get("status").toString());
                 break;
             
             //update score request   
             case Requests.UPDATE_SCORE:       
                 //update the player score
-                isSuccess =  updatePlayerScore((long)jsonObj.get("score"));
+                isSuccess =  updatePlayerScore((long)lastRequest.get("score"));
                 break;
                 
             //Unknown request
@@ -262,7 +292,6 @@ public class PlayerHandler extends Thread{
                 requestType =  Requests.UNKNOWN;
                 errorMsg = Errors.INVALID;
                 isSuccess = false;
-                
                 break;
         }
         
@@ -275,6 +304,7 @@ public class PlayerHandler extends Thread{
         {
             responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
             System.out.println("Player Request [ "+requestType+"] is a faliure");
+            System.out.println("Player Request "+lastRequest+" is a faliure");
         }
 
         return responseJsonObj;
@@ -283,9 +313,10 @@ public class PlayerHandler extends Thread{
     //invite player request
     private boolean playerInvite(String username)
     {
+
         PlayerHandler playerToInvite = isPlayerHandlerExists(username);
         errorMsg = "";
-                
+
         //player wasn't found
         if (playerToInvite == null)
         {
@@ -298,9 +329,12 @@ public class PlayerHandler extends Thread{
             errorMsg = Errors.BUSY;
             return false;
         }
+
         //start game Game Establish thread
         new GameEstablishHandler (this, playerToInvite);
+
         return true;
+
     }
      
     //update player score request
@@ -323,6 +357,11 @@ public class PlayerHandler extends Thread{
     private boolean updatePlayerStatus(String newStatus)
     {   
         errorMsg = "";
+        //fix the (ingame) bug
+        if (newStatus.equals("ingame"))
+        {
+            newStatus = Player.statusType.busy.toString();
+        }
         
         //check allowed status
         if ( ! (newStatus.equals(Player.statusType.busy.toString()) ||

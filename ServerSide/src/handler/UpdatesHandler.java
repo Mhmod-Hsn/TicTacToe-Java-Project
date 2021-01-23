@@ -47,7 +47,7 @@ public class UpdatesHandler extends Thread{
                 handlersVect = PlayerHandler.getOnlinePlayerHandlers();
 
                 //Notify all players
-                notifyNewPlayerList(playerVect);
+                //notifyNewPlayerList(playerVect);
             }
            // if not skip this iteration
 

@@ -161,9 +161,9 @@ public class Player {
           p.setStatus(Player.statusType.valueOf(_rs.getString("status")));
           p.setAvatar((InputStream)null);//_rs.getBlob("avatar").getBinaryStream(0, _rs.getBlob("avatar").length() ));
           p.setScore(_rs.getLong("score"));
-          System.out.println("creating player ok ");
+          ////System.out.println("creating player ok ");
         } catch (SQLException ex) {
-            System.out.println("error creating player");
+            ////System.out.println("error creating player");
             return null ;
         }
         return p;

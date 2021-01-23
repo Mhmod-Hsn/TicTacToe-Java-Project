@@ -29,7 +29,7 @@ public interface  GameModel {
                 int checkNew=db.getStatement().executeUpdate("INSERT INTO players ( username, passwd, email, status, score, avatar) VALUES( '"+_username+"', '"+_passwd+"', '"+_email+"', '"+_status+"', "+_score+", '"+_avatar+"' )"); 
                 db.endStatConnection();
                 if(checkNew >= 1){
-                    System.out.println("new ok ");                
+                    //System.out.println("new ok ");                
                     return true ;
                     /*TestDB2.this.rs=stmt.executeQuery("select * from persontb");
                     refreshPersonList(rs);                            
@@ -39,13 +39,13 @@ public interface  GameModel {
                     newBtn.setText("Saved");*/
 /*                }
                 else{
-                    System.out.println("new error");
+                    //System.out.println("new error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error new");
+                //Systemerr.println("error new");
                 return false ;
             }
     } 
@@ -59,17 +59,17 @@ public interface  GameModel {
                 int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET username= '"+_username+"' , passwd= '"+_passwd+"' , email= '"+_email+"' , status='"+_status+"' , score= "+_score+" ,avatar= '"+_avatar+"' WHERE pid = "+_pid); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
+                    //System.out.println("update ok ");                
                     return true ;
                 }
                 else{
-                    System.out.println("update error");
+                    //System.out.println("update error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
+                //Systemerr.println("error update");
                 return false ;
             }
     } 
@@ -83,17 +83,17 @@ public interface  GameModel {
                 int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET passwd= '"+_passwd+"' , email= '"+_email+"' , status='"+_status+"' , score= "+_score+" ,avatar= '"+_avatar+"' WHERE username = '"+_username+"'"); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
+                    //System.out.println("update ok ");                
                     return true ;
                 }
                 else{
-                    System.out.println("update error");
+                    //System.out.println("update error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
+                //Systemerr.println("error update");
                 return false ;
             }
     } 
@@ -107,17 +107,17 @@ public interface  GameModel {
                 int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET status='"+_status+"' WHERE username = '"+_username+"'"); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
+                    //System.out.println("update ok ");                
                     return true ;
                 }
                 else{
-                    System.out.println("update error");
+                    //System.out.println("update error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
+                //Systemerr.println("error update");
                 return false ;
             }
     } 
@@ -131,17 +131,17 @@ public interface  GameModel {
                 int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET score="+_score+" WHERE username = '"+_username+"'"); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
+                    //System.out.println("update ok ");                
                     return true ;
                 }
                 else{
-                    System.out.println("update error");
+                    //System.out.println("update error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
+                //Systemerr.println("error update");
                 return false ;
             }
     } 
@@ -155,17 +155,17 @@ public interface  GameModel {
                 int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET email= '"+_email+"' , status='"+_status+"' , score= "+_score+" ,avatar= '"+_avatar+"' WHERE username = '"+_username+"' and passwd= '"+_passwd+"'"); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
+                    //System.out.println("update ok ");                
                     return true ;
                 }
                 else{
-                    System.out.println("update error");
+                    //System.out.println("update error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
+                //Systemerr.println("error update");
                 return false ;
             }
     }
@@ -178,17 +178,17 @@ public interface  GameModel {
                 int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET status='"+_status+"' WHERE username = '"+_username+"' and passwd= '"+_passwd+"'"); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
+                    //System.out.println("update ok ");                
                     return true ;
                 }
                 else{
-                    System.out.println("update error");
+                    //System.out.println("update error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
+                //Systemerr.println("error update");
                 return false ;
             }
     }
@@ -201,17 +201,17 @@ public interface  GameModel {
                 int checkUpdate=db.getStatement().executeUpdate("UPDATE players SET score='"+_score+"' WHERE username = '"+_username+"' and passwd= '"+_passwd+"'"); 
                 db.endStatConnection();
                 if(checkUpdate >= 1){
-                    System.out.println("update ok ");                
+                    //System.out.println("update ok ");                
                     return true ;
                 }
                 else{
-                    System.out.println("update error");
+                    //System.out.println("update error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error update");
+                //Systemerr.println("error update");
                 return false ;
             }
     }
@@ -228,7 +228,7 @@ public interface  GameModel {
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE pid="+_pid); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
-                    System.out.println("del ok ");                   
+                    //System.out.println("del ok ");                   
                     return true ;
                     /*TestDB2.this.rs=stmt.executeQuery("select * from persontb");
                     refreshPersonList(rs);                            
@@ -238,13 +238,13 @@ public interface  GameModel {
                     newBtn.setText("Saved");*/
 /*                }
                 else{
-                    System.out.println("del error");
+                    //System.out.println("del error");
                     return false ;
                 }
                 //db.endStatConnection();
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error del");
+                //Systemerr.println("error del");
                 return false ;
             }
     } 
@@ -257,16 +257,16 @@ public interface  GameModel {
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE username= '"+_username+"'"); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
-                    System.out.println("del ok ");                   
+                    //System.out.println("del ok ");                   
                     return true ;
                 }
                 else{
-                    System.out.println("del error");
+                    //System.out.println("del error");
                     return false ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error del");
+                //Systemerr.println("error del");
                 return false ;
             }
     } 
@@ -279,16 +279,16 @@ public interface  GameModel {
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE email= '"+_email+"'"); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
-                    System.out.println("del ok ");                   
+                    //System.out.println("del ok ");                   
                     return true ;
                 }
                 else{
-                    System.out.println("del error");
+                    //System.out.println("del error");
                     return false ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error del");
+                //Systemerr.println("error del");
                 return false ;
             }
     } 
@@ -301,16 +301,16 @@ public interface  GameModel {
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE email= '"+_email+"' and passwd= '"+_passwd+"'"); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
-                    System.out.println("del ok ");                   
+                    //System.out.println("del ok ");                   
                     return true ;
                 }
                 else{
-                    System.out.println("del error");
+                    //System.out.println("del error");
                     return false ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error del");
+                //Systemerr.println("error del");
                 return false ;
             }
     } 
@@ -322,16 +322,16 @@ public interface  GameModel {
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM players WHERE email= '"+_username+"' and passwd= '"+_passwd+"'"); 
                 db.endStatConnection();  // for statment with no resultset
                 if(checkDelete >= 1){
-                    System.out.println("del ok ");                   
+                    //System.out.println("del ok ");                   
                     return true ;
                 }
                 else{
-                    System.out.println("del error");
+                    //System.out.println("del error");
                     return false ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error del");
+                //Systemerr.println("error del");
                 return false ;
             }
     } 
@@ -349,19 +349,19 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
                     Long tmpScore = db.getResultSet().getLong("score") ;
-                    System.out.println(tmpScore);
+                    //System.out.println(tmpScore);
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpScore ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
     }
@@ -377,19 +377,19 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
                     String tmpStatus = db.getResultSet().getString("status") ;
-                    System.out.println(tmpStatus);
+                    //System.out.println(tmpStatus);
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpStatus ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
     }
@@ -404,19 +404,19 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
                     String tmpPasswd = db.getResultSet().getString("passwd") ;
-                    System.out.println(tmpPasswd);
+                    //System.out.println(tmpPasswd);
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpPasswd ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
     }
@@ -432,18 +432,18 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return false ;
                 }
                 else{
-                    System.out.println("true select");
+                    //System.out.println("true select");
                     db.endResultSet();
                     db.endStatConnection();
                     return true ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return false ;
             }
     }
@@ -459,19 +459,19 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
                     Player p = Player.createPlayer(db.getResultSet());
-                    System.out.println("true select");
+                    //System.out.println("true select");
                     db.endResultSet();
                     db.endStatConnection();
                     return p ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
     } 
@@ -487,19 +487,19 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
                     String tmpEmail = db.getResultSet().getString("email") ;
-                    System.out.println(tmpEmail);
+                    //System.out.println(tmpEmail);
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpEmail ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
     }
@@ -515,19 +515,19 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
                     Long tmpScore = db.getResultSet().getLong("score") ;
-                    System.out.println(tmpScore);
+                    //System.out.println(tmpScore);
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpScore ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
     }
@@ -544,19 +544,19 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
                     String tmpStatus = db.getResultSet().getString("status") ;
-                    System.out.println(tmpStatus);
+                    //System.out.println(tmpStatus);
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpStatus ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
       }
@@ -575,7 +575,7 @@ public interface  GameModel {
                 if(db.getResultSet().next() == false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
@@ -585,14 +585,14 @@ public interface  GameModel {
                     while(db.getResultSet().next()){
                         tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     }
-                    System.out.println("true Array");
+                    //System.out.println("true Array");
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpUsrs ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
       }
@@ -609,7 +609,7 @@ public interface  GameModel {
                 if(db.getResultSet().isBeforeFirst()== false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
@@ -618,14 +618,14 @@ public interface  GameModel {
                     while(db.getResultSet().next()){
                         tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     }
-                    System.out.println("true Array");
+                    //System.out.println("true Array");
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpUsrs ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
       }
@@ -642,7 +642,7 @@ public interface  GameModel {
                 if(db.getResultSet().isBeforeFirst()== false){
                     db.endResultSet();
                     db.endStatConnection();
-                    System.err.println("false select");
+                    //Systemerr.println("false select");
                     return null ;
                 }
                 else{
@@ -651,14 +651,14 @@ public interface  GameModel {
                     while(db.getResultSet().next()){
                         tmpUsrs.add(Player.createPlayer(db.getResultSet()));
                     }
-                    System.out.println("true Array");
+                    //System.out.println("true Array");
                     db.endResultSet();
                     db.endStatConnection();
                     return tmpUsrs ;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PlayerModel.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error select");
+                //Systemerr.println("error select");
                 return null ;
             }
       }*/
