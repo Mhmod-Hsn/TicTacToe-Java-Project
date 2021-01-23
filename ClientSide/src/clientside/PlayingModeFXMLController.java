@@ -9,10 +9,14 @@ import clientHandler.Game;
 import clientHandler.ClientHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -27,10 +31,23 @@ public class PlayingModeFXMLController implements Initializable {
     private Button mediumBtn;
     @FXML
     private Button hardBtn;
+    @FXML
+    private Button backbtn;
+    @FXML
+    private ListView<String> playerList;
+    @FXML
+    private ListView<String> statusList;
+    @FXML
+    private ListView<String> scoreList;
+    @FXML
+    private Label userName;
+    @FXML
+    private Label userScore;
     
     @FXML
     private void easyBtnHandler(ActionEvent event){
         Game.setMode(0);
+        ClientHandler.getPlayer().updateStatus("busy");
         ClientHandler.changeScene("Game");
     }
     
@@ -42,6 +59,7 @@ public class PlayingModeFXMLController implements Initializable {
     @FXML
     private void hardBtnHandler(ActionEvent event){
         Game.setMode(2);
+        ClientHandler.getPlayer().updateStatus("busy");
         ClientHandler.changeScene("Game");
     }
     
@@ -50,7 +68,20 @@ public class PlayingModeFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        ClientHandler.setPlaymodeCtrl(this);
+        updateTable(ClientHandler.getNameList(),ClientHandler.getScoreList(),ClientHandler.getStatusList());
+        userName.setText(ClientHandler.getPlayer().getUsername());
+        userScore.setText(String.valueOf(ClientHandler.getPlayer().getScore())+" points");
     }    
+
+    @FXML
+    private void backHandler(MouseEvent event) {
+        ClientHandler.changeScene("Newgame");
+    }
     
+    public void updateTable(ObservableList<String> name , ObservableList<String> score , ObservableList<String> status){
+        playerList.setItems(name);
+        statusList.setItems(status);
+        scoreList.setItems(score);
+    }
 }

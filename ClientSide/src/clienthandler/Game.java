@@ -20,14 +20,15 @@ public class Game {
     private final char playerO = 'O';
     private int winner;
     private static int mode;
+    private static CellPosition moveOfNextPlayer;
     
     public static class CellPosition{
         public int row = -1;
         public int col = -1;
         
-        CellPosition(){}
+        public CellPosition(){}
         
-        CellPosition(int row, int col){
+        public CellPosition(int row, int col){
             this.row = row;
             this.col = col;
         }
@@ -47,6 +48,10 @@ public class Game {
         return mode;
     }
     
+    public static void setMoveOfNextPlayer(CellPosition move){
+        moveOfNextPlayer = move;
+    }
+    
     public static void setMode(int mode){
         Game.mode = mode;
     }
@@ -57,6 +62,10 @@ public class Game {
     
     public void setNextMove(int nextMove){
         this.nextMove = nextMove;
+    }
+    
+    public static CellPosition getMoveOfNextPlayer(){
+        return Game.moveOfNextPlayer;
     }
     
     public int getNextMove(){

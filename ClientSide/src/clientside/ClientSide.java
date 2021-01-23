@@ -6,10 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
 
 public class ClientSide extends Application {
     
     boolean connected = false;
+    Thread readerThread;
     Parent root;
     
     @Override
@@ -24,7 +26,7 @@ public class ClientSide extends Application {
             System.out.println("Connected To server.");
             root = FXMLLoader.load(getClass().getResource("LoginFXML.fxml"));
             
-            Thread readerThread = new Thread(new ClientHandler.recieveRespone());
+            readerThread = new Thread(new ClientHandler.recieveRespone());
             readerThread.start();
         }
         else{
@@ -36,6 +38,19 @@ public class ClientSide extends Application {
         ClientHandler.setWindow(stage);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    @Override
+    public void stop(){
+        JSONObject signOutMsg = new JSONObject();
+        signOutMsg.put("type","signout");
+        ClientHandler.sendRequest(signOutMsg);
+
+        ClientHandler.closeCon();
+        System.out.println("Closed the connection.");
+        
+        readerThread.stop();
+        System.out.println("Stopped recieving messages thread.");
     }
 
     /**

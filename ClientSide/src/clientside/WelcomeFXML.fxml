@@ -35,7 +35,7 @@
             <Font name="Tw Cen MT Condensed Extra Bold" size="50.0" />
          </font>
       </Label>
-      <Button fx:id="startPlaying" layoutX="422.0" layoutY="445.0" mnemonicParsing="false" onMouseReleased="#startPlayingHandler" prefHeight="38.0" prefWidth="158.0" style="-fx-background-color: pink;" text="Star Playing !">
+      <Button fx:id="startPlaying" layoutX="412.0" layoutY="445.0" mnemonicParsing="false" onMouseReleased="#startPlayingHandler" prefHeight="38.0" prefWidth="168.0" style="-fx-background-color: pink;" text="Start Playing !">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
          </font>

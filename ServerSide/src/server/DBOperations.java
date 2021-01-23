@@ -73,12 +73,21 @@ public abstract class DBOperations {
     
     public static boolean updatePlayerScore (String username, long newScore)
     {
-        return (DbMethods.updateScore(username, newScore));
+        if (DbMethods.updateScore(username, newScore)) {
+            
+            isDBChanged = true;
+            return true;
+        }
+        return false;
     }
     
     public static boolean updatePlayerStatus (String username, String newScore)
     {
-        return (DbMethods.updateStatus(username, newScore));
+        if (DbMethods.updateStatus(username, newScore)) {
+            isDBChanged = true;
+            return true;
+        }
+            return false;
     }
     
     public static Player register(String username, String password){

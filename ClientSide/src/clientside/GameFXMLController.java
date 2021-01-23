@@ -6,26 +6,17 @@
 package clientside;
 
 import clientHandler.ClientHandler;
-import static clientHandler.ClientHandler.changeScene;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import clientHandler.Game;
-import java.util.Optional;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.scene.SubScene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -63,12 +54,6 @@ public class GameFXMLController implements Initializable {
     private SubScene resultSubscene;
     @FXML
     private Label winnerLabel;
-    @FXML
-    private Button retryBtn;
-    @FXML
-    private Button exitBtn;
-    @FXML
-    private Button backBtn;
     @FXML
     private Button quitBtn;
     @FXML
@@ -337,6 +322,7 @@ public class GameFXMLController implements Initializable {
         }
     }
     
+    
     private void setSceneVisibility(Boolean visible){
         if(visible){
             resultAnchor.setVisible(true);
@@ -373,7 +359,7 @@ public class GameFXMLController implements Initializable {
     @FXML
     private void quitBtnHandler(ActionEvent event){
         ClientHandler.getPlayer().updateStatus("online");
-        ClientHandler.changeScene("Welcome");//should be the scene for starting a game
+        ClientHandler.changeScene("Start");//should be the scene for starting a game
     }
     
     @FXML
@@ -402,7 +388,6 @@ public class GameFXMLController implements Initializable {
         setSceneVisibility(false);
         player1Label.setText(ClientHandler.getPlayer().getUsername());
         player2Label.setText("Computer");
-        ClientHandler.getPlayer().updateStatus("ingame");//put it here or before changing the scene???
         
         mode = Game.getMode(); //should get mode from the previous scene
         game = new Game();
@@ -413,5 +398,17 @@ public class GameFXMLController implements Initializable {
         //System.out.println(game.getBoard().length);
       //  th.start();
     }    
+
+    @FXML
+    private void sendHandler(MouseEvent event) {
+    }
+
+    @FXML
+    private void playAgainHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void exitHandler(ActionEvent event) {
+    }
     
 }

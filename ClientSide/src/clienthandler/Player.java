@@ -9,6 +9,8 @@ public class Player {
     private String password;
     private String status;
     private int score;
+    private static boolean invited = false;
+    private String opponent = "aya";
     
     public void Player(){}
     
@@ -38,6 +40,22 @@ public class Player {
     
     public void setScore(int score){
         this.score = score;
+    }
+    
+    public void setInvited(boolean invited){
+        Player.invited = invited;
+    }
+    
+    public void setOpponent(String opponent){
+        this.opponent = opponent;
+    }
+    
+    public String getOpponent(){
+        return opponent;
+    }
+    
+    public boolean getInvited(){
+        return invited;
     }
     
     public int getId(){
@@ -91,8 +109,14 @@ public class Player {
     public void updateStatus(String status){
         JSONObject newstatus = new JSONObject();
         newstatus.put("type", "updateStatus");
-        newstatus.put("username", username);
         newstatus.put("status", status);
         ClientHandler.sendRequest(newstatus);
+    }
+    
+    public void updateScore(String newScore){
+        JSONObject newscore = new JSONObject();
+        newscore.put("type", "updateScore");
+        newscore.put("score", newScore);
+        ClientHandler.sendRequest(newscore);
     }
 }
