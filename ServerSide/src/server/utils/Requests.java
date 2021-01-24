@@ -23,6 +23,8 @@ public class Requests {
     public static final String UPDATE_SCORE = "updateScore";
     public static final String UPDATE_STATUS = "updateStatus";
     
+    public static final String GAME_STARTED = "game";
+    
     //Unkown requests
     public static final String UNKNOWN = "unknown";
     

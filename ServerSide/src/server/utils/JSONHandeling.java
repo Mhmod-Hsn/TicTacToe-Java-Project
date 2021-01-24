@@ -31,7 +31,6 @@ public abstract class JSONHandeling {
         return jsonObj;
     }
     
-    
     public static JSONObject errorToJson(String type, String errorMsg)
     {
         //Construct the json object
@@ -44,7 +43,6 @@ public abstract class JSONHandeling {
         
         return jsonObj;
     }
-    
     
     public static JSONObject addToJsonObject (JSONObject jsonObj , String key , Object value)
     {

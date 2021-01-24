@@ -22,6 +22,7 @@ import org.json.simple.parser.JSONParser;
 
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
 
 public class PlayerHandler extends Thread{
  
-    private JSONObject lastRequest;
+    private JSONObject forwardedRequest;
     public Socket playerSocket;
     private Player player;
 
@@ -44,6 +45,8 @@ public class PlayerHandler extends Thread{
     private JSONObject jsonObj;
     private JSONParser parser;
         
+    private final AtomicBoolean isReceived = new AtomicBoolean(false);
+    
     private static Vector <PlayerHandler> onlinePlayerHandlers = new Vector <>();
     
     class GameEstablishHandler extends Thread{
@@ -81,17 +84,14 @@ public class PlayerHandler extends Thread{
 
    
                 //wait for response on the same request from player 2
-                while(true) {
+                while(! isReceived.get()) {
 
-                    receiverJson = receiverPlayerHandler.getlastRequest();
+                    receiverJson = receiverPlayerHandler.getForwardedRequest();
                     
-                    if (receiverJson == null)
+                    if (receiverJson == null);
+                    else if (receiverJson.get("type").equals(Requests.RECEIVE_INVITATION))
                     {
-                        continue;
-                    }
-                    if (receiverJson.get("type").equals(Requests.RECEIVE_INVITATION))
-                    {
-                        break;
+                        isReceived.set(true);
                     }
                 }
     
@@ -103,7 +103,7 @@ public class PlayerHandler extends Thread{
                 senderJson = JSONHandeling.constructJsonResponse(senderJson ,Requests.SEND_INVITATION);
                 
                 senderJson = JSONHandeling.addToJsonObject(senderJson,"invitationStatus"
-                        ,(boolean) receiverJson.get("invitationStatus"));
+                        ,receiverJson.get("invitationStatus"));
 
                 //send the response to the sender player
                 senderPlayerHandler.getOutputStream().writeUTF(senderJson.toString());
@@ -111,8 +111,9 @@ public class PlayerHandler extends Thread{
                 System.out.println("sent to player1: "+ senderJson.toString());
                 
                 //establish game if the invitation is accepted
-                if ((boolean) receiverJson.get("invitationStatus")) {
+                if (receiverJson.get("invitationStatus").equals("true")) {
                     // Start Game 
+                    new GameHandler(senderPlayerHandler,receiverPlayerHandler);
                 }
                 
                 //close this thrad 
@@ -190,8 +191,10 @@ public class PlayerHandler extends Thread{
     
     //Getters
     
-    public JSONObject getlastRequest(){
-        return lastRequest;
+    public JSONObject getForwardedRequest(){
+        JSONObject result = forwardedRequest;
+        forwardedRequest = null;
+        return result;
     }
 
     public Player getPlayerInfo() {
@@ -243,14 +246,14 @@ public class PlayerHandler extends Thread{
 
     //Players Requests handeling
     private JSONObject playerRequestHandler(String jsonStr) throws ParseException
-    {
-        
-        lastRequest = JSONHandeling.parseStringToJson(jsonStr);
+    {       
+
+        jsonObj = JSONHandeling.parseStringToJson(jsonStr);
         JSONObject responseJsonObj = new JSONObject();
-        
+
         //find out which request
-        String requestType = (String)lastRequest.get("type");
-        
+        String requestType = (String)jsonObj.get("type");
+
         //is the request proccessed successfully 
         boolean isSuccess = false;
         
@@ -259,6 +262,7 @@ public class PlayerHandler extends Thread{
             
             case Requests.RECEIVE_INVITATION:
                 //forward the request
+                forwardedRequest = jsonObj;
                 return null;
 
             //Signout request
@@ -272,19 +276,19 @@ public class PlayerHandler extends Thread{
             //Send invitation request
             case Requests.SEND_INVITATION:
                 //send invitation to another player
-                isSuccess = playerInvite(lastRequest.get("username").toString());
-                break;
+                isSuccess = playerInvite(jsonObj.get("username").toString());
+                return null;
             
             //update status request
             case Requests.UPDATE_STATUS:
                 //update the player status
-                isSuccess = updatePlayerStatus(lastRequest.get("status").toString());
+                isSuccess = updatePlayerStatus(jsonObj.get("status").toString());
                 break;
             
             //update score request   
             case Requests.UPDATE_SCORE:       
                 //update the player score
-                isSuccess =  updatePlayerScore((long)lastRequest.get("score"));
+                isSuccess =  updatePlayerScore((long)jsonObj.get("score"));
                 break;
                 
             //Unknown request
@@ -304,7 +308,7 @@ public class PlayerHandler extends Thread{
         {
             responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
             System.out.println("Player Request [ "+requestType+"] is a faliure");
-            System.out.println("Player Request "+lastRequest+" is a faliure");
+            System.out.println("Player Request "+jsonObj+" is a faliure");
         }
 
         return responseJsonObj;
