@@ -11,8 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 
@@ -26,7 +24,7 @@ public class DatabaseDriver {
     private PreparedStatement preparedStatement;
     private String queryStr;
     private ResultSet resultSet; // used for store data from database    
-
+    public static Boolean DB_CON_STATUS = false ;
 
     public DatabaseDriver(){
         //startConnection();
@@ -76,8 +74,11 @@ public class DatabaseDriver {
         try {
             Class.forName(DBConfig.DB_DRV);
             connection = DriverManager.getConnection(DBConfig.DB_URL,DBConfig.DB_USER,DBConfig.DB_PASSWD);
+            DB_CON_STATUS = true ;
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
+            DB_CON_STATUS = false ;
+            //System.out.println("Cann't connenct to Database : "+ DBConfig.DB_NAME );
         }
     }
     public void endStatConnection() {
@@ -86,7 +87,8 @@ public class DatabaseDriver {
             statement.close();
             connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
+              //System.out.println("Cann't End DB :"+DBConfig.DB_NAME+" connenction .. ");
         }
     }
     
@@ -96,7 +98,7 @@ public class DatabaseDriver {
             preparedStatement.close();
             connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
+             //System.out.println("Cann't End DB :"+DBConfig.DB_NAME+" connenction .. ");
         }
     }
     
@@ -104,7 +106,8 @@ public class DatabaseDriver {
         try {
             resultSet.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
+            //System.out.println("Cann't End ResultSet Connection of DB :"+DBConfig.DB_NAME);
         }
      }
     

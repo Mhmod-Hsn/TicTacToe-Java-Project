@@ -9,6 +9,8 @@ import clientHandler.ClientHandler;
 import clientHandler.Game;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -58,6 +61,23 @@ public class MultigameFXMLController implements Initializable {
     private Button quitBtn;
     @FXML
     private Button saveBtn;
+    @FXML
+    private AnchorPane savingSubscene;
+    @FXML
+    private Label savingLbl;
+    @FXML
+    private Button homeBtn;
+    @FXML
+    private AnchorPane waitingSubscene;
+    @FXML
+    private Label waitingLbl;
+    @FXML
+    private Button okBtn;
+    @FXML
+    private TextArea chatBox;
+    @FXML
+    private TextArea msgBox;
+    
     Game game;
     char player1Value;
     char player2Value;
@@ -65,6 +85,7 @@ public class MultigameFXMLController implements Initializable {
     MouseEvent event;
     int mode;//0 easy, 1 medium, 2 hard
     boolean finish;
+
     
     private void player1Handle(){
 //        game.setNextMove(1);
@@ -85,25 +106,63 @@ public class MultigameFXMLController implements Initializable {
         if(win == 1){
             finish = true;
             System.out.println("Player " + player1Value + " won!");
+            
             if(player1Value == 'X'){
+                
+                if(player1Label.getText().equals(ClientHandler.getPlayer().getUsername()))
+                {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        System.out.println("Not sleep.");
+                    }
+                    
+                    ClientHandler.gameEndedRequest(player1Label.getText());   
+                }
+
                 winnerLabel.setText(player1Label.getText() + " won!");
                 //TODO
-                //update score here if needed
                 setSceneVisibility(true);
+            
             }
             else{
+                
+                if(player2Label.getText().equals(ClientHandler.getPlayer().getUsername()))
+                {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        System.out.println("Not sleep.");
+                    }
+                    
+                    ClientHandler.gameEndedRequest(player2Label.getText());   
+                }
                 winnerLabel.setText(player2Label.getText() + " won!");
                 //TODO
-                //update score here if needed
                 setSceneVisibility(true);
             }
             
         }
         else if(win == 2){
+            
+            if(player1Value == 'X'){
+                
+                if(player1Label.getText().equals(ClientHandler.getPlayer().getUsername())){
+                    
+                    try {
+                            Thread.sleep(500);
+                        }catch (InterruptedException ex) {
+                            System.out.println("Not sleep.");
+                        }
+                    ClientHandler.gameEndedRequest(player1Label.getText());   
+                }
+             }
+
             finish = true;
             System.out.println("Its a draw!");
             winnerLabel.setText("It's a draw!");
             setSceneVisibility(true);
+
         }
         game.printBoard();
     }
@@ -297,13 +356,14 @@ public class MultigameFXMLController implements Initializable {
     
     @FXML
     private void quitBtnHandler(ActionEvent event){
+        ClientHandler.setReplay(false);
         ClientHandler.getPlayer().updateStatus("online");
         ClientHandler.changeScene("Start");//should be the scene for starting a game
     }
     
     @FXML
     private void saveBtnHandler(ActionEvent event){
-        
+        ClientHandler.saveGameRequest(game.getNextMove());
     }
     
     private void clearCells(){
@@ -343,8 +403,8 @@ public class MultigameFXMLController implements Initializable {
             play = false;
             player1Value = 'O';
             player2Value = 'X';
-            player1Label.setText(ClientHandler.getPlayer().getOpponent());
-            player2Label.setText(ClientHandler.getPlayer().getUsername());
+            player1Label.setText(ClientHandler.getPlayer().getUsername());
+            player2Label.setText(ClientHandler.getPlayer().getOpponent());
         }
         else{
             play = true;
@@ -363,22 +423,29 @@ public class MultigameFXMLController implements Initializable {
             System.out.println(resultCell.row);
             System.out.println(resultCell.col);
             if(resultCell.row == 0){
+                
                 switch (resultCell.col) {
                     case 0:
                         cell1.setText(String.valueOf(player2Value));
                         game.setCell1(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
+                        
                     case 1:
                         cell2.setText(String.valueOf(player2Value));
                         game.setCell2(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
+                        
                     case 2:
                         cell3.setText(String.valueOf(player2Value));
                         game.setCell3(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
+                        
                     default:
                         break;
                 }
@@ -389,16 +456,19 @@ public class MultigameFXMLController implements Initializable {
                         cell4.setText(String.valueOf(player2Value));
                         game.setCell4(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
                     case 1:
                         cell5.setText(String.valueOf(player2Value));
                         game.setCell5(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
                     case 2:
                         cell6.setText(String.valueOf(player2Value));
                         game.setCell6(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
                     default:
                         break;
@@ -410,16 +480,19 @@ public class MultigameFXMLController implements Initializable {
                         cell7.setText(String.valueOf(player2Value));
                         game.setCell7(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
                     case 1:
                         cell8.setText(String.valueOf(player2Value));
                         game.setCell8(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
                     case 2:
                         cell9.setText(String.valueOf(player2Value));
                         game.setCell9(player2Value);
                         player2Handle();
+                        checkWinOrDraw();
                         break;
                     default:
                         break;
@@ -433,11 +506,18 @@ public class MultigameFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
+        ClientHandler.setInGameScene(true);
         setSceneVisibility(false);
         ClientHandler.setMultigameCtrl(this);
+        savingSubscene.setVisible(false);
+        homeBtn.setDisable(true);
+        waitingSubscene.setVisible(false);
+        okBtn.setDisable(true);
+        chatBox.appendText(String.format("\n"));
         
-        mode = Game.getMode(); //should get mode from the previous scene
+        //should get mode from the previous scene
+        //mode = Game.getMode(); 
         game = new Game();
         game.setNextMove(0);
         
@@ -449,23 +529,75 @@ public class MultigameFXMLController implements Initializable {
     }   
     @FXML
     private void sendHandler(MouseEvent event) {
+        
+        if(!msgBox.getText().equals(""))
+        {
+            ClientHandler.sendChatRequest(msgBox.getText());
+            chatBox.appendText("[You]: "+msgBox.getText()+String.format("\n"));
+            msgBox.setText("");
+        }
     }
 
     @FXML
     private void playAgainHandler(ActionEvent event) {
-        game.clearBoard();
-        game.setNextMove(0);
-        Game.setMovesCount(0);
-        setPlayerData();
-        finish = false;
-        clearCells();
-        setSceneVisibility(false);
+        ClientHandler.invitePlayerRequest(ClientHandler.getPlayer().getOpponent());
+        ClientHandler.setReplay(true);
+        waitingSubscene.setVisible(true);
     }
 
     @FXML
     private void exitHandler(ActionEvent event) {
-        ClientHandler.getPlayer().updateStatus("online");
+//        ClientHandler.getPlayer().updateStatus("online");
+        ClientHandler.setReplay(false);
         ClientHandler.changeScene("Start");
+    }
+    
+    @FXML
+    private void homeBtnHandler(ActionEvent event){
+        ClientHandler.changeScene("Start");
+    }
+    
+    @FXML
+    private void okBtnHandler(ActionEvent event){
+        if(ClientHandler.getGameAccepted()){
+            game.clearBoard();
+            game.setNextMove(0);
+            Game.setMovesCount(0);
+            setPlayerData();
+            finish = false;
+            clearCells();
+            setSceneVisibility(false);
+            waitingSubscene.setVisible(false);
+            okBtn.setDisable(true);
+            ClientHandler.setReplay(false);
+        }
+        else{
+            ClientHandler.changeScene("Start");
+        }
+    }
+    
+    public Label getWaitingLbl(){
+        return this.waitingLbl;
+    }
+    
+    public Label getSavingLbl(){
+        return this.savingLbl;
+    }
+    
+    public Button getOkBtn(){
+        return this.okBtn;
+    }
+    
+    public Button getHomtBtn(){
+        return this.homeBtn;
+    }
+    
+    public AnchorPane getSavingSubscene(){
+        return this.savingSubscene;
+    }
+   
+    public void displayOpponentMsg(String msg){
+        chatBox.appendText("["+ClientHandler.getPlayer().getOpponent()+"]: "+msg+String.format("\n"));
     }
     
 }

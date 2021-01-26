@@ -111,6 +111,7 @@ public class Player {
         newstatus.put("type", "updateStatus");
         newstatus.put("status", status);
         ClientHandler.sendRequest(newstatus);
+        this.status = status;
     }
     
     public void updateScore(String newScore){

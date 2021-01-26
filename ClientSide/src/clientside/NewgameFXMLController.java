@@ -71,4 +71,8 @@ public class NewgameFXMLController implements Initializable {
         statusList.setItems(status);
         scoreList.setItems(score);
     }
+    
+    public void updateScore(String newScore){
+        userScore.setText(newScore);
+    }
 }

@@ -11,7 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
 import server.DBOperations;
-import playerinfo.Player;
+import database.playerinfo.Player;
 import server.utils.*;
 
 import org.json.simple.JSONObject;
@@ -48,7 +48,7 @@ public class AuthenHandler extends Thread {
             this.start();
             
         } catch (IOException ex) {
-            System.out.println("AuthenticationHandler input and output constructor catch");
+            System.out.println("[AuthenHandler class]: input and output constructor problem");
             ex.printStackTrace();
         }
     }
@@ -66,11 +66,11 @@ public class AuthenHandler extends Thread {
                 outputStream.writeUTF(jsonObj.toString());
                 
                 //Connection Drop
-            } catch (IOException ex) { 
-                System.out.println("[AuthenHandler] Client connection dropped");
+            } catch (IOException ex) {
+                System.out.println("[AuthenHandler class] Client connection dropped");
                 close();
             } catch (ParseException ex) {
-               System.out.println("[AuthenHandler] Parse Exception");
+               System.out.println("[AuthenHandler class] Parse Exception");
                System.out.println(jsonObj);
             } 
         }
@@ -110,7 +110,7 @@ public class AuthenHandler extends Thread {
                     //add the json response construction
                     responseJsonObj = JSONHandeling.constructJsonResponse(responseJsonObj, requestType);
 
-                    System.out.println("Client has signed in");
+                    System.out.println("[AuthenHandler class]: A Client has just signed in");
                     
                     //send response to the user               
                     outputStream.writeUTF(responseJsonObj.toString());
@@ -122,7 +122,7 @@ public class AuthenHandler extends Thread {
                 else
                 {
                     responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
-                    System.out.println(requestType+" rejected: error msg [" + errorMsg+ " ]");
+                    System.out.println("[AuthenHandler class]:" + requestType+" rejected: error msg [" + errorMsg+ " ]");
                 }
                 break;
 
@@ -131,13 +131,13 @@ public class AuthenHandler extends Thread {
             case (Requests.CLOSE):
                 
                 //Terminate this thread
-                System.out.println("Client closed");
+                System.out.println("[AuthenHandler class]: Client closed connection");
                 this.close(); 
                 break;
 
             //unknown request
             default:
-                System.out.println("Unknown request");
+                System.out.println("[AuthenHandler class]: Unknown incoming request");
                 responseJsonObj = JSONHandeling.errorToJson(Requests.UNKNOWN, Errors.INVALID); 
                 break;
         } 
@@ -188,7 +188,7 @@ public class AuthenHandler extends Thread {
     {
 
        try {
-            System.out.println("Authentication handler closed");
+            System.out.println("[AuthenHandler class]: Authentication handler closed");
             
             //Close the connection
             socket.close();
@@ -199,7 +199,7 @@ public class AuthenHandler extends Thread {
             
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("[AuthenHandler] user socket can't be closed.");
+            System.out.println("[AuthenHandler class]: user socket can't be closed.");
         }
     }
 }

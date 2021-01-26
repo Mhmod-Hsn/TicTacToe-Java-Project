@@ -13,18 +13,15 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Vector;
 
-import playerinfo.Player;
+import database.playerinfo.Player;
 import server.DBOperations;
 import server.utils.*;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -33,7 +30,6 @@ import java.util.logging.Logger;
 
 public class PlayerHandler extends Thread{
  
-    private JSONObject forwardedRequest;
     public Socket playerSocket;
     private Player player;
 
@@ -41,26 +37,33 @@ public class PlayerHandler extends Thread{
     private DataOutputStream outputStream;
     
     private String errorMsg;
-    
+    private volatile JSONObject forwardedRequest;
     private JSONObject jsonObj;
-    private JSONParser parser;
         
-    private final AtomicBoolean isReceived = new AtomicBoolean(false);
     
     private static Vector <PlayerHandler> onlinePlayerHandlers = new Vector <>();
     
     class GameEstablishHandler extends Thread{
 
-        PlayerHandler senderPlayerHandler;
-        PlayerHandler receiverPlayerHandler;
+        private PlayerHandler senderPlayerHandler;
+        private PlayerHandler receiverPlayerHandler;
   
-        JSONObject senderJson, receiverJson;
+        private volatile JSONObject receiverJson; 
+        private JSONObject senderJson ;
+        
+        private volatile boolean isReceived = false;
 
         public GameEstablishHandler(PlayerHandler senderhHandler, PlayerHandler receiverHandler)
         {
+
+            //store the handlers
             this.senderPlayerHandler = senderhHandler;
             this.receiverPlayerHandler = receiverHandler;
-                       
+            
+            //clear last read
+            senderPlayerHandler.getForwardedRequest();
+            receiverPlayerHandler.getForwardedRequest();
+            
             //Start the thread
             this.start();   
         }
@@ -80,23 +83,22 @@ public class PlayerHandler extends Thread{
                 //Send invitation to player 2
                 receiverPlayerHandler.getOutputStream().writeUTF(receiverJson.toString());
                 
-                System.out.println("sent to player2: "+ receiverJson.toString());
-
    
                 //wait for response on the same request from player 2
-                while(! isReceived.get()) {
+                while(! isReceived) {
 
                     receiverJson = receiverPlayerHandler.getForwardedRequest();
-                    
+
                     if (receiverJson == null);
+                    
                     else if (receiverJson.get("type").equals(Requests.RECEIVE_INVITATION))
                     {
-                        isReceived.set(true);
+                        isReceived = true;
                     }
                 }
-    
-                System.out.println("received from player2: "+ receiverJson.toString());
-               
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                System.out.println("[GameEstablishHandler class]: A new request was received from player2: "+ receiverJson.toString());
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////           
                 //Construct response for player 1 (in case of valid delivery)
                 senderJson = JSONHandeling.playerToJson(receiverPlayerHandler.getPlayerInfo());
                 
@@ -108,10 +110,17 @@ public class PlayerHandler extends Thread{
                 //send the response to the sender player
                 senderPlayerHandler.getOutputStream().writeUTF(senderJson.toString());
                 
-                System.out.println("sent to player1: "+ senderJson.toString());
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                System.out.println("[GameEstablishHandler class]: A new request was sent to player1: "+ senderJson.toString());
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
                 //establish game if the invitation is accepted
                 if (receiverJson.get("invitationStatus").equals("true")) {
+                    
+                    //update players status to busy
+                    senderPlayerHandler.updatePlayerStatus("busy");
+                    receiverPlayerHandler.updatePlayerStatus("busy");
+                    
                     // Start Game 
                     new GameHandler(senderPlayerHandler,receiverPlayerHandler);
                 }
@@ -120,20 +129,21 @@ public class PlayerHandler extends Thread{
                 close();
                 
             } catch (IOException ex) {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                
                 //Conection Failed
-                System.out.println("[GameEstablishHandler] Player connection dropped");
+                System.out.println("[GameEstablishHandler class]: Player connection dropped (connection failed)");
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                
                 close();
             }
-//            } catch (ParseException ex) {
-//               System.out.println("[GameEstablishHandler] Parse Exception");
-//               ex.printStackTrace();
-//            }   
         }
 
         public void close()
         {
-            System.out.println("GameEstablishHander closed");
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////            
+            System.out.println("[GameEstablishHandler class]: thread is closed");
             this.stop(); 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         }
     }
     
@@ -143,7 +153,7 @@ public class PlayerHandler extends Thread{
         this.player = playerInfo;
                 
         jsonObj = new JSONObject();
-        parser = new JSONParser();
+
         
         try {
             //Create the input and output channels
@@ -157,7 +167,8 @@ public class PlayerHandler extends Thread{
             this.start();
             
         } catch (IOException ex) {
-            System.out.println("Client dropped in PlayerHandler");
+            
+            System.out.println("[PlayerHandler class]: Client has dropped");
             close();
         }
     }
@@ -179,24 +190,22 @@ public class PlayerHandler extends Thread{
                 }  
                 //Connection Drop
             } catch (IOException ex) { 
-                System.out.println("[PlayerHandler]: player connection dropped"); 
+                System.out.println("[PlayerHandler class]: Player connection dropped"); 
                 close();
                 
             } catch (ParseException ex) {
-                System.out.println("[PlayerHandler]: Parse Exception"); 
+                System.out.println("[PlayerHandler class]: Parse Exception in the main thread"); 
                 System.out.println(jsonObj);
             } 
         }
     }
     
     //Getters
-    
     public JSONObject getForwardedRequest(){
         JSONObject result = forwardedRequest;
         forwardedRequest = null;
         return result;
     }
-
     public Player getPlayerInfo() {
         return player;
     }
@@ -205,6 +214,10 @@ public class PlayerHandler extends Thread{
     }
     public DataInputStream getInputStream() {
         return inputStream;
+    }
+    public long getPlayerScore()
+    {
+        return player.getScore();
     }
     
     public static Vector<PlayerHandler> getOnlinePlayerHandlers() {
@@ -233,7 +246,7 @@ public class PlayerHandler extends Thread{
 
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("[PlayerHandler] Player socket can't be closed.");
+            System.out.println("[PlayerHandler class]: Player socket couldn't be closed.");
         }
     }
     
@@ -247,10 +260,10 @@ public class PlayerHandler extends Thread{
     //Players Requests handeling
     private JSONObject playerRequestHandler(String jsonStr) throws ParseException
     {       
-
         jsonObj = JSONHandeling.parseStringToJson(jsonStr);
+        
         JSONObject responseJsonObj = new JSONObject();
-
+        System.out.println("[PlayerHandler class]: Parsing player request=> "+jsonObj.toString());
         //find out which request
         String requestType = (String)jsonObj.get("type");
 
@@ -259,16 +272,11 @@ public class PlayerHandler extends Thread{
         
         switch (requestType)
         {
-            
-            case Requests.RECEIVE_INVITATION:
-                //forward the request
-                forwardedRequest = jsonObj;
-                return null;
 
             //Signout request
             case Requests.SIGN_OUT:
                 //signout from the account
-                System.out.println("Player loggedout");
+                System.out.println("[PlayerHandler class]: Player has loggedout");
                 close();
                 isSuccess = true;
                 break;
@@ -291,6 +299,15 @@ public class PlayerHandler extends Thread{
                 isSuccess =  updatePlayerScore((long)jsonObj.get("score"));
                 break;
                 
+            //requests to be forwarded to other handlers
+            case Requests.RECEIVE_INVITATION: case Requests.GAME_ENDED:
+            case Requests.GAME_MOVE: case Requests.CHAT_MSG: 
+            case Requests.GAME_STARTED:
+                
+                //forward the request
+                forwardedRequest = jsonObj;
+                return null; 
+                
             //Unknown request
             default:
                 requestType =  Requests.UNKNOWN;
@@ -302,13 +319,13 @@ public class PlayerHandler extends Thread{
         if (isSuccess)
         {
             responseJsonObj = JSONHandeling.constructJsonResponse(responseJsonObj, requestType);
-            System.out.println("Player Request [ "+requestType+"] is a success");
+            System.out.println("[PlayerHandler class]: Player Request [ "+requestType+"] has succeeded");
         }
         else 
         {
             responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
-            System.out.println("Player Request [ "+requestType+"] is a faliure");
-            System.out.println("Player Request "+jsonObj+" is a faliure");
+            System.out.println("[PlayerHandler class]: Player Request [ "+requestType+"] has failed");
+            System.out.println("[PlayerHandler class]: The failed request: "+jsonObj);
         }
 
         return responseJsonObj;
@@ -342,7 +359,7 @@ public class PlayerHandler extends Thread{
     }
      
     //update player score request
-    private boolean updatePlayerScore(long newScore)
+    public boolean updatePlayerScore(long newScore)
     {
         errorMsg = "";
         
@@ -358,7 +375,7 @@ public class PlayerHandler extends Thread{
     }
     
     //update player status
-    private boolean updatePlayerStatus(String newStatus)
+    public boolean updatePlayerStatus(String newStatus)
     {   
         errorMsg = "";
         //fix the (ingame) bug

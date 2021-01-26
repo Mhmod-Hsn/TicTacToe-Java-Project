@@ -42,6 +42,7 @@ public class StartFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ClientHandler.setStartCtrl(this);
+         ClientHandler.setInGameScene(false);
         updateTable(ClientHandler.getNameList(),ClientHandler.getScoreList(),ClientHandler.getStatusList());
         userName.setText(ClientHandler.getPlayer().getUsername());
         userScore.setText(String.valueOf(ClientHandler.getPlayer().getScore())+" points");
@@ -67,6 +68,10 @@ public class StartFXMLController implements Initializable {
         statusList.setItems(status);
     }
 
+    public void updateScore(String newScore){
+        userScore.setText(newScore);
+    }
+    
     @FXML
     private void updateHandler(MouseEvent event) {
         JSONObject updateReq = new JSONObject();

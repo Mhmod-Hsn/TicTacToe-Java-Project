@@ -42,9 +42,14 @@ public class ClientSide extends Application {
     
     @Override
     public void stop(){
-        JSONObject signOutMsg = new JSONObject();
-        signOutMsg.put("type","signout");
-        ClientHandler.sendRequest(signOutMsg);
+        JSONObject msg = new JSONObject();
+        if(ClientHandler.isInGameScene()){
+            msg.put("type","gameQuit");
+            ClientHandler.sendRequest(msg);
+        }
+        msg = new JSONObject();
+        msg.put("type","signout");
+        ClientHandler.sendRequest(msg);
 
         ClientHandler.closeCon();
         System.out.println("Closed the connection.");

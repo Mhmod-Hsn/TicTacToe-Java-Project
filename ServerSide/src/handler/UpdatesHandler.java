@@ -8,7 +8,7 @@ package handler;
 
 import java.util.Vector;
 
-import playerinfo.Player;
+import database.playerinfo.Player;
 import server.DBOperations;
 import server.utils.*;
 
@@ -54,7 +54,7 @@ public class UpdatesHandler extends Thread{
             try {
                 sleep(500);
             } catch (InterruptedException ex) {
-
+                System.out.println("[UpdatesHandler class]: Couldn't sleep from database listening");
             }
         }
     }

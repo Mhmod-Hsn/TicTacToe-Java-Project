@@ -16,7 +16,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #DB44AD;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientside.MultigameFXMLController">
    <children>
-      <TextArea editable="false" layoutX="24.0" layoutY="348.0" prefHeight="79.0" prefWidth="561.0" text="Welcome to Tic-Tac-Toe chat box." />
+      <TextArea fx:id="chatBox" editable="false" layoutX="24.0" layoutY="348.0" prefHeight="79.0" prefWidth="561.0" text="Welcome to Tic-Tac-Toe chat box." />
       <Label fx:id="cell1" alignment="BASELINE_CENTER" layoutX="191.0" layoutY="69.0" onMouseClicked="#cell1Handler" prefHeight="55.0" prefWidth="80.0" textFill="WHITE">
          <font>
             <Font size="60.0" />
@@ -97,7 +97,7 @@
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
          </font></Button>
-      <TextArea layoutX="24.0" layoutY="436.0" prefHeight="38.0" prefWidth="474.0" promptText="Chat with the player!" />
+      <TextArea fx:id="msgBox" layoutX="24.0" layoutY="436.0" prefHeight="38.0" prefWidth="474.0" promptText="Chat with the player!" />
       <Button layoutX="505.0" layoutY="439.0" mnemonicParsing="false" onMouseReleased="#sendHandler" prefHeight="29.0" prefWidth="80.0" style="-fx-background-color: #95D500;" text="Send" textFill="#007204">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="18.0" />
@@ -107,6 +107,55 @@
       <Line endX="147.0" endY="-1.52587890625E-5" layoutX="291.0" layoutY="248.0" startX="-100.0" strokeWidth="6.0" />
       <Line endX="-100.0" endY="240.0" layoutX="374.0" layoutY="98.0" startX="-100.0" startY="-26.0" strokeWidth="5.0" />
       <Line endX="-100.0" endY="240.0" layoutX="457.0" layoutY="98.0" startX="-100.0" startY="-26.0" strokeWidth="5.0" />
+      <Label fx:id="player1Label" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="14.0" prefHeight="55.0" prefWidth="278.0" text="player1Label" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="25.0" />
+         </font>
+         <effect>
+            <Bloom threshold="0.72" />
+         </effect>
+      </Label>
+      <Label fx:id="player2Label" layoutX="330.0" layoutY="14.0" prefHeight="55.0" prefWidth="278.0" text="player2Label" textFill="WHITE">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="25.0" />
+         </font>
+         <effect>
+            <Bloom threshold="0.6" />
+         </effect>
+      </Label>
+      <Text fill="#ff9000" layoutX="305.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="vs">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="26.0" />
+         </font>
+         <effect>
+            <Bloom threshold="0.0" />
+         </effect>
+      </Text>
+      <AnchorPane fx:id="savingSubscene" layoutX="58.0" layoutY="86.0" prefHeight="248.0" prefWidth="474.0">
+         <children>
+            <SubScene height="248.0" width="482.0">
+              <root>
+                <Region />
+              </root>
+            </SubScene>
+            <ImageView fitHeight="248.0" fitWidth="579.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/resultbg.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="savingLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="119.0" layoutY="20.0" prefHeight="43.0" prefWidth="268.0" text="Saving game. Please wait." textAlignment="CENTER" textFill="#ffbc51">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="22.0" />
+               </font>
+            </Label>
+            <Button fx:id="homeBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="207.0" layoutY="135.0" mnemonicParsing="false" onAction="#homeBtnHandler" prefHeight="38.0" prefWidth="92.0" text="Go Home" textAlignment="CENTER" />
+            <ImageView fitHeight="60.0" fitWidth="152.0" layoutX="195.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/loading.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="resultAnchor" layoutX="22.0" layoutY="55.0" prefHeight="293.0" prefWidth="579.0">
          <children>
             <SubScene fx:id="resultSubscene" blendMode="SRC_ATOP" fill="#ffffff00" height="292.0" width="570.0">
@@ -144,29 +193,33 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <Label fx:id="player1Label" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="14.0" prefHeight="55.0" prefWidth="278.0" text="player1Label" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="25.0" />
-         </font>
-         <effect>
-            <Bloom threshold="0.72" />
-         </effect>
-      </Label>
-      <Label fx:id="player2Label" layoutX="330.0" layoutY="14.0" prefHeight="55.0" prefWidth="278.0" text="player2Label" textFill="WHITE">
-         <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="25.0" />
-         </font>
-         <effect>
-            <Bloom threshold="0.6" />
-         </effect>
-      </Label>
-      <Text fill="#ff9000" layoutX="305.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="vs">
-         <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="26.0" />
-         </font>
-         <effect>
-            <Bloom threshold="0.0" />
-         </effect>
-      </Text>
+      <AnchorPane fx:id="waitingSubscene" layoutX="41.0" layoutY="81.0" prefHeight="259.0" prefWidth="517.0">
+         <children>
+            <SubScene height="237.0" layoutX="-5.0" width="474.0">
+               <root>
+                  <Region />
+               </root>
+            </SubScene>
+            <ImageView fitHeight="248.0" fitWidth="522.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/resultbg.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="waitingLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" prefHeight="79.0" prefWidth="521.0" text="Please wait till opponent accepts your request." textAlignment="CENTER" textFill="#ffbf47" wrapText="true">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="23.0" />
+               </font>
+            </Label>
+            <Button fx:id="okBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="162.0" mnemonicParsing="false" onAction="#okBtnHandler" prefHeight="41.0" prefWidth="80.0" style="-fx-background-color: orange;" text="Ok" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
+               </font></Button>
+            <ImageView fitHeight="79.0" fitWidth="152.0" layoutX="196.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/loading.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

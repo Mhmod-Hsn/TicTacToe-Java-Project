@@ -263,7 +263,7 @@ public class GameFXMLController implements Initializable {
         }
     }
     
-   // @FXML
+    @FXML
     private void computerPlay(){
         if(!finish){
             Game.CellPosition resultCell = null;
@@ -322,7 +322,6 @@ public class GameFXMLController implements Initializable {
         }
     }
     
-    
     private void setSceneVisibility(Boolean visible){
         if(visible){
             resultAnchor.setVisible(true);
@@ -331,7 +330,6 @@ public class GameFXMLController implements Initializable {
             resultAnchor.setVisible(false);
         }
     }
-    
     @FXML
     private void retryBtnHandler(ActionEvent event){
         game.clearBoard();
@@ -343,14 +341,12 @@ public class GameFXMLController implements Initializable {
         clearCells();
         setSceneVisibility(false);
     }
-    
     @FXML
     private void exitBtnHandler(ActionEvent event){
         //TODO
         //ClientHandler.getPlayer().updateStatus("offline"); needed or not???
         Platform.exit();
     }
-    
     @FXML
     private void backBtnHandler(ActionEvent event){
         setSceneVisibility(false);
@@ -366,7 +362,6 @@ public class GameFXMLController implements Initializable {
     private void saveBtnHandler(ActionEvent event){
         
     }
-    
     @FXML
     private void clearCells(){
         cell1.setText("");

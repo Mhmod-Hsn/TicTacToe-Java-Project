@@ -75,14 +75,23 @@ public class InviteFXMLController implements Initializable {
     @FXML
     private void inviteHandler(MouseEvent event) {
 //        ClientHandler.invitePlayerRequest("aya");
-        ClientHandler.invitePlayerRequest(inviteBox.getValue());
-        System.out.println("after invite sent");
-        waitingSubscene.setVisible(true);
+//            System.out.println("after invite sent");
+//            waitingSubscene.setVisible(true);
+        if(inviteBox.getValue() != null && !inviteBox.getValue().equals("")){
+            ClientHandler.invitePlayerRequest(inviteBox.getValue());
+            System.out.println("after invite sent");
+            waitingSubscene.setVisible(true);
+        }
     }
     
     @FXML
     private void okBtnHandler(ActionEvent event){
-        ClientHandler.changeScene("Multigame");
+        if(ClientHandler.getGameAccepted()){
+            ClientHandler.changeScene("Multigame");
+        }
+        else{
+            waitingSubscene.setVisible(false);
+        }
     }
 
     @FXML
@@ -111,5 +120,9 @@ public class InviteFXMLController implements Initializable {
     
     public Button getOkBtn(){
         return this.okBtn;
+    }
+    
+    public void updateScore(String newScore){
+        userScore.setText(newScore);
     }
 }

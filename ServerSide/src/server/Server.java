@@ -14,9 +14,6 @@ import server.utils.ServerUtils;
 import handler.*;      
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 
 
@@ -51,13 +48,13 @@ public class Server {
                     clientSocket = serverSocket.accept();
 
                     //New client is accepted
-                    System.out.println("Client is accepted. ");
+                    //System.out.println("[ClientAcceptListener class]: Client has been accepted. ");
                     
                     //init thread to receive the client
                     new AuthenHandler(clientSocket);
                     
                 } catch (IOException ex) {
-                    System.out.println("Connection dropped client not accepted. ");
+                    //System.out.println("[ClientAcceptListener class]: Connection dropped (client not accepted). ");
                     ex.printStackTrace();
                 }
             }
@@ -79,7 +76,7 @@ public class Server {
             isServerUp = true;
             
             //reset the online handlers
-             PlayerHandler.resetHandlers();
+            PlayerHandler.resetHandlers();
              
             //reset all players to offline
             DBOperations.setAllOffline();
@@ -87,10 +84,10 @@ public class Server {
             //start update thread
             updateHandler = new UpdatesHandler();
             
-            System.out.println("Server is up on port:" + ServerUtils.PORT_NUMBER); 
+            //System.out.println("[Server class]: Server is up and running on port:" + ServerUtils.PORT_NUMBER); 
 
         } catch (IOException ex) {
-            System.out.print("Exception in server start");
+            //System.out.print("[Server class]: Couldn't start server");
             ex.printStackTrace();
         }
     }
@@ -113,15 +110,15 @@ public class Server {
         isServerUp = false;
         
         
-        System.out.println("Server is stopped.");
+        //System.out.println("[Server class]: Server stopped successfully.");
         
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
-    public static void main(String [] args)
+   /* public static void main(String [] args)
     {
         new Server().start();
-    }
+    }*/
 }

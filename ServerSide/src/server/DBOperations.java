@@ -6,8 +6,8 @@
 package server;
 
 import java.util.Vector;
-import playerinfo.DbMethods;
-import playerinfo.Player;
+import database.playerinfo.DbMethods;
+import database.playerinfo.Player;
 
 
 /**

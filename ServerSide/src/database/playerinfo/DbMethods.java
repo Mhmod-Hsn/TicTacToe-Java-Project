@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package playerinfo;
+package database.playerinfo;
 
 import java.util.Vector;
-
-import playerinfo.Player.orderType;
+import database.playerinfo.Player.orderType;
 
 /**
  *
@@ -110,32 +109,3 @@ public abstract class DbMethods {
     }
     
 }
-
-
-//-------------------------------  Player Model ProtoTypes -------------------------------
-//    boolean insertRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
-//    public boolean updateIdRecord(long _pid ,String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
-//    public boolean updateUsrRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
-//    public boolean updateUsrFieldStatus(String _username , String _status );
-//    public boolean updateUsrFieldScore(String _username , long _score );
-//    public boolean updateUsrPassRecord(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar);
-//    public boolean updateUsrPassFieldStatus(String _username , String _passwd , String _status );
-//    public boolean updateUsrPassFieldScore(String _username , String _passwd ,long _score );
-//    public boolean deleteIdRecord(long _pid);
-//    public boolean deleteUsrRecord(String _username);
-//    public boolean deleteMailRecord(String _email);
-//    public boolean deleteMailPassRecord(String _email, String _passwd);
-//    public boolean deleteUsrPassRecord(String _username, String _passwd);
-//     //DML Queries
-//    public Long selectScoreWhereUsr(String _username );
-//    public String selectStatusWhereUsr(String _username );
-//    public String selectPassWhereUsr(String _username );
-//    public boolean selectWhereUsrPass(String _username ,String _passwd );
-//    public playerinfo.Player selectPlayerWhereUsrPass(String _username ,String _passwd );
-//    public String selectMailWhereUsr(String _username );
-//    public Long selectScoreWhereUsrPass(String _username ,String _passwd );
-//    public String selectStatusWhereUsrPass(String _username ,String _passwd );
-//    public Vector<playerinfo.Player> selectAllWhereStatus(String _status );
-//    public Vector<playerinfo.Player> selectAllPlayers();
-//    public Vector<playerinfo.Player> selectAllPlayersOrderByDESC(String colName );
-//    public Vector<playerinfo.Player> selectAllPlayersOrderByASC(String colName );
