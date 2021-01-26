@@ -1,4 +1,12 @@
-
+/ServerSide/nbproject/
+/ClientSide/build/
+/ClientSide/dist/
+/ClientSide/test/
+/ServerSide/nbproject/
+/ServerSide/build/
+/ServerSide/dist/
+/ServerSide/test/
+/ServerSide/manifest.mf/
 
 
 
