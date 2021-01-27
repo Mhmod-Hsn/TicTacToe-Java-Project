@@ -19,43 +19,51 @@ import java.util.Date;
  */
 
 public abstract class ServerUtils {
-    public static final int PORT_NUMBER = 7777;
     
+    public static final int PORT_NUMBER = 7777;
     public static final String logsFilePath = "src\\server\\logs\\logs.txt";    
     
+    
     public static Boolean appendLog(String logStr){
+        
         File logsFile =  new File(logsFilePath);
         BufferedWriter out = null ;
         Date d = new Date();
+        
         try { 
+            
             if(logsFile != null ){
+                
                 out = new BufferedWriter(new FileWriter(logsFile, true));                  
                 out.write("[ "+d.toString()+" ] :  "+logStr+"\n"); 
-                //System.out.println("Data Successfully appended into file");                 
+
             }else{
 //                File not found case
                 if (logsFile.createNewFile()) {
+                    
                     out = new BufferedWriter(new FileWriter(logsFile, true));                  
-                    out.write("[ "+d.toString()+" ] :  "+logStr+"\n"); 
-                    //System.out.println("Data Successfully appended into file after creation"); 
+                    out.write("[ "+d.toString()+" ] :  "+logStr+"\n");
                 }
             }
         }
+        
         catch (IOException io) {
             //System.out.println("Data not appended into file");  // make new file
         } 
         finally { 
+            
             try { 
+                
                 out.close(); 
                 return true;
             } 
             catch (IOException io) {
+                
                 return false; 
             } 
         }
         
     }
     
-       
 }
         

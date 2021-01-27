@@ -42,19 +42,25 @@ public class UpdatesHandler extends Thread{
                 
                 //update players list
                 playerVect = DBOperations.getAllPlayers();
-
+                
+                if (playerVect == null)
+                {
+                    playerVect = new Vector();
+                }
+                
                 //update handlers
                 handlersVect = PlayerHandler.getOnlinePlayerHandlers();
 
                 //Notify all players
                 notifyNewPlayerList(playerVect);
             }
+            
            // if not skip this iteration
 
             try {
                 sleep(500);
             } catch (InterruptedException ex) {
-                System.out.println("[UpdatesHandler class]: Couldn't sleep from database listening");
+                ServerUtils.appendLog("[UpdatesHandler class]: Couldn't sleep from database listening");
             }
         }
     }

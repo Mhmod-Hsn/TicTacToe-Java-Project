@@ -106,9 +106,8 @@ public class DatabaseDriver {
         try {
             resultSet.close();
         } catch (SQLException ex) {
-//            Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DatabaseDriver.class.getName()).log(Level.SEVERE, null, ex);
             //System.out.println("Cann't End ResultSet Connection of DB :"+DBConfig.DB_NAME);
         }
      }
-    
 }

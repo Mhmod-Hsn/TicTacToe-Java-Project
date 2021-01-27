@@ -14,6 +14,14 @@ import java.util.Vector;
  * @author ahmed
  */
 public class Game {
+    
+    //gameID  
+    //xPlayerUsername
+    //oPlayerUsername
+    //nextMove
+    //gameboard 
+    //date
+    
     public  static  enum cellType { X("X"), O("O"), EMPTY(" ");  // Assigning a value to each enum
         private final String code;
         cellType(String code){
@@ -52,9 +60,9 @@ public class Game {
         this.board[5] = _cell5 ;
         this.board[6] = _cell6 ;
         this.board[7] = _cell7 ;
-        this.board[8] = _cell8 ;
-        
+        this.board[8] = _cell8 ; 
     }
+    
     public void setGid(Long gid) {
         this.gid = gid;
     }
@@ -120,79 +128,53 @@ public class Game {
         return g;
     }
     
-    public static boolean add(cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
-        return GameModel.insertRecord(_turn, _board, _player1, _player2 ) ;
-    }
-    public static boolean update(Long _gid , cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
-        return GameModel.updateIdRecord(_gid ,_turn, _board, _player1, _player2 ) ;
-    }
-    public static boolean update(cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
-        return GameModel.updateBoardWhereP1P2(_turn, _board, _player1, _player2);
-    }
-    public static boolean update(cellType _turn , cellType[] _board , Long _player1  , Long _player2 , String _created_at ){
-        return GameModel.updateBoardWhereP1P2Date(_turn, _board, _player1, _player2 , _created_at);
-    }
-    
-    public static boolean deleteId(long _gid ){
-        return GameModel.deleteIdRecord(_gid);
-    }
-    public static boolean deleteP1(long _player1 ){
-        return GameModel.deleteP1Record(_player1) ;
-    }
-    public static boolean deleteP2(long _player2 ){
-        return GameModel.deleteP2Record(_player2);
-    }
-    public static boolean delete(long _player1, long _player2 ){
-        return GameModel.deleteP1P2Record(_player1, _player2);
-    }
-    public static boolean delete(long _player1, long _player2 ,String _created_at){
-        return GameModel.deleteP1P2Record(_player1, _player2, _created_at);
-    }
-    
-    public static Game get(long _gid){
-       return GameModel.selectGameWhereId (_gid ) ; 
-    }
-    public static Game get(long _pid1 , long _pid2 , String _created_at){
-       return GameModel.selectGameWhereP1P2Date(_pid1, _pid2, _created_at); 
-    }
-    public static Vector<Game> get(long _pid1 , long _pid2){
-       return GameModel.selectAllWhereP1P2(_pid1, _pid2) ;
-    }
-    public static Vector<Game> getAll(){
-       return GameModel.selectAllGames() ;
-    }
-   public static Vector<Game> getAllOrdered(String colName , orderType _order ){
-        if (_order == orderType.ASC)
-            return GameModel.selectAllGamesOrderByASC(colName);
-        else
-            return GameModel.selectAllGamesOrderByDESC(colName);             
-     }    
-    public static Vector<Game> getAllOrderedDesc(String colName ){
-        return GameModel.selectAllGamesOrderByDESC(colName);     
-    }
-    public static Vector<Game> getAllOrderedAsc(String colName ){
-        return GameModel.selectAllGamesOrderByASC(colName);
-    }
+//    public static boolean update(Long _gid , cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
+//        return GameModel.updateIdRecord(_gid ,_turn, _board, _player1, _player2 ) ;
+//    }
+//    
+//    public static boolean update(cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
+//        return GameModel.updateBoardWhereP1P2(_turn, _board, _player1, _player2);
+//    }
+//    
+//    public static boolean update(cellType _turn , cellType[] _board , Long _player1  , Long _player2 , String _created_at ){
+//        return GameModel.updateBoardWhereP1P2Date(_turn, _board, _player1, _player2 , _created_at);
+//    }
+      
+//    public static boolean deleteP1(long _player1 ){
+//        return GameModel.deleteP1Record(_player1) ;
+//    }
+//    public static boolean deleteP2(long _player2 ){
+//        return GameModel.deleteP2Record(_player2);
+//    }
+//    public static boolean delete(long _player1, long _player2 ){
+//        return GameModel.deleteP1P2Record(_player1, _player2);
+//    }
+//    public static boolean delete(long _player1, long _player2 ,String _created_at){
+//        return GameModel.deleteP1P2Record(_player1, _player2, _created_at);
+//    }
+//    
+
+//    public static Game get(long _pid1 , long _pid2 , String _created_at){
+//       return GameModel.selectGameWhereP1P2Date(_pid1, _pid2, _created_at); 
+//    }
+//    
+//
+//    public static Vector<Game> getAll(){
+//       return GameModel.selectAllGames() ;
+//    }
+//    
+//    public static Vector<Game> getAllOrdered(String colName , orderType _order ){
+//         if (_order == orderType.ASC)
+//             return GameModel.selectAllGamesOrderByASC(colName);
+//         else
+//             return GameModel.selectAllGamesOrderByDESC(colName);             
+//    }    
+//
+//    public static Vector<Game> getAllOrderedDesc(String colName ){
+//         return GameModel.selectAllGamesOrderByDESC(colName);     
+//    }
+//   
+//    public static Vector<Game> getAllOrderedAsc(String colName ){
+//         return GameModel.selectAllGamesOrderByASC(colName);
+//    }
 }
-
-
-
-// ----------------- Game ProtoTypes ----------------------------------------
-//  static boolean insertRecord(cellType _turn , cellType[] _board , Long _player1  , Long _player2 )
-//  static boolean updateIdRecord(Long _gid ,cellType _turn , cellType[] _board , Long _player1  , Long _player2 )
-//  static boolean updateBoardWhereP1P2(_turn, _board, _player1, _player2)
-//  static boolean updateBoardWhereP1P2Date( cellType _turn , cellType[] _board , Long _player1  , Long _player2 ,String _created_at )
-
-//  static boolean deleteIdRecord(long _gid){
-//  static boolean deleteP1Record(long _player1){
-//  static boolean deleteP2Record(long _player2){
-//  static boolean deleteP1P2Record(long _player1 ,long _player2){
-//  static boolean deleteP1P2Record(long _player1 ,long _player2, String  _created_at)
-
-
-//  static Game selectGameWhereId (Long _gid )   
-//  static Game selectGameWhereP1P2Date (Long _player1 , Long _player2 ,String _created_at)
-//  static Vector<Game> selectAllWhereP1P2(Long _player1 , Long _player2 )
-//  static Vector<Game> selectAllGames(){   
-//  static Vector<Game> selectAllPlayersOrderByDESC(String colName )
-//  static Vector<Game> selectAllPlayersOrderByASC(String colName )

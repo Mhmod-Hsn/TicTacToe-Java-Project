@@ -2,6 +2,9 @@ package server.serverfx;
 
 
 import database.DBConfig;
+import database.DBMethods;
+import database.playerinfo.*;
+
 import static database.DatabaseDriver.DB_CON_STATUS;
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,7 +28,6 @@ import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import database.playerinfo.*;
 import server.Server;
 import server.utils.ServerUtils;
 
@@ -275,12 +277,12 @@ public class FXMLDocumentBase extends AnchorPane {
         int online = 0 ;
         int offline = 0 ;
         int busy = 0 ;
-        if(DbMethods.getAllRecords(Player.statusType.online.toString()) != null )
-            online = DbMethods.getAllRecords(Player.statusType.online.toString()).size();
-        if(DbMethods.getAllRecords(Player.statusType.offline.toString()) != null )
-            offline = DbMethods.getAllRecords(Player.statusType.offline.toString()).size();
-        if(DbMethods.getAllRecords(Player.statusType.busy.toString()) != null )
-            busy = DbMethods.getAllRecords(Player.statusType.busy.toString()).size();
+        if(DBMethods.getAllRecords(Player.statusType.online.toString()) != null )
+            online = DBMethods.getAllRecords(Player.statusType.online.toString()).size();
+        if(DBMethods.getAllRecords(Player.statusType.offline.toString()) != null )
+            offline = DBMethods.getAllRecords(Player.statusType.offline.toString()).size();
+        if(DBMethods.getAllRecords(Player.statusType.busy.toString()) != null )
+            busy = DBMethods.getAllRecords(Player.statusType.busy.toString()).size();
         
         _clientChart = FXCollections.observableArrayList(
             new PieChart.Data("Online",online),
@@ -323,12 +325,12 @@ public class FXMLDocumentBase extends AnchorPane {
         int online = 0 ;
         int offline = 0 ;
         int busy = 0 ;
-        if(DbMethods.getAllRecords(Player.statusType.online.toString()) != null )
-            online = DbMethods.getAllRecords(Player.statusType.online.toString()).size();
-        if(DbMethods.getAllRecords(Player.statusType.offline.toString()) != null )
-            offline = DbMethods.getAllRecords(Player.statusType.offline.toString()).size();
-        if(DbMethods.getAllRecords(Player.statusType.busy.toString()) != null )
-            busy = DbMethods.getAllRecords(Player.statusType.busy.toString()).size();
+        if(DBMethods.getAllRecords(Player.statusType.online.toString()) != null )
+            online = DBMethods.getAllRecords(Player.statusType.online.toString()).size();
+        if(DBMethods.getAllRecords(Player.statusType.offline.toString()) != null )
+            offline = DBMethods.getAllRecords(Player.statusType.offline.toString()).size();
+        if(DBMethods.getAllRecords(Player.statusType.busy.toString()) != null )
+            busy = DBMethods.getAllRecords(Player.statusType.busy.toString()).size();
         if(offline == 0)
             all = 0;
         else

@@ -20,3 +20,144 @@
 [ Tue Jan 26 19:12:07 EET 2021 ] :  intial logs
 [ Tue Jan 26 19:23:45 EET 2021 ] :  intial logs
 [ Tue Jan 26 19:25:11 EET 2021 ] :  intial logs
+[ Wed Jan 27 13:11:04 GMT+02:00 2021 ] :  [AuthenHandler class]:signin rejected: error msg [fail ]
+[ Wed Jan 27 13:11:13 GMT+02:00 2021 ] :  [AuthenHandler class]:signin rejected: error msg [fail ]
+[ Wed Jan 27 13:11:15 GMT+02:00 2021 ] :  [AuthenHandler class]:signin rejected: error msg [fail ]
+[ Wed Jan 27 13:11:21 GMT+02:00 2021 ] :  [AuthenHandler class]:signin rejected: error msg [fail ]
+[ Wed Jan 27 13:11:40 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Wed Jan 27 13:11:42 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Wed Jan 27 13:12:11 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"signout"}
+[ Wed Jan 27 13:12:11 GMT+02:00 2021 ] :  [PlayerHandler class]: Player has loggedout
+[ Wed Jan 27 13:12:26 GMT+02:00 2021 ] :  [AuthenHandler class]:signin rejected: error msg [signedin ]
+[ Wed Jan 27 13:12:29 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Wed Jan 27 13:14:11 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Wed Jan 27 13:14:15 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Wed Jan 27 13:14:25 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"signout"}
+[ Wed Jan 27 13:14:25 GMT+02:00 2021 ] :  [PlayerHandler class]: Player has loggedout
+[ Wed Jan 27 13:14:25 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"signout"}
+[ Wed Jan 27 13:14:25 GMT+02:00 2021 ] :  [PlayerHandler class]: Player has loggedout
+[ Wed Jan 27 13:15:53 GMT+02:00 2021 ] :  [AuthenHandler class]:signin rejected: error msg [fail ]
+[ Wed Jan 27 13:15:58 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Wed Jan 27 13:16:03 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Wed Jan 27 13:17:09 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"invitePlayer","username":"hossam"}
+[ Wed Jan 27 13:17:11 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"invitation","invitationStatus":"true"}
+[ Wed Jan 27 13:17:11 GMT+02:00 2021 ] :  [GameEstablishHandler class]: A new request was received from player2: {"type":"invitation","invitationStatus":"true"}
+[ Wed Jan 27 13:17:11 GMT+02:00 2021 ] :  [GameEstablishHandler class]: A new request was sent to player1: {"score":0,"avatar":null,"type":"invitePlayer","responseStatus":true,"invitationStatus":"true","username":"hossam","status":"online","errorMsg":""}
+[ Wed Jan 27 13:17:11 GMT+02:00 2021 ] :  [GameEstablishHandler class]: thread is closed
+[ Wed Jan 27 13:17:21 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:17:21 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:17:24 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:17:24 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:17:28 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:17:28 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:17:29 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:17:29 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:17:31 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:17:31 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:17:32 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:17:32 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:17:33 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:17:33 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:17:34 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:17:34 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:17:35 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:17:35 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:17:35 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"gameEnded","responseStatus":"true","username":"hossam2"}
+[ Wed Jan 27 13:17:35 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"type":"gameEnded","responseStatus":"true","username":"hossam2"}
+[ Wed Jan 27 13:17:55 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"invitePlayer","username":"hossam2"}
+[ Wed Jan 27 13:17:56 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"invitation","invitationStatus":"true"}
+[ Wed Jan 27 13:17:56 GMT+02:00 2021 ] :  [GameEstablishHandler class]: A new request was received from player2: {"type":"invitation","invitationStatus":"true"}
+[ Wed Jan 27 13:17:56 GMT+02:00 2021 ] :  [GameEstablishHandler class]: A new request was sent to player1: {"score":20,"avatar":null,"type":"invitePlayer","responseStatus":true,"invitationStatus":"true","username":"hossam2","status":"online","errorMsg":""}
+[ Wed Jan 27 13:17:56 GMT+02:00 2021 ] :  [GameEstablishHandler class]: thread is closed
+[ Wed Jan 27 13:18:03 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:03 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:04 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:04 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:05 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:05 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:06 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:06 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:07 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:07 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:08 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:08 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:09 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:09 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:10 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:10 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:10 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:10 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:11 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"gameEnded","responseStatus":"true","username":"hossam"}
+[ Wed Jan 27 13:18:11 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"type":"gameEnded","responseStatus":"true","username":"hossam"}
+[ Wed Jan 27 13:18:21 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"invitePlayer","username":"hossam2"}
+[ Wed Jan 27 13:18:22 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"invitation","invitationStatus":"true"}
+[ Wed Jan 27 13:18:22 GMT+02:00 2021 ] :  [GameEstablishHandler class]: A new request was received from player2: {"type":"invitation","invitationStatus":"true"}
+[ Wed Jan 27 13:18:22 GMT+02:00 2021 ] :  [GameEstablishHandler class]: A new request was sent to player1: {"score":5,"avatar":null,"type":"invitePlayer","responseStatus":true,"invitationStatus":"true","username":"hossam2","status":"online","errorMsg":""}
+[ Wed Jan 27 13:18:22 GMT+02:00 2021 ] :  [GameEstablishHandler class]: thread is closed
+[ Wed Jan 27 13:18:28 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:28 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:29 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:29 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:30 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:30 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:31 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:31 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:31 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":0,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:32 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":0,"row":1,"type":"sendMove"}
+[ Wed Jan 27 13:18:32 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:32 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:33 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":1,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:33 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":1,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:33 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:33 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":2,"type":"sendMove"}
+[ Wed Jan 27 13:18:34 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"col":2,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:34 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"col":2,"row":0,"type":"sendMove"}
+[ Wed Jan 27 13:18:34 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"gameEnded","responseStatus":"true","username":"hossam"}
+[ Wed Jan 27 13:18:34 GMT+02:00 2021 ] :  [GameHandler class]: (handling player request) in game: {"type":"gameEnded","responseStatus":"true","username":"hossam"}
+[ Wed Jan 27 13:18:37 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"invitePlayer","username":"hossam2"}
+[ Wed Jan 27 13:18:39 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"invitation","invitationStatus":"true"}
+[ Wed Jan 27 13:18:39 GMT+02:00 2021 ] :  [GameEstablishHandler class]: A new request was received from player2: {"type":"invitation","invitationStatus":"true"}
+[ Wed Jan 27 13:18:39 GMT+02:00 2021 ] :  [GameEstablishHandler class]: A new request was sent to player1: {"score":0,"avatar":null,"type":"invitePlayer","responseStatus":true,"invitationStatus":"true","username":"hossam2","status":"online","errorMsg":""}
+[ Wed Jan 27 13:18:39 GMT+02:00 2021 ] :  [GameEstablishHandler class]: thread is closed
+[ Wed Jan 27 13:18:40 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateStatus","status":"online"}
+[ Wed Jan 27 13:18:40 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ updateStatus] has succeeded
+[ Wed Jan 27 13:18:48 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateStatus","status":"online"}
+[ Wed Jan 27 13:18:48 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ updateStatus] has succeeded
+[ Wed Jan 27 13:18:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"signout"}
+[ Wed Jan 27 13:18:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Player has loggedout
+[ Wed Jan 27 13:18:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"signout"}
+[ Wed Jan 27 13:18:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Player has loggedout
+[ Wed Jan 27 13:23:02 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:52 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:53 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:23:54 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"updateList"}
+[ Wed Jan 27 13:23:54 GMT+02:00 2021 ] :  [PlayerHandler class]: Player Request [ unknown] has failed
+[ Wed Jan 27 13:23:54 GMT+02:00 2021 ] :  [PlayerHandler class]: The failed request: {"type":"updateList"}
+[ Wed Jan 27 13:24:00 GMT+02:00 2021 ] :  [PlayerHandler class]: Parsing player request=> {"type":"signout"}
+[ Wed Jan 27 13:24:00 GMT+02:00 2021 ] :  [PlayerHandler class]: Player has loggedout
+[ Wed Jan 27 13:25:29 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in

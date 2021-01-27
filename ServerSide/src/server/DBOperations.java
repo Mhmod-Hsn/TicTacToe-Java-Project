@@ -5,8 +5,9 @@
  */
 package server;
 
+import database.gameinfo.Game;
 import java.util.Vector;
-import database.playerinfo.DbMethods;
+import database.DBMethods;
 import database.playerinfo.Player;
 
 
@@ -19,7 +20,8 @@ public abstract class DBOperations {
     //indicates if the db is updated from the last check
     private static boolean isDBChanged = false;
     
-            
+    
+    /*******Updates control methods***********/
     public static boolean isDBChanged ()
     {
         //save the value of the flag
@@ -36,11 +38,14 @@ public abstract class DBOperations {
         isDBChanged = false;
     }
     
+
+    /*******User related methods***********/
+    
     public static Player login(String username, String password){
-        Player p = DbMethods.getPlayer(username, password);
+        Player p = DBMethods.getPlayer(username, password);
         
         if (p != null) {
-            DbMethods.updateStatus(username, (Player.statusType.online).toString());
+            DBMethods.updateStatus(username, (Player.statusType.online).toString());
             p.setStatus(Player.statusType.online);
             
             //assign the db changed flag 
@@ -50,11 +55,11 @@ public abstract class DBOperations {
     }
 
     public static boolean isUserExists(String username, String password){
-        return DbMethods.isRecordExists(username, password);
+        return DBMethods.isRecordExists(username, password);
     }
     
     public static boolean isLoggedIn(String username, String password){
-        String status = DbMethods.getStatus(username);
+        String status = DBMethods.getStatus(username);
         
         if ( status.equals("online") || status.equals("busy")) 
         {
@@ -62,32 +67,6 @@ public abstract class DBOperations {
         }
         
         return false;
-    }
-    
-    public static boolean logout (String username)
-    {
-        //assign the db changed flag 
-        isDBChanged = true;
-        return DbMethods.updateStatus(username, (Player.statusType.offline).toString());
-    }
-    
-    public static boolean updatePlayerScore (String username, long newScore)
-    {
-        if (DbMethods.updateScore(username, newScore)) {
-            
-            isDBChanged = true;
-            return true;
-        }
-        return false;
-    }
-    
-    public static boolean updatePlayerStatus (String username, String newScore)
-    {
-        if (DbMethods.updateStatus(username, newScore)) {
-            isDBChanged = true;
-            return true;
-        }
-            return false;
     }
     
     public static Player register(String username, String password){
@@ -98,7 +77,7 @@ public abstract class DBOperations {
         
         newPlayer.setStatus(Player.statusType.online);
         
-        boolean isCreated = DbMethods.addPlayer(newPlayer.getUsername() ,newPlayer.getPasswd(),null, newPlayer.getStatus().toString(), newPlayer.getScore(), null);
+        boolean isCreated = DBMethods.addPlayer(newPlayer.getUsername() ,newPlayer.getPasswd(),null, newPlayer.getStatus().toString(), newPlayer.getScore(), null);
 
         if (isCreated)
         {
@@ -110,22 +89,49 @@ public abstract class DBOperations {
         return null;  
     }
     
-
+    
+    /*******Players related methods***********/
+    public static boolean logout (String username)
+    {
+        //assign the db changed flag 
+        isDBChanged = true;
+        return DBMethods.updateStatus(username, (Player.statusType.offline).toString());
+    }
+    
+    public static boolean updatePlayerScore (String username, long newScore)
+    {
+        if (DBMethods.updateScore(username, newScore)) {
+            
+            isDBChanged = true;
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean updatePlayerStatus (String username, String newScore)
+    {
+        if (DBMethods.updateStatus(username, newScore)) {
+            isDBChanged = true;
+            return true;
+        }
+            return false;
+    }
+    
     public static Vector <Player> getAllPlayers()
     {
-        return DbMethods.getAllOrderedDesc("score");
+        return DBMethods.getAllOrderedDesc("score");
     }
     
     public static boolean setAllOffline()
     {
         //assign the db changed flag 
         isDBChanged = true;
-        return DbMethods.updateStatus(Player.statusType.offline.toString());
+        return DBMethods.updateStatus(Player.statusType.offline.toString());
     }
     
     public static Vector <Player> getOnlinePlayers()
     {
-        Vector<Player> onlinePlayers = DbMethods.getAllRecords(Player.statusType.online.toString());
+        Vector<Player> onlinePlayers = DBMethods.getAllRecords(Player.statusType.online.toString());
              
         onlinePlayers.addAll(getBusyPlayers());
         
@@ -134,14 +140,68 @@ public abstract class DBOperations {
     
     public static Vector <Player> getBusyPlayers()
     {
-        return DbMethods.getAllRecords(Player.statusType.busy.toString());
+        return DBMethods.getAllRecords(Player.statusType.busy.toString());
     }
     
     public static Vector <Player> getOfflinePlayers()
     {
-        return DbMethods.getAllRecords(Player.statusType.offline.toString());
+        return DBMethods.getAllRecords(Player.statusType.offline.toString());
     }
     
     
+    /*******Game related methods***********/
+   private static Game.cellType[] convertToOneDimension( Game.cellType [][]arr){
+        
+            Game.cellType []oneDimensionArr = new Game.cellType[9];
+            int index=0;
+            
+            for (int i = 0; i < 3; i++) {
+                
+                for (int j = 0; j < 3; j++) {
+                    oneDimensionArr[index] = arr[i][j];
+                    index++;
+                }
+            }
+            return oneDimensionArr;
+        }
     
+    private static Game.cellType [][] convertToTwoDimension(Game.cellType [] arr){
+        
+        Game.cellType[][] twoDimensionArr = new Game.cellType[3][3];
+        int index=0;
+        
+        for (int i = 0; i < 3; i++) {
+            
+            for (int j = 0; j < 3; j++) {
+                twoDimensionArr[i][j] = arr[index];
+                index++;
+            }
+        }
+        return twoDimensionArr;
+        
+    }
+    
+    
+    public static boolean addGame(Game.cellType [][] gameBoard, String player1 ,String player2,  Game.cellType nextMove)  
+    {
+        //**ADD GAME ***/
+
+        System.out.println("GAME ADDED");
+        return DBMethods.addNewGame(nextMove,convertToOneDimension(gameBoard),player1,player2);
+    }
+    
+    public static boolean deleteGame (long gameId)
+    {
+        return DBMethods.deleteGame(gameId);
+    }
+    
+    public static Vector<Game>  getGameList (String username)
+    {
+        return DBMethods.getGameList(username);
+    }
+    
+    public static Game  getGame (Long gameId)
+    {
+        return DBMethods.getGame(gameId);
+    } 
 }

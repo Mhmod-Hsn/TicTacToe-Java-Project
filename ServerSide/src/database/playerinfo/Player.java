@@ -54,7 +54,6 @@ public class Player {
         return passwd;
     }
 
-    
     public String getEmail() {
         return email;
     }
@@ -111,15 +110,18 @@ public class Player {
         this.status = status;
         this.avatar = avatar;
     }
+    
     public Player(String username, String passwd, String email) {
         this.username = username;
         this.passwd = passwd;
         this.email = email;
     }
+    
     public Player(String username, String passwd) {
         this.username = username;
         this.passwd = passwd;
     }
+    
     public Player(Long pid, String username, String passwd, String email) {
         this.pid = pid;
         this.username = username;

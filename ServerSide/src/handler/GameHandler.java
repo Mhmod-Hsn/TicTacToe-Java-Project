@@ -9,8 +9,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Vector;
 import org.json.simple.JSONObject;
-import server.utils.JSONHandeling;
-import server.utils.Requests;
+import server.utils.*;
+import server.DBOperations;
+import database.gameinfo.Game;
+
 
 /**
  *
@@ -35,13 +37,13 @@ public class GameHandler extends Thread {
     private volatile boolean isGameEnded = false;
     
     //define the moves
-    private static final char X_MOVE = 'X';
-    private static final char O_MOVE = 'O';
-    private static final char EMPTY_CELL = ' ';
+    private static final Game.cellType X_MOVE = Game.cellType.X;
+    private static final Game.cellType O_MOVE = Game.cellType.O;
+    private static final Game.cellType EMPTY_CELL = Game.cellType.EMPTY;
     
     
     //create 2d array to carry the state of the game
-    private char[][] gameBoard = {{EMPTY_CELL,EMPTY_CELL,EMPTY_CELL},
+    private Game.cellType[][] gameBoard = {{EMPTY_CELL,EMPTY_CELL,EMPTY_CELL},
                                   {EMPTY_CELL,EMPTY_CELL,EMPTY_CELL},
                                   {EMPTY_CELL,EMPTY_CELL,EMPTY_CELL}};
             
@@ -121,45 +123,14 @@ public class GameHandler extends Thread {
         }
         return true;
     }
-    
-    private char[] convertToOneDimension(char [][]arr){
-        
-            char []oneDimensionArr = new char[9];
-            int index=0;
-            
-            for (int i = 0; i < 3; i++) {
-                
-                for (int j = 0; j < 3; j++) {
-                    oneDimensionArr[index] = arr[i][j];
-                    index++;
-                }
-            }
-            return oneDimensionArr;
-        }
-    
-    private char [][] convertToTwoDimension(char [] arr){
-        
-        char[][] twoDimensionArr = new char[3][3];
-        int index=0;
-        
-        for (int i = 0; i < 3; i++) {
-            
-            for (int j = 0; j < 3; j++) {
-                twoDimensionArr[i][j] = arr[index];
-                index++;
-            }
-        }
-        return twoDimensionArr;
-        
-    }
 
     private boolean handlePlayerRequest(JSONObject playerRequest, boolean isXPlayer )
     {
         //find out which request
         String requestType = (String)playerRequest.get("type");
-        System.out.println("[GameHandler class]: (handling player reques>>) in game: "+playerRequest.toString());
+        ServerUtils.appendLog("[GameHandler class]: (handling player request) in game: "+playerRequest.toString());
         boolean isSucess = false;
-        char move;
+        Game.cellType move;
         
         DataOutputStream OtherPlayerOutput; 
         
@@ -205,7 +176,7 @@ public class GameHandler extends Thread {
         return isSucess;
     }
     
-    private void recordMove (Long row , Long col , char move)
+    private void recordMove (Long row , Long col , Game.cellType move)
     {
         this.gameBoard[row.intValue()][col.intValue()] = move;
     }
@@ -222,13 +193,13 @@ public class GameHandler extends Thread {
         }     
     }
 
-    private void gameEndingRoutine(char winnerMove)
+    private void gameEndingRoutine(Game.cellType winnerMove)
     {
         PlayerHandler winnerPlayer;
         PlayerHandler otherPlayer;
         
         // x player wins
-        if (winnerMove == X_MOVE)
+        if (winnerMove.equals(X_MOVE))
         {
             winnerPlayer = xPlayerHandler;
             otherPlayer = oPlayerHandler;
@@ -271,6 +242,11 @@ public class GameHandler extends Thread {
         this.oPlayerHandler.updatePlayerStatus("online");
     }
 
+    private void saveGame (Game.cellType nextMove , String player1 , String player2)
+    {
+        DBOperations.addGame(this.gameBoard, player1,player2, nextMove);
+    }
+    
     private void close()
     {
         //close this thread

@@ -48,13 +48,13 @@ public class Server {
                     clientSocket = serverSocket.accept();
 
                     //New client is accepted
-                    //System.out.println("[ClientAcceptListener class]: Client has been accepted. ");
+                    //ServerUtils.appendLog("[ClientAcceptListener class]: Client has been accepted. ");
                     
                     //init thread to receive the client
                     new AuthenHandler(clientSocket);
                     
                 } catch (IOException ex) {
-                    //System.out.println("[ClientAcceptListener class]: Connection dropped (client not accepted). ");
+                    //ServerUtils.appendLog("[ClientAcceptListener class]: Connection dropped (client not accepted). ");
                     ex.printStackTrace();
                 }
             }
@@ -84,7 +84,7 @@ public class Server {
             //start update thread
             updateHandler = new UpdatesHandler();
             
-            //System.out.println("[Server class]: Server is up and running on port:" + ServerUtils.PORT_NUMBER); 
+            //ServerUtils.appendLog("[Server class]: Server is up and running on port:" + ServerUtils.PORT_NUMBER); 
 
         } catch (IOException ex) {
             //System.out.print("[Server class]: Couldn't start server");
@@ -110,15 +110,15 @@ public class Server {
         isServerUp = false;
         
         
-        //System.out.println("[Server class]: Server stopped successfully.");
+        //ServerUtils.appendLog("[Server class]: Server stopped successfully.");
         
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
-   /* public static void main(String [] args)
-    {
-        new Server().start();
-    }*/
+//    public static void main(String [] args)
+//    {
+//        new Server().start();
+//    }
 }

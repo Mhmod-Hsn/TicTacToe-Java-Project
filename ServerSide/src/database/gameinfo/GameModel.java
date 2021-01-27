@@ -18,7 +18,7 @@ import java.util.Vector;
 public interface  GameModel {
     static final DatabaseDriver db = new DatabaseDriver() ;
 
-    static boolean insertRecord(cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
+    static boolean insertRecord(cellType _turn , cellType[] _board , String _player1  , String  _player2 ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -27,7 +27,7 @@ public interface  GameModel {
                     db.endStatConnection();
                     return false ;
                 }
-                int checkNew=db.getStatement().executeUpdate("INSERT INTO games ( turn, cell0, cell1, cell2 , cell3 , cell4 ,cell5 ,cell6,cell7,cell8, player1 , player2 ) VALUES( '"+_turn+"', '"+_board[0]+"', '"+_board[1]+"', '"+_board[2]+"', '"+_board[3]+"', '"+_board[4]+"', '"+_board[5]+"', '"+_board[6]+"', '"+_board[7]+"', '"+_board[8]+"', "+_player1+", "+_player2+" )"); 
+                int checkNew=db.getStatement().executeUpdate("INSERT INTO games ( turn, cell0, cell1, cell2 , cell3 , cell4 ,cell5 ,cell6,cell7,cell8, player1 , player2 ) VALUES( '"+_turn+"', '"+_board[0]+"', '"+_board[1]+"', '"+_board[2]+"', '"+_board[3]+"', '"+_board[4]+"', '"+_board[5]+"', '"+_board[6]+"', '"+_board[7]+"', '"+_board[8]+"', '"+_player1+"' , '"+_player2+"' )"); 
                 db.endStatConnection();
                 if(checkNew >= 1){
                     ////System.out.println("new ok ");                   
@@ -44,8 +44,9 @@ public interface  GameModel {
                 return false ;
             }
     } 
+    
     // update DML  update record [ id or user or user,pass]  and Field score or status [ user or user,pass ]
-   static boolean updateIdRecord(Long _gid ,cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
+    static boolean updateIdRecord(Long _gid ,cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -72,7 +73,6 @@ public interface  GameModel {
             }
     }
    
-    
     static boolean updateBoardWhereP1P2( cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
          try {
                 db.startConnection();
@@ -99,7 +99,7 @@ public interface  GameModel {
                 return false ;
             }
     } 
-     static boolean updateBoardWhereP1P2Date( cellType _turn , cellType[] _board , Long _player1  , Long _player2 ,String _created_at ){
+    static boolean updateBoardWhereP1P2Date( cellType _turn , cellType[] _board , Long _player1  , Long _player2 ,String _created_at ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ; 
@@ -239,6 +239,7 @@ public interface  GameModel {
                 return false ;
             }
     }
+    
     static Game selectGameWhereId (Long _gid ){
          try {
                 db.startConnection();
@@ -294,16 +295,47 @@ public interface  GameModel {
                 return null ;
             }
     }
-  
-   
-    
-      
      
     static Vector<Game> selectAllWhereP1P2(Long _player1 , Long _player2 ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games where player1= "+_player1+" and player2="+_player2);
+  
+                db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+                
+                //boolean checkFirst = TestDB2.this.rs.first() ;
+                if(db.getResultSet().next() == false){
+                    db.endResultSet();
+                    db.endStatConnection();
+                    ////System.err.println("false select");
+                    return null ;
+                }
+                else{
+                    
+                    Vector<Game>  tmpGames =  new Vector<Game>(); 
+                    tmpGames.add(Game.createGame(db.getResultSet()));
+                    while(db.getResultSet().next()){
+                        tmpGames.add(Game.createGame(db.getResultSet()));
+                    }
+                    ////System.out.println("true Array");
+                    db.endResultSet();
+                    db.endStatConnection();
+                    return tmpGames ;
+                }
+            } catch (SQLException ex) {
+//                Logger.getLogger(GameModel.class.getName()).log(Level.SEVERE, null, ex);
+                ////System.err.println("error select");
+                return null ;
+            }
+      }
+    
+    static Vector<Game> selectAllWhereP1(String _player1){
+         try {
+                db.startConnection();
+                db.setStatement(db.getConnection().createStatement()) ;
+                db.setQuerystr("SELECT * FROM games WHERE player1= '"+_player1+
+                "' ORDER BY DESC");
   
                 db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
                 
@@ -366,7 +398,7 @@ public interface  GameModel {
             }
       }
      
-     static Vector<Game> selectAllGamesOrderByDESC(String colName ){
+    static Vector<Game> selectAllGamesOrderByDESC(String colName ){
          try {
                 db.startConnection();
                 db.setStatement(db.getConnection().createStatement()) ;
@@ -398,6 +430,7 @@ public interface  GameModel {
                 return null ;
             }
       }
+    
     static Vector<Game> selectAllGamesOrderByASC(String colName ){
          try {
                 db.startConnection();

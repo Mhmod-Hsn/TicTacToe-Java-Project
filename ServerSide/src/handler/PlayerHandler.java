@@ -97,7 +97,7 @@ public class PlayerHandler extends Thread{
                     }
                 }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                System.out.println("[GameEstablishHandler class]: A new request was received from player2: "+ receiverJson.toString());
+                ServerUtils.appendLog("[GameEstablishHandler class]: A new request was received from player2: "+ receiverJson.toString());
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////           
                 //Construct response for player 1 (in case of valid delivery)
                 senderJson = JSONHandeling.playerToJson(receiverPlayerHandler.getPlayerInfo());
@@ -111,7 +111,7 @@ public class PlayerHandler extends Thread{
                 senderPlayerHandler.getOutputStream().writeUTF(senderJson.toString());
                 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                System.out.println("[GameEstablishHandler class]: A new request was sent to player1: "+ senderJson.toString());
+                ServerUtils.appendLog("[GameEstablishHandler class]: A new request was sent to player1: "+ senderJson.toString());
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
                 //establish game if the invitation is accepted
@@ -131,7 +131,7 @@ public class PlayerHandler extends Thread{
             } catch (IOException ex) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                
                 //Conection Failed
-                System.out.println("[GameEstablishHandler class]: Player connection dropped (connection failed)");
+                ServerUtils.appendLog("[GameEstablishHandler class]: Player connection dropped (connection failed)");
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                
                 close();
             }
@@ -140,7 +140,7 @@ public class PlayerHandler extends Thread{
         public void close()
         {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////            
-            System.out.println("[GameEstablishHandler class]: thread is closed");
+            ServerUtils.appendLog("[GameEstablishHandler class]: thread is closed");
             this.stop(); 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -168,7 +168,7 @@ public class PlayerHandler extends Thread{
             
         } catch (IOException ex) {
             
-            System.out.println("[PlayerHandler class]: Client has dropped");
+            ServerUtils.appendLog("[PlayerHandler class]: Client has dropped");
             close();
         }
     }
@@ -190,12 +190,12 @@ public class PlayerHandler extends Thread{
                 }  
                 //Connection Drop
             } catch (IOException ex) { 
-                System.out.println("[PlayerHandler class]: Player connection dropped"); 
+                ServerUtils.appendLog("[PlayerHandler class]: Player connection dropped"); 
                 close();
                 
             } catch (ParseException ex) {
-                System.out.println("[PlayerHandler class]: Parse Exception in the main thread"); 
-                System.out.println(jsonObj);
+                ServerUtils.appendLog("[PlayerHandler class]: Parse Exception in the main thread"); 
+                ServerUtils.appendLog(jsonObj.toString());
             } 
         }
     }
@@ -246,7 +246,7 @@ public class PlayerHandler extends Thread{
 
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("[PlayerHandler class]: Player socket couldn't be closed.");
+            ServerUtils.appendLog("[PlayerHandler class]: Player socket couldn't be closed.");
         }
     }
     
@@ -263,7 +263,7 @@ public class PlayerHandler extends Thread{
         jsonObj = JSONHandeling.parseStringToJson(jsonStr);
         
         JSONObject responseJsonObj = new JSONObject();
-        System.out.println("[PlayerHandler class]: Parsing player request=> "+jsonObj.toString());
+        ServerUtils.appendLog("[PlayerHandler class]: Parsing player request=> "+jsonObj.toString());
         //find out which request
         String requestType = (String)jsonObj.get("type");
 
@@ -276,7 +276,7 @@ public class PlayerHandler extends Thread{
             //Signout request
             case Requests.SIGN_OUT:
                 //signout from the account
-                System.out.println("[PlayerHandler class]: Player has loggedout");
+                ServerUtils.appendLog("[PlayerHandler class]: Player has loggedout");
                 close();
                 isSuccess = true;
                 break;
@@ -319,13 +319,13 @@ public class PlayerHandler extends Thread{
         if (isSuccess)
         {
             responseJsonObj = JSONHandeling.constructJsonResponse(responseJsonObj, requestType);
-            System.out.println("[PlayerHandler class]: Player Request [ "+requestType+"] has succeeded");
+            ServerUtils.appendLog("[PlayerHandler class]: Player Request [ "+requestType+"] has succeeded");
         }
         else 
         {
             responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
-            System.out.println("[PlayerHandler class]: Player Request [ "+requestType+"] has failed");
-            System.out.println("[PlayerHandler class]: The failed request: "+jsonObj);
+            ServerUtils.appendLog("[PlayerHandler class]: Player Request [ "+requestType+"] has failed");
+            ServerUtils.appendLog("[PlayerHandler class]: The failed request: "+jsonObj);
         }
 
         return responseJsonObj;

@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.playerinfo;
+package database;
+
+import database.gameinfo.*;
+import database.playerinfo.*;
 
 import java.util.Vector;
 import database.playerinfo.Player.orderType;
@@ -13,7 +16,7 @@ import database.playerinfo.Player.orderType;
  * @author Hossam
  */
 
-public abstract class DbMethods {
+public abstract class DBMethods {
     
     // public static methods 
     public static boolean addPlayer(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
@@ -36,6 +39,7 @@ public abstract class DbMethods {
     public static boolean updateStatus(String _username , String _newStatus ){
         return PlayerModel.updateUsrFieldStatus(_username, _newStatus) ;
     }
+    
     //update all status with no check (String _status)
     public static boolean updateStatus( String _newStatus ){
         return PlayerModel.updateFieldStatus(_newStatus) ;
@@ -108,4 +112,23 @@ public abstract class DbMethods {
         return PlayerModel.selectAllPlayersOrderByASC(colName);
     }
     
+    /****************Game Related********************/
+    public static boolean addNewGame(Game.cellType _turn , Game.cellType[] _board , String _player1  , String _player2 ){
+        return GameModel.insertRecord(_turn, _board, _player1, _player2 );
+    }
+    
+    public static boolean deleteGame(long _gid )
+    {
+        return GameModel.deleteIdRecord(_gid);
+    }
+    
+    public static Game getGame (long _gid) 
+    {
+        return GameModel.selectGameWhereId (_gid ) ; 
+    }
+    
+    public static Vector<Game> getGameList(String player)
+    {
+       return GameModel.selectAllWhereP1(player) ;
+    }
 }

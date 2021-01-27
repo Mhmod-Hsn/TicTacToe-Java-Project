@@ -11,7 +11,7 @@ package database;
  */
 public interface DBConfig {
     static final String DB_SERVER_URL = "http://localhost:8080/phpmyadmin/db_structure.php?server=1&db=tictactoedb";
-//    com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/persondatabase", "root", ""
+
     static final String DB_NAME = "tictactoedb" ;
     static final String DB_SCHEME = "mysql" ;
     static final String DB_PORT = "3306" ;
@@ -19,11 +19,8 @@ public interface DBConfig {
 
     static final String DB_URL = "jdbc:"+DB_SCHEME+"://"+DB_IP+":"+DB_PORT+"/"+DB_NAME;
 
-
-    //static final String DB_DRV = "com.mysql.jdbc.Driver";
-    static final String DB_DRV = "com.mysql.jdbc.Driver";
+    static final String DB_DRV = "com.mysql.cj.jdbc.Driver";
     static final String DB_USER = "root";
     static final String DB_PASSWD = "";
-    
-//"com.mysql.cj.jdbc.Driver"
+
 }
