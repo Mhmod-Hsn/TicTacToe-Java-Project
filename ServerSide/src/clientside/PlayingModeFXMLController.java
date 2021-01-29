@@ -1,20 +1,38 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package clientside;
 
+import clientHandler.Game;
 import clientHandler.ClientHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import org.json.simple.JSONObject;
 
-public class StartFXMLController implements Initializable {
+/**
+ * FXML Controller class
+ *
+ * @author sarahouf
+ */
+public class PlayingModeFXMLController implements Initializable {
+    
     @FXML
-    private Label label;
+    private Button easyBtn;
+    @FXML
+    private Button mediumBtn;
+    @FXML
+    private Button hardBtn;
+    @FXML
+    private Button backbtn;
     @FXML
     private ListView<String> playerList;
     @FXML
@@ -22,67 +40,52 @@ public class StartFXMLController implements Initializable {
     @FXML
     private ListView<String> scoreList;
     @FXML
-    private Button newbtn;
-    @FXML
-    private Button loadbtn;
-    @FXML
-    private Button exitbtn;
-    @FXML
     private Label userName;
     @FXML
     private Label userScore;
+    
     @FXML
-    private Button aboutBtn;
-
+    private void easyBtnHandler(ActionEvent event){
+        Game.setMode(0);
+        ClientHandler.getPlayer().updateStatus("busy");
+        ClientHandler.changeScene("Game");
+    }
+    
+    @FXML
+    private void mediumBtnHandler(ActionEvent event){
+        //Game.setMode(0);
+    }
+    
+    @FXML
+    private void hardBtnHandler(ActionEvent event){
+        Game.setMode(2);
+        ClientHandler.getPlayer().updateStatus("busy");
+        ClientHandler.changeScene("Game");
+    }
+    
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ClientHandler.setStartCtrl(this);
+        ClientHandler.setPlaymodeCtrl(this);
         updateTable(ClientHandler.getNameList(),ClientHandler.getScoreList(),ClientHandler.getStatusList());
         userName.setText(ClientHandler.getPlayer().getUsername());
         userScore.setText(String.valueOf(ClientHandler.getPlayer().getScore())+" points");
     }    
 
     @FXML
-    private void newgameHandler(MouseEvent event) {
+    private void backHandler(MouseEvent event) {
         ClientHandler.changeScene("Newgame");
-    }
-
-    @FXML
-    private void loadgameHandler(MouseEvent event) {
-        JSONObject getGamesRequest = new JSONObject();
-        getGamesRequest.put("type","getGames");
-        ClientHandler.sendRequest(getGamesRequest);
-        ClientHandler.changeScene("Loadgame");
-    }
-
-    @FXML
-    private void exitHandler(MouseEvent event) {
-         ClientHandler.getWindow().close();
     }
     
     public void updateTable(ObservableList<String> name , ObservableList<String> score , ObservableList<String> status){
         playerList.setItems(name);
-        scoreList.setItems(score);
         statusList.setItems(status);
-    }
-
-    public void updateScore(String newScore){
-        userScore.setText(newScore);
+        scoreList.setItems(score);
     }
     
-    private void updateHandler(MouseEvent event) {
-        JSONObject updateReq = new JSONObject();
-        updateReq.put("type", "updateList");
-        ClientHandler.sendRequest(updateReq);
-    }
-
-    @FXML
-    private void aboutHandler(MouseEvent event) {
-        ClientHandler.changeScene("About");
+    public void updateScore(String newScore){
+        userScore.setText(newScore);
     }
 }

@@ -112,57 +112,59 @@ public class FXMLDocumentBase extends AnchorPane {
         setPrefWidth(1190.0);
         setStyle("-fx-background-color: #FFFFFF;");
 
-        controlBtn.setLayoutX(528.0);
-        controlBtn.setLayoutY(469.0);
+        controlBtn.setLayoutX(540.0);
+        controlBtn.setLayoutY(640.0);
         controlBtn.setMnemonicParsing(false);
         controlBtn.setPrefHeight(111.0);
         controlBtn.setPrefWidth(228.0);
-        controlBtn.setStyle("-fx-background-color: #99ff99; -fx-border-color: #3002ff;");
+        controlBtn.setStyle("-fx-background-color: #800000; -fx-border-color: #000000;");
         controlBtn.setText("Stopped");
-        controlBtn.setTextFill(javafx.scene.paint.Color.RED);
+        controlBtn.setTextFill(javafx.scene.paint.Color.WHITE);
         controlBtn.setFont(new Font("Arial Bold", 40.0));
 
         logsView.setLayoutX(12.0);
         logsView.setLayoutY(8.0);
         logsView.setPrefHeight(450.0);
         logsView.setPrefWidth(442.0);
-        logsView.setStyle("-fx-border-color: #3002ff; -fx-background-color: #b3ffff;");
+        logsView.setStyle("-fx-border-color: #00004d; -fx-background-color: #b3ffff;");
 
         logsLabel.setLayoutX(12.0);
         logsLabel.setLayoutY(458.0);
         logsLabel.setPrefHeight(52.0);
         logsLabel.setPrefWidth(442.0);
-        logsLabel.setStyle("-fx-background-color: #99ff99; -fx-border-color: #6600cc;");
-        logsLabel.setText(" Server Logs");
-        logsLabel.setTextFill(javafx.scene.paint.Color.valueOf("#2412e3"));
+        logsLabel.setStyle("-fx-background-color: #00004d; -fx-border-color: #00004d;");
+        logsLabel.setText("Logs");      
+        logsLabel.setTextFill(javafx.scene.paint.Color.valueOf("#FFFFFF"));
         logsLabel.setFont(new Font(28.0));
-
+        logsLabel.setAlignment(javafx.geometry.Pos.CENTER);
+        
         clientChart.setLayoutX(461.0);
-        clientChart.setLayoutY(10.0);
-        clientChart.setPrefHeight(388.0);
+        clientChart.setLayoutY(100.0);
+        clientChart.setPrefHeight(380.0);
         clientChart.setPrefWidth(374.0);
-        clientChart.setStyle("-fx-background-color: #00ffff;");
+        clientChart.setStyle("-fx-background-color: #FFFFFF;");
         clientChart.setTitle("Clients Status");
         clientChart.setTitleSide(javafx.geometry.Side.BOTTOM);
-
+        
+        
         dbView.setLayoutX(12.0);
-        dbView.setLayoutY(515.0);
-        dbView.setPrefHeight(242.0);
+        dbView.setLayoutY(550.0);
+        dbView.setPrefHeight(260.0);
         dbView.setPrefWidth(442.0);
-        dbView.setStyle("-fx-border-color: #3002ff; -fx-background-color: #b3ffff;");
+        dbView.setStyle("-fx-border-color: #00004d; -fx-background-color: #b3ffff;");
 
         loadIndicator.setLayoutX(724.0);
-        loadIndicator.setLayoutY(724.0);
+        loadIndicator.setLayoutY(40.0);
         loadIndicator.setProgress(0.0);
 
         loadLabel.setAlignment(javafx.geometry.Pos.CENTER);
         loadLabel.setContentDisplay(javafx.scene.control.ContentDisplay.CENTER);
         loadLabel.setLayoutX(550.0);
-        loadLabel.setLayoutY(721.0);
+        loadLabel.setLayoutY(35.0);
         loadLabel.setPrefHeight(41.0);
         loadLabel.setPrefWidth(170.0);
-        loadLabel.setText("Clients Load");
-        loadLabel.setTextFill(javafx.scene.paint.Color.valueOf("#2412e3"));
+        loadLabel.setText("Current Load");
+        loadLabel.setTextFill(javafx.scene.paint.Color.valueOf("#2323a9"));
         loadLabel.setFont(new Font(28.0));
 
         pagination.setLayoutX(543.0);
@@ -171,22 +173,23 @@ public class FXMLDocumentBase extends AnchorPane {
         pagination.setPageCount(2);
         pagination.setPrefHeight(62.0);
         pagination.setPrefWidth(187.0);
-        pagination.setStyle("-fx-background-color: #b3ffff; -fx-border-color: #3002ff;");
+        pagination.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #FFFFFF;");
 
         dbLabel.setLayoutX(12.0);
-        dbLabel.setLayoutY(759.0);
-        dbLabel.setPrefHeight(41.0);
+        dbLabel.setLayoutY(768.0);
+        dbLabel.setPrefHeight(52.0);
         dbLabel.setPrefWidth(442.0);
-        dbLabel.setStyle("-fx-background-color: #99ff99; -fx-border-color: #6600cc;");
-        dbLabel.setText(" DataBase");
-        dbLabel.setTextFill(javafx.scene.paint.Color.valueOf("#2412e3"));
+        dbLabel.setStyle("-fx-background-color: #00004d; -fx-border-color: #00004d;");
+        dbLabel.setText("DataBase");
+        dbLabel.setTextFill(javafx.scene.paint.Color.valueOf("#FFFFFF"));
         dbLabel.setFont(new Font(28.0));
-
+        dbLabel.setAlignment(javafx.geometry.Pos.CENTER);
+        
         tableView.setLayoutX(843.0);
         tableView.setLayoutY(10.0);
         tableView.setPrefHeight(752.0);
         tableView.setPrefWidth(333.0);
-        tableView.setStyle("-fx-border-color: #3002ff; -fx-background-color: #b3ffff;");
+        tableView.setStyle("-fx-border-color: #00004d; -fx-background-color: #b3ffff;");
 
         tableColumn.setPrefWidth(153.0);
         tableColumn.setStyle("-fx-text-fill: #3002ff;");
@@ -203,13 +206,14 @@ public class FXMLDocumentBase extends AnchorPane {
         playerLabel.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
         playerLabel.setLayoutX(843.0);
         playerLabel.setLayoutY(764.0);
-        playerLabel.setPrefHeight(40.0);
+        playerLabel.setPrefHeight(52.0);
         playerLabel.setPrefWidth(333.0);
-        playerLabel.setStyle("-fx-background-color: #99ff99; -fx-border-color: #6600cc;");
-        playerLabel.setText("Player List ");
-        playerLabel.setTextFill(javafx.scene.paint.Color.valueOf("#2412e3"));
+        playerLabel.setStyle("-fx-background-color: #00004d; -fx-border-color: #00004d;");
+        playerLabel.setText("Players List");
+        playerLabel.setTextFill(javafx.scene.paint.Color.valueOf("#FFFFFF"));
         playerLabel.setFont(new Font(28.0));
-
+        playerLabel.setAlignment(javafx.geometry.Pos.CENTER);
+        
         label.setAlignment(javafx.geometry.Pos.CENTER);
         label.setLayoutX(467.0);
         label.setLayoutY(607.0);
@@ -238,7 +242,7 @@ public class FXMLDocumentBase extends AnchorPane {
         tableView.getColumns().add(tableColumn1);
         getChildren().add(tableView);
         getChildren().add(playerLabel);
-        getChildren().add(label);
+        //getChildren().add(label);
         getChildren().add(webView);
         
         ServerUtils.clearLog(controlFlag);
@@ -251,9 +255,9 @@ public class FXMLDocumentBase extends AnchorPane {
                     controlFlag = true ;
                     ServerUtils.clearLog(controlFlag);
                     serverInGUI.start();
-                    controlBtn.setStyle("-fx-background-color: #99ff99; -fx-border-color: #3002ff;");
+                    controlBtn.setStyle("-fx-background-color: #006622; -fx-border-color: #000000;");
                     controlBtn.setText("Running");
-                    controlBtn.setTextFill(javafx.scene.paint.Color.BLUE);
+                    controlBtn.setTextFill(javafx.scene.paint.Color.WHITE);
                     controlBtn.setFont(new Font("Arial Bold", 40.0));                                       
                 }else{
                     
@@ -264,9 +268,9 @@ public class FXMLDocumentBase extends AnchorPane {
                     //create new object
                     serverInGUI = new Server();
                     
-                    controlBtn.setStyle("-fx-background-color: #99ff99; -fx-border-color: #3002ff;");
+                    controlBtn.setStyle("-fx-background-color: #800000; -fx-border-color: #000000;");
                     controlBtn.setText("Stopped");
-                    controlBtn.setTextFill(javafx.scene.paint.Color.RED);
+                    controlBtn.setTextFill(javafx.scene.paint.Color.WHITE);
                     controlBtn.setFont(new Font("Arial Bold", 40.0));                   
                 }
                 window = (Stage)((Node)event.getSource()).getScene().getWindow();
