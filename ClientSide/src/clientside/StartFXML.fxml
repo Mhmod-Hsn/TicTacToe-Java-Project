@@ -54,7 +54,6 @@
          </effect>
       </ListView>
       <Line endX="108.0" layoutX="481.0" layoutY="153.0" startX="-116.25" strokeWidth="2.0" />
-      <Button fx:id="update" layoutX="168.0" layoutY="439.0" mnemonicParsing="false" onMouseReleased="#updateHandler" text="update" />
       <ImageView fitHeight="231.0" fitWidth="210.0" layoutX="115.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/tictactoe.jpeg" />

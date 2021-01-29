@@ -203,7 +203,7 @@ public class LoginFXMLDocumentBase extends BorderPane {
                 
                 boolean checkUname = player.checkUsername(username);
                 boolean checkPass = player.checkPassword(password);
-                //System.out.println(checkUname);
+                ////System.out.println(checkUname);
                 if(!checkUname){
                     warningLbl.setText("Invalid username format");
                 }

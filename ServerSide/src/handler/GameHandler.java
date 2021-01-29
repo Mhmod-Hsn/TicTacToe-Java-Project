@@ -1,23 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    This class is used to produce a thread per game to handle the player's
+    requests [inside the game].
  */
+
 package handler;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Vector;
-import org.json.simple.JSONObject;
-import server.utils.*;
+
+import server.utils.Errors;
+import server.utils.JSONHandeling;
+import server.utils.Requests;
 import server.DBOperations;
+
 import database.gameinfo.Game;
+import org.json.simple.JSONObject;
 
 
 /**
  *
- * @author Hossam
+ * @author Hossam Khalil
  */
+
 
 public class GameHandler extends Thread {
     
@@ -27,6 +32,11 @@ public class GameHandler extends Thread {
     private final PlayerHandler xPlayerHandler;
     private final PlayerHandler oPlayerHandler;
     
+    //old game
+    private final Game oldGame;
+    
+    private boolean isOldGame = false;
+            
     private volatile JSONObject xPlayerRequestObj;
     private volatile JSONObject oPlayerRequestObj;
         
@@ -41,15 +51,16 @@ public class GameHandler extends Thread {
     private static final Game.cellType O_MOVE = Game.cellType.O;
     private static final Game.cellType EMPTY_CELL = Game.cellType.EMPTY;
     
-    
+
     //create 2d array to carry the state of the game
     private Game.cellType[][] gameBoard = {{EMPTY_CELL,EMPTY_CELL,EMPTY_CELL},
                                   {EMPTY_CELL,EMPTY_CELL,EMPTY_CELL},
                                   {EMPTY_CELL,EMPTY_CELL,EMPTY_CELL}};
             
 
-    public GameHandler(PlayerHandler xPlayerHandler, PlayerHandler oPlayerHandler)
+    public GameHandler(PlayerHandler xPlayerHandler, PlayerHandler oPlayerHandler, Game oldGame)
     {
+
         //clear last reads
         //listen from both players
         xPlayerHandler.getForwardedRequest();
@@ -63,26 +74,41 @@ public class GameHandler extends Thread {
         this.xPlayerOutput = xPlayerHandler.getOutputStream();
         this.oPlayerOutput = oPlayerHandler.getOutputStream();
         
+        this.oldGame = oldGame;
+        
+        //check and old game if existed
+        if (oldGame != null)
+        {
+            //load the board
+            isOldGame = true;
+            gameBoard = convertToTwoDimension(oldGame.getBoard());
+        }
         
         //create a json object
         responseObj = new JSONObject();
-        
-        //construct the init json to boradcast
-        responseObj = JSONHandeling.constructJsonResponse(responseObj, Requests.GAME_STARTED);
-        
-        //boradcast that the game has started
-        broadcast(responseObj);
         
         //Start the thread
         this.start();   
     }
     
+    
     @Override
     public void run ()
     {
+        //System.out.println("In game Handler");
+        
+        //construct the init json to boradcast
+        responseObj = constructGameStartJSON();
+
+        //boradcast that the game init json
+        broadcast(responseObj);
+        
         //running until the game ends
         while (!isGameEnded)
         {
+            
+            System.out.println("");
+            
             //listen from both players
             xPlayerRequestObj = xPlayerHandler.getForwardedRequest();
             oPlayerRequestObj = oPlayerHandler.getForwardedRequest();
@@ -90,45 +116,58 @@ public class GameHandler extends Thread {
             //received request from x player 
             if ( xPlayerRequestObj != null)
             {
+                //System.out.println("In game Handler: read from x player" + xPlayerRequestObj);
                 handlePlayerRequest(xPlayerRequestObj, true);
             }
             
             //received request from o player
             if (oPlayerRequestObj != null)
             {
+                //System.out.println("In game Handler: read from o player"+ oPlayerRequestObj);
                 handlePlayerRequest(oPlayerRequestObj , false);
             }
+ 
         }
         
         //game ended
-        
-//        //construct the ending json to boradcast
-//        responseObj = JSONHandeling.constructJsonResponse(responseObj, Requests.GAME_ENDED);
-//        
-//        //boradcast that the game has ended
-//        broadcast(responseObj);
-        
+
         //end this thread
         this.close();
     }
     
     
-    private boolean broadcast(JSONObject json)
+    private void broadcast(JSONObject json)
     {
+        //send to player 1
+        
         try {
             this.xPlayerOutput.writeUTF(json.toString());
+            
+        } catch (IOException ex) {
+            //the player has dropped connection (consider him as a player quit
+            //and end the game
+            
+            quitGameRoutine(Game.cellType.X);
+            isGameEnded = true;
+            
+        }
+        //send to player 2
+        try {
             this.oPlayerOutput.writeUTF(json.toString());
         } catch (IOException ex) {
-            return false;
+            
+            //the player has dropped connection (consider him as a player quit
+            //and end the game
+            quitGameRoutine(Game.cellType.O);
+            isGameEnded = true;
         }
-        return true;
     }
 
     private boolean handlePlayerRequest(JSONObject playerRequest, boolean isXPlayer )
     {
         //find out which request
         String requestType = (String)playerRequest.get("type");
-        ServerUtils.appendLog("[GameHandler class]: (handling player request) in game: "+playerRequest.toString());
+        
         boolean isSucess = false;
         Game.cellType move;
         
@@ -162,16 +201,69 @@ public class GameHandler extends Thread {
                 //forward to the other player
                 isSucess = sendResponseToPlayer(playerRequest, OtherPlayerOutput);
                 break;
+              
+            //save game request
+            case Requests.GAME_SAVE:
+
+                //save the game
+                if (saveGame((String)playerRequest.get("nextMove")))
+                {
+                    //construct the ending json to boradcast
+                    responseObj = JSONHandeling.constructJSONResponse(responseObj, requestType);
+                          
+                    //boradcast that the game has ended
+                    broadcast(responseObj);
+                    
+                    isSucess = true;
+                    
+                    //end the game
+                    isGameEnded = true;
+                }
+                //failed to save
+                else
+                {
+                    //construct the ending json to boradcast
+                    responseObj = JSONHandeling.errorToJSON(requestType, Errors.INVALID);
+                          
+                    //boradcast that the game has ended
+                    broadcast(responseObj);
+                    
+                    isSucess = false;
+                }
+                
+                break;
                 
             //game ended request
             case Requests.GAME_ENDED:
                 
-                //get winner player
-                gameEndingRoutine(move);
+                //check if the game is not a draw
+                if (playerRequest.get("isDraw").toString().equals("false"))
+                {
+                    //get winner player
+                    updateEndGamePlayersScores(move, false);
+                }
+                
+                else
+                {
+                    updateEndGamePlayersScores(move, true);
+                }
+                
+                //update the is game ended flag
+                isGameEnded = true;
+                
+                isSucess = true;
+                break;  
+
+            //player quit game request
+            case Requests.GAME_QUIT:
+                
+                quitGameRoutine(move);
+
                 //update the is game ended flag
                 isGameEnded = true;
                 isSucess = true;
-                break;
+                
+                break;  
         }
         return isSucess;
     }
@@ -193,62 +285,178 @@ public class GameHandler extends Thread {
         }     
     }
 
-    private void gameEndingRoutine(Game.cellType winnerMove)
+    private void updateEndGamePlayersScores (Game.cellType winnerMove, boolean isDraw)
     {
         PlayerHandler winnerPlayer;
         PlayerHandler otherPlayer;
-        
-        // x player wins
-        if (winnerMove.equals(X_MOVE))
+
+        //update score
+        if (!isDraw)
+        {
+            // x player wins
+            if (winnerMove.equals(X_MOVE))
+            {
+                winnerPlayer = xPlayerHandler;
+                otherPlayer = oPlayerHandler;
+            }
+            // o player wins
+            else 
+            {
+                winnerPlayer = oPlayerHandler;
+                otherPlayer = xPlayerHandler;
+            }
+            //update players points
+            winnerPlayer.updatePlayerScore(winnerPlayer.getPlayerScore() + WIN_POINTS);
+
+            long newOtherScore = otherPlayer.getPlayerScore() - LOSS_POINTS;
+            if (newOtherScore < 0)
+            {
+                otherPlayer.updatePlayerScore(0);
+            }
+            else 
+            {
+                otherPlayer.updatePlayerScore(newOtherScore);
+            }
+
+        }
+        //don't update score
+        else 
         {
             winnerPlayer = xPlayerHandler;
             otherPlayer = oPlayerHandler;
         }
-        // o player wins
-        else 
-        {
-            winnerPlayer = oPlayerHandler;
-            otherPlayer = xPlayerHandler;
-        }
-        //update players points
-
-        winnerPlayer.updatePlayerScore(winnerPlayer.getPlayerScore() + WIN_POINTS);
         
-        long newOtherScore = otherPlayer.getPlayerScore() - LOSS_POINTS;
-        if (newOtherScore < 0)
-        {
-            otherPlayer.updatePlayerScore(0);
-        }
-        else 
-        {
-            otherPlayer.updatePlayerScore(newOtherScore);
-        }
-
         //send new scores
         JSONObject endJsonObj = new JSONObject();
         
-        endJsonObj = JSONHandeling.constructJsonResponse(endJsonObj, Requests.GAME_ENDED);
-        endJsonObj = JSONHandeling.addToJsonObject(endJsonObj, "score", winnerPlayer.getPlayerScore());
+        endJsonObj = JSONHandeling.constructJSONResponse(endJsonObj, Requests.GAME_ENDED);
+        endJsonObj = JSONHandeling.addToJSONObject(endJsonObj, "score", winnerPlayer.getPlayerScore());
         sendResponseToPlayer(endJsonObj,winnerPlayer.getOutputStream());
         
         endJsonObj = new JSONObject();
         
-        endJsonObj = JSONHandeling.constructJsonResponse(endJsonObj, Requests.GAME_ENDED);
-        endJsonObj = JSONHandeling.addToJsonObject(endJsonObj, "score", otherPlayer.getPlayerScore());
+        endJsonObj = JSONHandeling.constructJSONResponse(endJsonObj, Requests.GAME_ENDED);
+        endJsonObj = JSONHandeling.addToJSONObject(endJsonObj, "score", otherPlayer.getPlayerScore());
         sendResponseToPlayer(endJsonObj,otherPlayer.getOutputStream());
+    }
+    
+    private boolean saveGame (String move)
+    {
+        if (isOldGame) {
+            DBOperations.deleteGame(oldGame.getGameId());
+        }
+        Game.cellType nextMove;
         
-        //update players status
-        this.xPlayerHandler.updatePlayerStatus("online");
-        this.oPlayerHandler.updatePlayerStatus("online");
+        //convert the move into the cell types
+        nextMove = move.equals(Game.cellType.X.toString())
+                 ?Game.cellType.X:Game.cellType.O;
+        
+        //Save the game
+        return DBOperations.addGame(convertToOneDimension(this.gameBoard), 
+                this.xPlayerHandler.getPlayerInfo().getUsername(), 
+                this.oPlayerHandler.getPlayerInfo().getUsername(),nextMove);
     }
 
-    private void saveGame (Game.cellType nextMove , String player1 , String player2)
+    private JSONObject constructGameStartJSON()
     {
-        DBOperations.addGame(this.gameBoard, player1,player2, nextMove);
+        //to carry the response type and data
+        String responseType;
+        JSONObject responseObj;
+        
+        //construct data for old game
+        if (isOldGame)
+        {
+            responseType = Requests.GAME_LOAD;
+            
+            //load game data
+            responseObj = JSONHandeling.gameToJSON(oldGame);
+        }
+        else
+        {
+            responseType = Requests.GAME_STARTED;
+            //empty data
+            responseObj = new JSONObject();
+        }
+        
+        //return the constructed the response
+        return JSONHandeling.constructJSONResponse(responseObj, responseType);
+    }
+
+    private void quitGameRoutine(Game.cellType quitMove)
+    {
+        DataOutputStream winnerPlayerStream;
+        //get the winner move
+        Game.cellType winnerMove;
+
+        if (quitMove.equals(Game.cellType.O))
+        {
+            winnerMove = Game.cellType.X;
+            winnerPlayerStream = this.xPlayerOutput;
+        }
+        else     
+        {
+            winnerMove = Game.cellType.O;
+            winnerPlayerStream = this.oPlayerOutput;
+        }
+        
+        //update players score
+        updateEndGamePlayersScores(winnerMove, false);
+        
+        //notify other player that game has ended
+        
+        //construct response 
+        JSONObject quitResponse = new JSONObject();
+        
+        quitResponse = JSONHandeling.constructJSONResponse(quitResponse,
+        Requests.GAME_QUIT);
+        
+        sendResponseToPlayer(quitResponse,winnerPlayerStream);
+    }
+    
+    private Game.cellType[] convertToOneDimension( Game.cellType [][]arr){
+
+            Game.cellType []oneDimensionArr = new Game.cellType[9];
+            int index=0;
+
+            for (int i = 0; i < 3; i++) {
+
+                for (int j = 0; j < 3; j++) {
+                    oneDimensionArr[index] = arr[i][j];
+                    index++;
+                }
+            }
+            return oneDimensionArr;
+    }
+    
+    private Game.cellType [][] convertToTwoDimension(Game.cellType [] arr){
+
+        Game.cellType[][] twoDimensionArr = new Game.cellType[3][3];
+        int index=0;
+
+        for (int i = 0; i < 3; i++) {
+
+            for (int j = 0; j < 3; j++) {
+                twoDimensionArr[i][j] = arr[index];
+                index++;
+            }
+        }
+        return twoDimensionArr;
+
     }
     
     private void close()
     {
+        
+        //update players status
+        this.xPlayerHandler.updatePlayerStatus("online");
+        this.oPlayerHandler.updatePlayerStatus("online");
+        
+        //delete game if saved
+        if(isOldGame)
+        {
+            DBOperations.deleteGame(oldGame.getGameId());
+        }
+        
         //close this thread
         this.stop();
     }

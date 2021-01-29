@@ -1,8 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    Abstract class that is used to send / reterive data from database
  */
+
 package database;
 
 import database.gameinfo.*;
@@ -13,7 +12,7 @@ import database.playerinfo.Player.orderType;
 
 /**
  *
- * @author Hossam
+ * @author Ahmed Mamdouh Mostafa
  */
 
 public abstract class DBMethods {
@@ -50,6 +49,7 @@ public abstract class DBMethods {
     public static boolean updateScoreWithCheck(String _username , String _passwd ,long _newScore ){
         return PlayerModel.updateUsrPassFieldScore(_username, _passwd, _newScore);
     }
+    
     // delete
     public static boolean delete(long _pid){
         return PlayerModel.deleteIdRecord(_pid);
@@ -67,6 +67,7 @@ public abstract class DBMethods {
     public static boolean delete(String _username, String _passwd){
         return PlayerModel.deleteUsrPassRecord(_username, _passwd) ;
     }
+   
     //get    
     public static Long getScore(String _username ){
         return PlayerModel.selectScoreWhereUsr(_username);
@@ -113,6 +114,7 @@ public abstract class DBMethods {
     }
     
     /****************Game Related********************/
+    
     public static boolean addNewGame(Game.cellType _turn , Game.cellType[] _board , String _player1  , String _player2 ){
         return GameModel.insertRecord(_turn, _board, _player1, _player2 );
     }
@@ -129,6 +131,6 @@ public abstract class DBMethods {
     
     public static Vector<Game> getGameList(String player)
     {
-       return GameModel.selectAllWhereP1(player) ;
+       return GameModel.selectAllWhereP1OrderedDescDate(player) ;
     }
 }

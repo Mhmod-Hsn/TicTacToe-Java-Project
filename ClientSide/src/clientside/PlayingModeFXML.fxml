@@ -22,17 +22,12 @@
             <Image url="@images/playerbg.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="easyBtn" alignment="BASELINE_CENTER" layoutX="124.0" layoutY="276.0" mnemonicParsing="false" onAction="#easyBtnHandler" prefHeight="42.0" prefWidth="142.0" style="-fx-background-color: #CBF0EB;" text="Easy" textAlignment="CENTER">
+      <Button fx:id="easyBtn" alignment="BASELINE_CENTER" layoutX="124.0" layoutY="313.0" mnemonicParsing="false" onAction="#easyBtnHandler" prefHeight="42.0" prefWidth="142.0" style="-fx-background-color: #CBF0EB;" text="Beginner" textAlignment="CENTER">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="mediumBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="327.0" mnemonicParsing="false" onAction="#mediumBtnHandler" prefHeight="41.0" prefWidth="142.0" style="-fx-background-color: #CBF0EB;" text="Medium" textAlignment="CENTER">
-         <font>
-            <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
-         </font>
-      </Button>
-      <Button fx:id="hardBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="124.0" layoutY="376.0" mnemonicParsing="false" onAction="#hardBtnHandler" prefHeight="41.0" prefWidth="142.0" style="-fx-background-color: #CBF0EB;" text="Hard" textAlignment="CENTER">
+      <Button fx:id="hardBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="124.0" layoutY="362.0" mnemonicParsing="false" onAction="#hardBtnHandler" prefHeight="41.0" prefWidth="142.0" style="-fx-background-color: #CBF0EB;" text="Expert" textAlignment="CENTER">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
          </font>
@@ -42,7 +37,7 @@
             <Image url="@images/tictactoe.jpeg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="103.0" fitWidth="126.0" layoutX="132.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="103.0" fitWidth="126.0" layoutX="132.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/dance.gif" />
          </image>
@@ -89,6 +84,11 @@
       <Label fx:id="userScore" alignment="CENTER" layoutX="359.0" layoutY="52.0" prefHeight="41.0" prefWidth="226.0" textAlignment="CENTER" textFill="#f00252" textOverrun="CLIP">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="124.0" layoutY="273.0" prefHeight="26.0" prefWidth="142.0" text="Pick your level">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="24.0" />
          </font>
       </Label>
    </children>

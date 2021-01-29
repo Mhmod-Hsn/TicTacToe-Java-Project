@@ -25,7 +25,7 @@
             <Image url="@images/playerbg.jpg" />
          </image>
       </ImageView>
-      <ComboBox fx:id="inviteBox" layoutX="120.0" layoutY="315.0" prefWidth="150.0" />
+      <ComboBox fx:id="inviteBox" layoutX="120.0" layoutY="315.0" prefWidth="150.0" style="-fx-background-color: #FFCFCF;" />
       <Button fx:id="invite" layoutX="167.0" layoutY="348.0" mnemonicParsing="false" onMouseReleased="#inviteHandler" style="-fx-background-color: #CBF0EB;" text="Invite">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="16.0" />
@@ -90,29 +90,29 @@
             <Image url="@images/dance.gif" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="waitingSubscene" layoutX="70.0" layoutY="246.0" prefHeight="204.0" prefWidth="256.0">
+      <AnchorPane fx:id="waitingSubscene" layoutX="19.0" layoutY="241.0" prefHeight="251.0" prefWidth="301.0">
          <children>
-            <SubScene height="199.0" layoutX="8.0" width="234.0">
+            <SubScene height="251.0" layoutX="4.0" width="294.0">
               <root>
                 <Region />
               </root>
             </SubScene>
-            <ImageView fitHeight="204.0" fitWidth="264.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="251.0" fitWidth="301.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/playerbg.jpg" />
                </image>
             </ImageView>
-            <Label fx:id="waitingLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="14.0" prefHeight="60.0" prefWidth="245.0" text="Please wait for opponent response." textAlignment="CENTER" textFill="#ff0065">
+            <Label fx:id="waitingLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="53.0" prefHeight="60.0" prefWidth="245.0" text="Please wait for opponent response." textAlignment="CENTER" textFill="#ff0065">
                <font>
                   <Font name="Tw Cen MT Condensed Extra Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="okBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="96.0" layoutY="117.0" mnemonicParsing="false" onAction="#okBtnHandler" prefHeight="30.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Ok" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="okBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="143.0" layoutY="125.0" mnemonicParsing="false" onAction="#okBtnHandler" prefHeight="30.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Ok" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Tw Cen MT Condensed Extra Bold" size="17.0" />
                </font>
             </Button>
-            <ImageView fitHeight="41.0" fitWidth="126.0" layoutX="65.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="41.0" fitWidth="126.0" layoutX="113.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/loading%20invite.gif" />
                </image>

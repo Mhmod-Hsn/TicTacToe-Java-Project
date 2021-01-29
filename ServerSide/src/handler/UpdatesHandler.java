@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    The thread that is responsible for updating the live list of players
+    and broadcast the changes to all players + the server monitoring.
  */
+
 package handler;
 
 
@@ -10,16 +10,21 @@ import java.util.Vector;
 
 import database.playerinfo.Player;
 import server.DBOperations;
-import server.utils.*;
+import server.utils.JSONHandeling;
+import server.utils.Requests;
+import server.utils.ServerUtils;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
+
 /**
  *
- * @author Hossam
+ * @author Hossam Khalil
  */
+
+
 public class UpdatesHandler extends Thread{
     
     private Vector <Player> playerVect;
@@ -56,11 +61,10 @@ public class UpdatesHandler extends Thread{
             }
             
            // if not skip this iteration
-
             try {
-                sleep(500);
+                sleep(300);
             } catch (InterruptedException ex) {
-                ServerUtils.appendLog("[UpdatesHandler class]: Couldn't sleep from database listening");
+                ServerUtils.appendLog("[Error]: Update list thread failed to sleep.");
             }
         }
     }

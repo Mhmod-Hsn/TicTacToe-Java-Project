@@ -23,19 +23,21 @@ public class ClientSide extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         if (connected){
-            System.out.println("Connected To server.");
+            //System.out.println("Connected To server.");
             root = FXMLLoader.load(getClass().getResource("LoginFXML.fxml"));
             
             readerThread = new Thread(new ClientHandler.recieveRespone());
             readerThread.start();
         }
         else{
-            System.out.println("Connection Failed.");
+            
+            //System.out.println("Connection Failed.");
             root = FXMLLoader.load(getClass().getResource("ConfailedFXML.fxml"));
         }
-        //Parent root = new LoginFXMLDocumentBase();
+
         Scene scene = new Scene(root);
         ClientHandler.setWindow(stage);
+        stage.resizableProperty().setValue(false);
         stage.setScene(scene);
         stage.show();
     }
@@ -43,8 +45,9 @@ public class ClientSide extends Application {
     @Override
     public void stop(){
         JSONObject msg = new JSONObject();
-        if(ClientHandler.isInGameScene()){
+        if(ClientHandler.getCurrentScene().equals("Multigame")){
             msg.put("type","gameQuit");
+            msg.put("errorMsg", "clientDropped");
             ClientHandler.sendRequest(msg);
         }
         msg = new JSONObject();
@@ -52,10 +55,10 @@ public class ClientSide extends Application {
         ClientHandler.sendRequest(msg);
 
         ClientHandler.closeCon();
-        System.out.println("Closed the connection.");
+        //System.out.println("Closed the connection.");
         
         readerThread.stop();
-        System.out.println("Stopped recieving messages thread.");
+        //System.out.println("Stopped recieving messages thread.");
     }
 
     /**

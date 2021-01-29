@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    This is an abstract class that includes configuration variables
+    as well as helper functions for the server 
  */
+
 package server.utils;
 
 import java.io.BufferedWriter;
@@ -12,18 +12,43 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
-
 /**
  *
- * @author Hossam
- */
+ * @author Hossam Khalil
+ *
+ **/
 
 public abstract class ServerUtils {
     
     public static final int PORT_NUMBER = 7777;
     public static final String logsFilePath = "src\\server\\logs\\logs.txt";    
+            
+    public static Boolean clearLog(Boolean statusFlag){
+        File logsFile =  new File(logsFilePath);
+        FileWriter fileWriter = null ;
+        PrintWriter printWriter = null ;
+        Date d = new Date();
+        if (logsFile.exists()){ 
+           try{
+                fileWriter = new FileWriter( logsFile,false) ;
+                printWriter = new PrintWriter(fileWriter) ;
+                if(statusFlag)
+                    printWriter.println("[ "+d.toString()+" ] :  "+"Server is Running");
+                else
+                    printWriter.println("[ "+d.toString()+" ] :  "+"Server is Stopped");
+                fileWriter.close();
+                return true ;
+            }catch (IOException ioe){
+                System.err.println("IOException");
+                return false ;
+            }
+        }
+        else{
+            System.out.println("Does not Exists"); 
+            return false ;
+        }
     
-    
+    }
     public static Boolean appendLog(String logStr){
         
         File logsFile =  new File(logsFilePath);
@@ -48,7 +73,6 @@ public abstract class ServerUtils {
         }
         
         catch (IOException io) {
-            //System.out.println("Data not appended into file");  // make new file
         } 
         finally { 
             
@@ -57,8 +81,7 @@ public abstract class ServerUtils {
                 out.close(); 
                 return true;
             } 
-            catch (IOException io) {
-                
+            catch (IOException io) { 
                 return false; 
             } 
         }

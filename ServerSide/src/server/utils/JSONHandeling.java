@@ -1,10 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    This class is used by the server logic to handle json objects and json arrays
+    the class is abstract with static methods.
  */
+
 package server.utils;
 
+import database.gameinfo.Game;
 import java.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,43 +15,44 @@ import database.playerinfo.Player;
 
 /**
  *
- * @author Hossam
+ * @author Hossam Khalil
  */
 public abstract class JSONHandeling {
     
     private static JSONObject jsonObj;
+    private static JSONArray jsonArray;
     private static JSONParser parser ;
     
-    public static JSONObject constructJsonResponse(JSONObject jsonObj, String type)
+    public static JSONObject constructJSONResponse(JSONObject jsonObj, String type)
     {   
         //add the relavent fields
-        jsonObj = addToJsonObject(jsonObj, "type", type);
-        jsonObj = addToJsonObject(jsonObj, "responseStatus", true);
-        jsonObj = addToJsonObject(jsonObj, "errorMsg", "");
+        jsonObj = addToJSONObject(jsonObj, "type", type);
+        jsonObj = addToJSONObject(jsonObj, "responseStatus", true);
+        jsonObj = addToJSONObject(jsonObj, "errorMsg", "");
         
         return jsonObj;
     }
     
-    public static JSONObject errorToJson(String type, String errorMsg)
+    public static JSONObject errorToJSON(String type, String errorMsg)
     {
         //Construct the json object
         jsonObj = new JSONObject();
         
         //add the relavent fields
-        jsonObj = addToJsonObject(jsonObj, "type", type);
-        jsonObj = addToJsonObject(jsonObj, "responseStatus", false);
-        jsonObj = addToJsonObject(jsonObj, "errorMsg", errorMsg);
+        jsonObj = addToJSONObject(jsonObj, "type", type);
+        jsonObj = addToJSONObject(jsonObj, "responseStatus", false);
+        jsonObj = addToJSONObject(jsonObj, "errorMsg", errorMsg);
         
         return jsonObj;
     }
     
-    public static JSONObject addToJsonObject (JSONObject jsonObj , String key , Object value)
+    public static JSONObject addToJSONObject (JSONObject jsonObj , String key , Object value)
     {
         jsonObj.put(key,value);
         return jsonObj;
     }
 
-    public static JSONObject parseStringToJson(String jsonStr) throws ParseException
+    public static JSONObject parseStringToJSON(String jsonStr) throws ParseException
     {
         parser = new JSONParser();
         jsonObj = new JSONObject();
@@ -60,29 +62,89 @@ public abstract class JSONHandeling {
         return jsonObj;
     }
     
-    public static JSONObject playerToJson(Player player)
+    public static JSONObject playerToJSON(Player player)
     {   
         jsonObj = new JSONObject();
 
         //add the player attributes fields
-        jsonObj = addToJsonObject(jsonObj,"username", player.getUsername());
-        jsonObj = addToJsonObject(jsonObj,"status", player.getStatus().toString());
-        jsonObj = addToJsonObject(jsonObj,"score",  player.getScore());
-        jsonObj = addToJsonObject(jsonObj,"avatar", player.getAvatar());
+        jsonObj = addToJSONObject(jsonObj,"username", player.getUsername());
+        jsonObj = addToJSONObject(jsonObj,"status", player.getStatus().toString());
+        jsonObj = addToJSONObject(jsonObj,"score",  player.getScore());
+        jsonObj = addToJSONObject(jsonObj,"avatar", player.getAvatar());
 
         return jsonObj;
     }
-    
+
     public static JSONArray playerListToJSONArray(Vector <Player> playerList)
     {
         //Construct json array
-        JSONArray jsonPlayersList = new JSONArray();
+        jsonArray = new JSONArray();
         
         playerList.forEach((playerInfo) -> {
-            jsonPlayersList.add(playerToJson(playerInfo));
+            jsonArray.add(playerToJSON(playerInfo));
         });
         
-        return jsonPlayersList;
+        return jsonArray;
     }
     
+    public static JSONObject gameToJSON(Game game)
+    {   
+
+        jsonObj = new JSONObject();
+        
+        //create  game board
+        String[] gameBoardStr = game.getBoardStr();
+        
+        JSONArray boardJSONArray = new JSONArray();
+        
+        for (String cell : gameBoardStr) {
+            boardJSONArray.add(cell);
+        }
+
+        //add the player attributes fields
+        jsonObj = addToJSONObject(jsonObj,"gameId", game.getGameId());
+        jsonObj = addToJSONObject(jsonObj,"nextMove", game.getTurn().toString());
+        
+        jsonObj = addToJSONObject(jsonObj,"xPlayer", game.getXPlayerUsername());
+        jsonObj = addToJSONObject(jsonObj,"oPlayer", game.getOPlayerUsername()); 
+
+        jsonObj = addToJSONObject(jsonObj,"gameboard",boardJSONArray);
+        jsonObj = addToJSONObject(jsonObj,"date", game.getSaveDate());
+        
+        return jsonObj;
+    }
+    
+    public static JSONObject gameSelectedToJSON(Game game , String username)
+    {   
+        jsonObj = new JSONObject();
+
+        //add the player attributes fields
+        jsonObj = addToJSONObject(jsonObj,"gameId", game.getGameId());
+        
+        if (username.equals(game.getXPlayerUsername()))
+        {
+            jsonObj = addToJSONObject(jsonObj,"player", game.getOPlayerUsername());
+        }
+        
+        else
+        {
+            jsonObj = addToJSONObject(jsonObj,"player", game.getXPlayerUsername());
+        }
+
+        jsonObj = addToJSONObject(jsonObj,"date", game.getSaveDate());
+        
+        return jsonObj;
+    }
+    
+    public static JSONArray gameListToJSONArray(Vector <Game> gameList , String username)
+    {
+        //Construct json array
+        jsonArray = new JSONArray();
+       
+        gameList.forEach((gameInfo) -> {
+            jsonArray.add(gameSelectedToJSON(gameInfo,username));
+        });
+        
+        return jsonArray;
+    }  
 }

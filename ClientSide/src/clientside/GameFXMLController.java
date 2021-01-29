@@ -81,7 +81,7 @@ public class GameFXMLController implements Initializable {
         int win = game.checkWin();
         if(win == 1){
             finish = true;
-            System.out.println("Player " + value + " won!");
+            //System.out.println("Player " + value + " won!");
             if(value == 'X'){
                 winnerLabel.setText(player1Label.getText() + " won!");
                 //TODO
@@ -98,7 +98,7 @@ public class GameFXMLController implements Initializable {
         }
         else if(win == 2){
             finish = true;
-            System.out.println("Its a draw!");
+            //System.out.println("Its a draw!");
             winnerLabel.setText("It's a draw!");
             setSceneVisibility(true);
         }
@@ -107,7 +107,7 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell1Handler(MouseEvent event){
-        if(play && "".equals(cell1.getText())){
+        if(!finish && play && "".equals(cell1.getText())){
             cell1.setText(String.valueOf(value));
             game.setCell1(value);            
             play = false;            
@@ -115,7 +115,7 @@ public class GameFXMLController implements Initializable {
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish &&!play){
             cell1.setText(String.valueOf(value));
             game.setCell1(value);
             checkWinOrDraw();
@@ -125,14 +125,14 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell2Handler(MouseEvent event){
-        if(play && "".equals(cell2.getText())){
+        if(!finish && play && "".equals(cell2.getText())){
             cell2.setText(String.valueOf(value));
             game.setCell2(value);
             checkWinOrDraw();
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish &&!play){
             cell2.setText(String.valueOf(value));
             game.setCell2(value);
             checkWinOrDraw();
@@ -142,14 +142,14 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell3Handler(MouseEvent event){
-        if(play && "".equals(cell3.getText())){
+        if(!finish && play && "".equals(cell3.getText())){
             cell3.setText(String.valueOf(value));
             game.setCell3(value);
             checkWinOrDraw();
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish &&!play){
             cell3.setText(String.valueOf(value));
             game.setCell3(value);
             checkWinOrDraw();
@@ -159,14 +159,14 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell4Handler(MouseEvent event){
-        if(play && "".equals(cell4.getText())){
+        if(!finish && play && "".equals(cell4.getText())){
             cell4.setText(String.valueOf(value));
             game.setCell4(value);
             checkWinOrDraw();
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish && !play){
             cell4.setText(String.valueOf(value));
             game.setCell4(value);
             checkWinOrDraw();
@@ -176,14 +176,14 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell5Handler(MouseEvent event){
-        if(play && "".equals(cell5.getText())){
+        if(!finish && play && "".equals(cell5.getText())){
             cell5.setText(String.valueOf(value));
             game.setCell5(value);
             checkWinOrDraw();
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish &&!play){
             cell5.setText(String.valueOf(value));
             game.setCell5(value);
             checkWinOrDraw();
@@ -193,14 +193,14 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell6Handler(MouseEvent event){
-        if(play && "".equals(cell6.getText())){
+        if(!finish && play && "".equals(cell6.getText())){
             cell6.setText(String.valueOf(value));
             game.setCell6(value);
             checkWinOrDraw();
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish &&!play){
             cell6.setText(String.valueOf(value));
             game.setCell6(value);
             checkWinOrDraw();
@@ -211,14 +211,14 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell7Handler(MouseEvent event){
-        if(play && "".equals(cell7.getText())){
+        if(!finish && play && "".equals(cell7.getText())){
             cell7.setText(String.valueOf(value));
             game.setCell7(value);
             checkWinOrDraw();
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish &&!play){
             cell7.setText(String.valueOf(value));
             game.setCell7(value);
             checkWinOrDraw();
@@ -229,14 +229,14 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell8Handler(MouseEvent event){
-        if(play && "".equals(cell8.getText())){
+        if(!finish && play && "".equals(cell8.getText())){
             cell8.setText(String.valueOf(value));
             game.setCell8(value);
             checkWinOrDraw();
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish &&!play){
             cell8.setText(String.valueOf(value));
             game.setCell8(value);
             checkWinOrDraw();
@@ -247,14 +247,14 @@ public class GameFXMLController implements Initializable {
     
     @FXML
     private void cell9Handler(MouseEvent event){
-        if(play && "".equals(cell9.getText())){
+        if(!finish && play && "".equals(cell9.getText())){
             cell9.setText(String.valueOf(value));
             game.setCell9(value);
             checkWinOrDraw();
             playerXHandle();
             computerPlay();
         }
-        else if(!play){
+        else if(!finish &&!play){
             cell9.setText(String.valueOf(value));
             game.setCell9(value);
             checkWinOrDraw();
@@ -390,7 +390,7 @@ public class GameFXMLController implements Initializable {
         value = 'X';
         play = true;
         finish = false;
-        //System.out.println(game.getBoard().length);
+        ////System.out.println(game.getBoard().length);
       //  th.start();
     }    
 
@@ -407,3 +407,4 @@ public class GameFXMLController implements Initializable {
     }
     
 }
+

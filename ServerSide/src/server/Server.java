@@ -1,30 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    Server class is the main class that handles the server's logic
  */
+
 package server;
-
-
 
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import server.utils.ServerUtils;
 import handler.*;      
-
 import java.io.IOException;
 
 
-
-/**
+/*
  *
- * @author Hossam
+ * @author Hossam Khalil
  */
+
 public class Server {
     
     private ServerSocket serverSocket;
-    private boolean isServerUp;
+    private boolean isServerUp = false;
     private UpdatesHandler updateHandler;
     
     private ClientAcceptListener clientAcceptListener;
@@ -33,6 +28,7 @@ public class Server {
     private class ClientAcceptListener extends Thread {
 
         private Socket clientSocket;
+        private volatile boolean isStayAlive = true;
         
         //constructor 
         ClientAcceptListener()
@@ -43,21 +39,26 @@ public class Server {
         //Listen to connection request
         @Override
         public void run() {
-            while (true){
+            while (isStayAlive){
                 try {
                     clientSocket = serverSocket.accept();
 
                     //New client is accepted
-                    //ServerUtils.appendLog("[ClientAcceptListener class]: Client has been accepted. ");
+                    ServerUtils.appendLog("[ClientAcceptListener class]: Client has been accepted. ");
                     
                     //init thread to receive the client
                     new AuthenHandler(clientSocket);
                     
                 } catch (IOException ex) {
-                    //ServerUtils.appendLog("[ClientAcceptListener class]: Connection dropped (client not accepted). ");
-                    ex.printStackTrace();
+                    ServerUtils.appendLog("[ClientAcceptListener class]: Connection dropped (client not accepted). ");
                 }
             }
+        }
+        
+        public void close()
+        {
+            isStayAlive = false;
+            this.stop();
         }
     }
 
@@ -75,50 +76,52 @@ public class Server {
             //set server is up flag
             isServerUp = true;
             
-            //reset the online handlers
-            PlayerHandler.resetHandlers();
-             
             //reset all players to offline
             DBOperations.setAllOffline();
             
             //start update thread
             updateHandler = new UpdatesHandler();
             
-            //ServerUtils.appendLog("[Server class]: Server is up and running on port:" + ServerUtils.PORT_NUMBER); 
+            ServerUtils.appendLog("[Server class]: Server is up and running on port:" + ServerUtils.PORT_NUMBER); 
 
         } catch (IOException ex) {
-            //System.out.print("[Server class]: Couldn't start server");
-            ex.printStackTrace();
+            ServerUtils.appendLog("[Error]: Server failed to start on port:" + ServerUtils.PORT_NUMBER); 
         }
     }
     
     //Stop the server
     public void stop()
     {
-        try {
-        
-        //close the server port
-        serverSocket.close();
-        
-        //close the listener thread
-        clientAcceptListener.stop();
-        
-        //stop the update handler thread
-        updateHandler.close();
-        
-        //reset server is up flag
-        isServerUp = false;
-        
-        
-        //ServerUtils.appendLog("[Server class]: Server stopped successfully.");
-        
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        //check if the server has been up 
+        if (isServerUp)
+        {
+            try {
+                //close the server port
+                serverSocket.close();
+
+            } catch (IOException ex) {
+                ServerUtils.appendLog("[Error]: Server failed to close the port on closing."); 
+            }
+
+            //close the listener thread
+            clientAcceptListener.close();
+
+            //stop the update handler thread
+            updateHandler.close();
+
+            //stop all the online handlers
+            PlayerHandler.stopAllHandlers();
+            
+            //stop all the authen handlers
+            AuthenHandler.stopAllHandlers();
+            
+            //reset all players to offline
+            DBOperations.setAllOffline();
+
+            //reset server is up flag
+            isServerUp = false;
         }
+
+        ServerUtils.appendLog("[Server class]: Server stopped successfully.");
     }
-    
-//    public static void main(String [] args)
-//    {
-//        new Server().start();
-//    }
 }

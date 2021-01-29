@@ -1,41 +1,50 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    This class is used to produce a thread per user to handle the user's
+    authentication routine [signin, signup]
  */
+
 package handler;
 
 
 import java.net.Socket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
-import server.DBOperations;
 import database.playerinfo.Player;
-import server.utils.*;
+import java.util.Vector;
+
+import server.utils.Errors;
+import server.utils.JSONHandeling;
+import server.utils.Requests;
+import server.utils.ServerUtils;
+import server.DBOperations;
 
 import org.json.simple.JSONObject;
-
-import java.io.IOException;
 import org.json.simple.parser.ParseException;
+
+
 
 /**
  *
- * @author Hossam
+ * @author Hossam Khalil
  */
 
 public class AuthenHandler extends Thread {
     
-    Socket socket;
-    String errorMsg;
-    JSONObject jsonObj;
-    Player curPlayer;
+    private Socket socket;
+    private String errorMsg;
+    private JSONObject jsonObj;
+    private Player curPlayer;
     
-    DataInputStream inputStream;
-    DataOutputStream outputStream;
+    private DataInputStream inputStream;
+    private DataOutputStream outputStream;
     
-    boolean isRequestValid = false;
+    private boolean isRequestValid = false;
+    private volatile boolean isStayAlive = true;
     
+    public static Vector <AuthenHandler> connectedClientsList = new Vector();
+            
     public AuthenHandler(Socket socket)
     {
         this.socket = socket;
@@ -43,20 +52,24 @@ public class AuthenHandler extends Thread {
             //Create the input and output channels
             inputStream = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
-
+           
+            //Add to the vector of handlers
+            connectedClientsList.add(this);   
+            
             //Start the thread
             this.start();
             
         } catch (IOException ex) {
-            ServerUtils.appendLog("[AuthenHandler class]: input and output constructor problem");
-            ex.printStackTrace();
+            //Client socket has dropped (close this thread)
+            ServerUtils.appendLog("[AuthenHandler class]: Client dropped connection");
+            this.close();
         }
     }
     
     @Override
     public void run()
     {
-        while (true)
+        while (isStayAlive)
         {
             try {
                 //handle user requests
@@ -67,10 +80,12 @@ public class AuthenHandler extends Thread {
                 
                 //Connection Drop
             } catch (IOException ex) {
-                ServerUtils.appendLog("[AuthenHandler class] Client connection dropped");
+                ServerUtils.appendLog("[AuthenHandler class]: Client connection dropped");
                 close();
+                
             } catch (ParseException ex) {
-               ServerUtils.appendLog("[AuthenHandler class] Parse Exception");
+               //invalid data received (skip this iteration)
+               ServerUtils.appendLog("[Error]: In AuthenHandler invalid received data Parse Exception");
                ServerUtils.appendLog(jsonObj.toString());
             } 
         }
@@ -79,7 +94,8 @@ public class AuthenHandler extends Thread {
     
     private JSONObject userRequestHandler(String jsonStr) throws ParseException, IOException
     {
-        jsonObj =  JSONHandeling.parseStringToJson(jsonStr);
+        
+        jsonObj =  JSONHandeling.parseStringToJSON(jsonStr);
         JSONObject responseJsonObj = new JSONObject();
         
         Player playerInfo;
@@ -105,10 +121,10 @@ public class AuthenHandler extends Thread {
                 if (playerInfo != null) 
                 {
                     //construct the player info
-                    responseJsonObj = JSONHandeling.playerToJson(playerInfo);
+                    responseJsonObj = JSONHandeling.playerToJSON(playerInfo);
 
                     //add the json response construction
-                    responseJsonObj = JSONHandeling.constructJsonResponse(responseJsonObj, requestType);
+                    responseJsonObj = JSONHandeling.constructJSONResponse(responseJsonObj, requestType);
 
                     ServerUtils.appendLog("[AuthenHandler class]: A Client has just signed in");
                     
@@ -121,7 +137,7 @@ public class AuthenHandler extends Thread {
                 //already signed in or doesn't exist
                 else
                 {
-                    responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
+                    responseJsonObj = JSONHandeling.errorToJSON(requestType, errorMsg); 
                     ServerUtils.appendLog("[AuthenHandler class]:" + requestType+" rejected: error msg [" + errorMsg+ " ]");
                 }
                 break;
@@ -138,7 +154,7 @@ public class AuthenHandler extends Thread {
             //unknown request
             default:
                 ServerUtils.appendLog("[AuthenHandler class]: Unknown incoming request");
-                responseJsonObj = JSONHandeling.errorToJson(Requests.UNKNOWN, Errors.INVALID); 
+                responseJsonObj = JSONHandeling.errorToJSON(Requests.UNKNOWN, Errors.INVALID); 
                 break;
         } 
             //output the result
@@ -176,7 +192,7 @@ public class AuthenHandler extends Thread {
         return curPlayer;
     }
     
-   private void signInRoutine (Player playerInfo) throws IOException
+    private void signInRoutine (Player playerInfo) throws IOException
     {
         // init the player handler 
         new PlayerHandler(this.socket, playerInfo);
@@ -184,22 +200,34 @@ public class AuthenHandler extends Thread {
         this.stop();
     }
     
+    public static void stopAllHandlers()
+    {
+        int numberOfOnlinePlayers = connectedClientsList.size();
+        
+        //stop all running hundlers
+        for (int indx = 0 ; indx < numberOfOnlinePlayers; indx++)
+        {
+            connectedClientsList.get(0).close();
+        }
+    }
+    
     public void close()
     {
 
-       try {
-            ServerUtils.appendLog("[AuthenHandler class]: Authentication handler closed");
-            
+       try {            
             //Close the connection
             socket.close();
-
-            //close this thread
-            this.stop();
-
-            
+    
         } catch (IOException ex) {
-            ex.printStackTrace();
-            ServerUtils.appendLog("[AuthenHandler class]: user socket can't be closed.");
+            ServerUtils.appendLog("[Error]: AuthenHandler class user socket can't be closed.");
         }
+       
+       connectedClientsList.remove(this);
+       
+        //set variable to break the loop incase thread didn't close
+        isStayAlive = false;
+        
+        //close this thread
+        this.stop();
     }
 }

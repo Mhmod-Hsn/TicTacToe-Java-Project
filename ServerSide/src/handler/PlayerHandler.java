@@ -1,31 +1,34 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    This class is used to produce a thread per player to handle the player's
+    requests [outside the game].
  */
-package handler;
 
+package handler;
 
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-
 import java.net.Socket;
 import java.util.Vector;
+import java.io.IOException;
 
+import database.gameinfo.Game;
 import database.playerinfo.Player;
+
 import server.DBOperations;
-import server.utils.*;
+import server.utils.Errors;
+import server.utils.JSONHandeling;
+import server.utils.Requests;
+import server.utils.ServerUtils;
 
 import org.json.simple.JSONObject;
-
 import org.json.simple.parser.ParseException;
-import java.io.IOException;
+
 
 
 /**
  *
- * @author Hossam
+ * @author Hossam Khalil
  */
 
 public class PlayerHandler extends Thread{
@@ -39,6 +42,8 @@ public class PlayerHandler extends Thread{
     private String errorMsg;
     private volatile JSONObject forwardedRequest;
     private JSONObject jsonObj;
+    
+    private volatile boolean isStayAlive = true;
         
     
     private static Vector <PlayerHandler> onlinePlayerHandlers = new Vector <>();
@@ -47,23 +52,45 @@ public class PlayerHandler extends Thread{
 
         private PlayerHandler senderPlayerHandler;
         private PlayerHandler receiverPlayerHandler;
-  
+        private boolean isOldGame = false;
+        private Game oldGame;
+        
         private volatile JSONObject receiverJson; 
         private JSONObject senderJson ;
         
         private volatile boolean isReceived = false;
 
-        public GameEstablishHandler(PlayerHandler senderhHandler, PlayerHandler receiverHandler)
+        public GameEstablishHandler(PlayerHandler senderhHandler, PlayerHandler receiverHandler , Long oldGameId)
         {
 
             //store the handlers
             this.senderPlayerHandler = senderhHandler;
             this.receiverPlayerHandler = receiverHandler;
             
+            
+            //raise flag if the game is old
+            if (oldGameId != null)
+            {
+                isOldGame = true;
+                
+                //load the game
+                oldGame = DBOperations.getGame(oldGameId);
+
+                //invalid id (consider it as a new game)
+                if (oldGame == null)
+                {
+                    isOldGame = false;
+                }
+            }
+            
             //clear last read
             senderPlayerHandler.getForwardedRequest();
             receiverPlayerHandler.getForwardedRequest();
             
+            //update players status to busy
+            senderPlayerHandler.updatePlayerStatus("busy");
+            receiverPlayerHandler.updatePlayerStatus("busy");
+              
             //Start the thread
             this.start();   
         }
@@ -77,75 +104,87 @@ public class PlayerHandler extends Thread{
                 senderJson = new JSONObject();
 
                 //Construct invitation json object
-                receiverJson = JSONHandeling.playerToJson(senderPlayerHandler.getPlayerInfo());
-                receiverJson = JSONHandeling.addToJsonObject(receiverJson,"type", Requests.RECEIVE_INVITATION);
-
+                receiverJson = JSONHandeling.playerToJSON(senderPlayerHandler.getPlayerInfo());
+                receiverJson = JSONHandeling.addToJSONObject(receiverJson,"type", Requests.RECEIVE_INVITATION);
+                receiverJson = JSONHandeling.addToJSONObject(receiverJson,"newGame", !isOldGame);
+                
+                //load old game info if found
+                if(isOldGame)
+                {
+                    receiverJson = JSONHandeling.addToJSONObject(receiverJson,"gameId", oldGame.getGameId());
+                    receiverJson = JSONHandeling.addToJSONObject(receiverJson,"date", oldGame.getSaveDate());
+                }
+                
                 //Send invitation to player 2
                 receiverPlayerHandler.getOutputStream().writeUTF(receiverJson.toString());
                 
-   
                 //wait for response on the same request from player 2
                 while(! isReceived) {
-
+                    System.out.println("");
                     receiverJson = receiverPlayerHandler.getForwardedRequest();
 
                     if (receiverJson == null);
-                    
+
                     else if (receiverJson.get("type").equals(Requests.RECEIVE_INVITATION))
                     {
                         isReceived = true;
                     }
                 }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                ServerUtils.appendLog("[GameEstablishHandler class]: A new request was received from player2: "+ receiverJson.toString());
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////           
+                
                 //Construct response for player 1 (in case of valid delivery)
-                senderJson = JSONHandeling.playerToJson(receiverPlayerHandler.getPlayerInfo());
+                senderJson = JSONHandeling.playerToJSON(receiverPlayerHandler.getPlayerInfo());
                 
-                senderJson = JSONHandeling.constructJsonResponse(senderJson ,Requests.SEND_INVITATION);
+                senderJson = JSONHandeling.constructJSONResponse(senderJson ,Requests.INVITATION_RESPONSE);
                 
-                senderJson = JSONHandeling.addToJsonObject(senderJson,"invitationStatus"
+                senderJson = JSONHandeling.addToJSONObject(senderJson,"invitationStatus"
                         ,receiverJson.get("invitationStatus"));
 
+                senderJson = JSONHandeling.addToJSONObject(senderJson,"newGame", !isOldGame);
+                
                 //send the response to the sender player
                 senderPlayerHandler.getOutputStream().writeUTF(senderJson.toString());
                 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                ServerUtils.appendLog("[GameEstablishHandler class]: A new request was sent to player1: "+ senderJson.toString());
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                 
                 //establish game if the invitation is accepted
                 if (receiverJson.get("invitationStatus").equals("true")) {
-                    
-                    //update players status to busy
-                    senderPlayerHandler.updatePlayerStatus("busy");
-                    receiverPlayerHandler.updatePlayerStatus("busy");
-                    
-                    // Start Game 
-                    new GameHandler(senderPlayerHandler,receiverPlayerHandler);
+
+                    // Start Game
+                    ServerUtils.appendLog("[GameEstablishHandler class]: Game Invitation Accepted [ "+
+                            senderPlayerHandler.getPlayerInfo().getUsername()+"] vs [ "+
+                            receiverPlayerHandler.getPlayerInfo().getUsername()+" ]");
+
+                    new GameHandler(senderPlayerHandler,receiverPlayerHandler,oldGame);
                 }
+                else 
+                {
+                    //update players status back to online
+                    senderPlayerHandler.updatePlayerStatus("online");
+                    receiverPlayerHandler.updatePlayerStatus("online");
+                    
+                    ServerUtils.appendLog("[GameEstablishHandler class]: Game Invitation Rejection [ "+
+                            senderPlayerHandler.getPlayerInfo().getUsername()+"] vs [ "+
+                            receiverPlayerHandler.getPlayerInfo().getUsername()+" ]");
+                }
+
                 
                 //close this thrad 
                 close();
                 
             } catch (IOException ex) {
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                
+                
                 //Conection Failed
                 ServerUtils.appendLog("[GameEstablishHandler class]: Player connection dropped (connection failed)");
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                
                 close();
             }
         }
 
         public void close()
         {
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////            
-            ServerUtils.appendLog("[GameEstablishHandler class]: thread is closed");
             this.stop(); 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         }
     }
+    
     
     public PlayerHandler(Socket socket, Player playerInfo)
     {
@@ -156,6 +195,7 @@ public class PlayerHandler extends Thread{
 
         
         try {
+            
             //Create the input and output channels
             inputStream = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
@@ -168,7 +208,7 @@ public class PlayerHandler extends Thread{
             
         } catch (IOException ex) {
             
-            ServerUtils.appendLog("[PlayerHandler class]: Client has dropped");
+            ServerUtils.appendLog("[PlayerHandler class]: Player has dropped connection");
             close();
         }
     }
@@ -177,7 +217,7 @@ public class PlayerHandler extends Thread{
     public void run()
     {
         //Listen to the requests of the players
-        while (true)
+        while (isStayAlive)
         {
             try {
                 //handle user requests
@@ -190,11 +230,11 @@ public class PlayerHandler extends Thread{
                 }  
                 //Connection Drop
             } catch (IOException ex) { 
-                ServerUtils.appendLog("[PlayerHandler class]: Player connection dropped"); 
+                ServerUtils.appendLog("[PlayerHandler class]: Player has dropped connections"); 
                 close();
                 
             } catch (ParseException ex) {
-                ServerUtils.appendLog("[PlayerHandler class]: Parse Exception in the main thread"); 
+                ServerUtils.appendLog("[Error]: In PlayerHander Invalid received data [Parse Exception]: "); 
                 ServerUtils.appendLog(jsonObj.toString());
             } 
         }
@@ -202,19 +242,24 @@ public class PlayerHandler extends Thread{
     
     //Getters
     public JSONObject getForwardedRequest(){
+        
         JSONObject result = forwardedRequest;
         forwardedRequest = null;
         return result;
     }
+    
     public Player getPlayerInfo() {
         return player;
     }
+    
     public DataOutputStream getOutputStream() {
         return outputStream;
     }
+    
     public DataInputStream getInputStream() {
         return inputStream;
     }
+    
     public long getPlayerScore()
     {
         return player.getScore();
@@ -241,29 +286,39 @@ public class PlayerHandler extends Thread{
             //Close the connection
             playerSocket.close();
             
-            //close this thread
-            this.stop();
 
         } catch (IOException ex) {
-            ex.printStackTrace();
-            ServerUtils.appendLog("[PlayerHandler class]: Player socket couldn't be closed.");
+            ServerUtils.appendLog("[Error]: In PlayerHandler Player socket failed to be closed.");
         }
+        
+        //set flag to false to break the loop
+        isStayAlive = false;
+        
+        //close this thread
+        this.stop();
+
     }
     
     //empty the online list
-    public static void resetHandlers()
+    public static void stopAllHandlers()
     {
-        onlinePlayerHandlers.clear();
+        int numberOfOnlinePlayers = onlinePlayerHandlers.size();
+        
+        //stop all running hundlers
+        for (int indx = 0 ; indx < numberOfOnlinePlayers; indx++)
+        {
+            onlinePlayerHandlers.get(0).close();
+        }
     }
     
-
     //Players Requests handeling
     private JSONObject playerRequestHandler(String jsonStr) throws ParseException
     {       
-        jsonObj = JSONHandeling.parseStringToJson(jsonStr);
+        //System.out.println("in player handler: "+jsonStr);
+        jsonObj = JSONHandeling.parseStringToJSON(jsonStr);
         
         JSONObject responseJsonObj = new JSONObject();
-        ServerUtils.appendLog("[PlayerHandler class]: Parsing player request=> "+jsonObj.toString());
+        
         //find out which request
         String requestType = (String)jsonObj.get("type");
 
@@ -276,7 +331,7 @@ public class PlayerHandler extends Thread{
             //Signout request
             case Requests.SIGN_OUT:
                 //signout from the account
-                ServerUtils.appendLog("[PlayerHandler class]: Player has loggedout");
+                ServerUtils.appendLog("[PlayerHandler class]: Player [ "+this.player.getUsername()+" ] has loggedout");
                 close();
                 isSuccess = true;
                 break;
@@ -284,8 +339,8 @@ public class PlayerHandler extends Thread{
             //Send invitation request
             case Requests.SEND_INVITATION:
                 //send invitation to another player
-                isSuccess = playerInvite(jsonObj.get("username").toString());
-                return null;
+                isSuccess = playerInvite(jsonObj);
+                break;
             
             //update status request
             case Requests.UPDATE_STATUS:
@@ -299,31 +354,29 @@ public class PlayerHandler extends Thread{
                 isSuccess =  updatePlayerScore((long)jsonObj.get("score"));
                 break;
                 
+            //get saved games request
+            case Requests.GET_SAVED_GAMES:
+                //get list of available games
+                responseJsonObj = getSavedGames();
+                isSuccess = true;
+                break;
+            
             //requests to be forwarded to other handlers
-            case Requests.RECEIVE_INVITATION: case Requests.GAME_ENDED:
-            case Requests.GAME_MOVE: case Requests.CHAT_MSG: 
-            case Requests.GAME_STARTED:
-                
+            default:
                 //forward the request
                 forwardedRequest = jsonObj;
                 return null; 
                 
-            //Unknown request
-            default:
-                requestType =  Requests.UNKNOWN;
-                errorMsg = Errors.INVALID;
-                isSuccess = false;
-                break;
         }
         
         if (isSuccess)
         {
-            responseJsonObj = JSONHandeling.constructJsonResponse(responseJsonObj, requestType);
+            responseJsonObj = JSONHandeling.constructJSONResponse(responseJsonObj, requestType);
             ServerUtils.appendLog("[PlayerHandler class]: Player Request [ "+requestType+"] has succeeded");
         }
         else 
         {
-            responseJsonObj = JSONHandeling.errorToJson(requestType, errorMsg); 
+            responseJsonObj = JSONHandeling.errorToJSON(requestType, errorMsg); 
             ServerUtils.appendLog("[PlayerHandler class]: Player Request [ "+requestType+"] has failed");
             ServerUtils.appendLog("[PlayerHandler class]: The failed request: "+jsonObj);
         }
@@ -332,10 +385,12 @@ public class PlayerHandler extends Thread{
     }
     
     //invite player request
-    private boolean playerInvite(String username)
+    private boolean playerInvite(JSONObject reqeustObj)
     {
 
-        PlayerHandler playerToInvite = isPlayerHandlerExists(username);
+        PlayerHandler playerToInvite = 
+                isPlayerHandlerExists(reqeustObj.get("username").toString());
+        
         errorMsg = "";
 
         //player wasn't found
@@ -350,9 +405,21 @@ public class PlayerHandler extends Thread{
             errorMsg = Errors.BUSY;
             return false;
         }
-
-        //start game Game Establish thread
-        new GameEstablishHandler (this, playerToInvite);
+        
+        //Check if it's a new or old game
+        Long oldGameId;
+        
+        if (reqeustObj.get("newGame").equals(true))
+        {
+           oldGameId = null; 
+        }
+        else //load the game
+        {
+           oldGameId = (Long)reqeustObj.get("gameId");
+        }
+        
+        //start Game Establish thread
+        new GameEstablishHandler (this, playerToInvite, oldGameId);
 
         return true;
 
@@ -421,5 +488,26 @@ public class PlayerHandler extends Thread{
         }
         //player was not found
         return null;
+    }
+
+    private JSONObject getSavedGames()
+    {
+        //get game list
+        Vector <Game> gameList = DBOperations.getGameList(this.getPlayerInfo().getUsername());
+
+        //if the list is empty
+        if (gameList == null)
+        {
+            gameList = new Vector();
+        }
+        
+        //create json object
+        JSONObject responseJSON = new JSONObject();
+
+        //convert it the result to a json object
+        JSONHandeling.addToJSONObject(responseJSON, "gamesList", 
+                JSONHandeling.gameListToJSONArray(gameList, this.getPlayerInfo().getUsername()));
+        
+        return responseJSON;
     }
 }

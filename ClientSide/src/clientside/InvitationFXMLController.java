@@ -56,7 +56,7 @@ public class InvitationFXMLController implements Initializable {
     }
     @FXML
     public Label getInvitationLabel(){
-        System.out.println("returned invitation labeel");
+        //System.out.println("returned invitation labeel");
         return this.invitationLbl;
     }
     

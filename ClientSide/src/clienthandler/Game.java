@@ -44,6 +44,10 @@ public class Game {
         return board;
     }
     
+    public void setBoard(char[][] loadedBoard){
+        this.board = loadedBoard;
+    }
+    
     public static int getMode(){
         return mode;
     }
@@ -133,7 +137,7 @@ public class Game {
                     else{
                         winner = 1;
                     }
-                    //System.out.println("Row complete");
+                    ////System.out.println("Row complete");
                 }
             }
         }
@@ -152,7 +156,7 @@ public class Game {
                     else{
                         winner = 1;
                     }
-                    //System.out.println("col complete");
+                    ////System.out.println("col complete");
                 }
             }
         }
@@ -171,7 +175,7 @@ public class Game {
                 else{
                     winner = 1;
                 }
-                //System.out.println("diag complete");
+                ////System.out.println("diag complete");
             }
         }
         if(board[0][2] != ' '){
@@ -183,7 +187,7 @@ public class Game {
                 else{
                     winner = 1;
                 }
-                //System.out.println("diag complete");
+                ////System.out.println("diag complete");
             }
         }
         
@@ -211,9 +215,9 @@ public class Game {
         
         if(resultCols || resultRows || resultDiagonals){
             win = 1;
-//            System.out.println(resultCols);
-//            System.out.println(resultRows);
-//            System.out.println(resultDiagonals);
+//            //System.out.println(resultCols);
+//            //System.out.println(resultRows);
+//            //System.out.println(resultDiagonals);
         }
         else{
             resultMoves = checkNumberOfMoves();
@@ -230,9 +234,9 @@ public class Game {
     {
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                System.out.print("" + board[i][j] + "   ");
+                //System.out.print("" + board[i][j] + "   ");
             }
-            System.out.println("");
+            //System.out.println("");
         }
     }
     
@@ -406,6 +410,37 @@ public class Game {
         int rand = random.nextInt(length);
         
         return availableMoves.get(rand);
+    }
+    
+    public static char[] convertToOneDimension(char [][]arr){
+        
+            char []oneDimensionArr = new char[9];
+            int index=0;
+            
+            for (int i = 0; i < 3; i++) {
+                
+                for (int j = 0; j < 3; j++) {
+                    oneDimensionArr[index] = arr[i][j];
+                    index++;
+                }
+            }
+            return oneDimensionArr;
+        }
+    
+    public static char [][] convertToTwoDimension(char [] arr){
+        
+        char[][] twoDimensionArr = new char[3][3];
+        int index=0;
+        
+        for (int i = 0; i < 3; i++) {
+            
+            for (int j = 0; j < 3; j++) {
+                twoDimensionArr[i][j] = arr[index];
+                index++;
+            }
+        }
+        return twoDimensionArr;
+        
     }
     
     public static void main(String[] args) {

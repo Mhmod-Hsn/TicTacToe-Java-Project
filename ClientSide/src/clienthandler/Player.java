@@ -4,13 +4,14 @@ import java.util.regex.Pattern;
 import org.json.simple.JSONObject;
 
 public class Player {
+    
     private int id;
     private String username;
     private String password;
     private String status;
     private int score;
     private static boolean invited = false;
-    private String opponent = "aya";
+    private String opponent;
     
     public void Player(){}
     
@@ -85,7 +86,7 @@ public class Player {
         }
         else if(username.length() > 20){
             check = false;
-            //System.out.println(check);
+            ////System.out.println(check);
         }
         else{
             check = Pattern.matches("^[a-zA-Z1-9-_]*$", username);

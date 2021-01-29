@@ -1,14 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    This is an abstract class that includes all the error messages
+    available as static variables
  */
 package server.utils;
 
 /**
  *
- * @author Hossam
+ * @author Hossam Khalil
  */
+
 public class Errors {
     
     public static final String INVALID = "invalid";
@@ -16,4 +16,6 @@ public class Errors {
     public static final String EXISTS = "fail";
     public static final String BUSY = "busy";
     public static final String SIGNNED_IN = "signedin";
+    public static final String CLIENT_DROPPED = "clientDropped";
+    public static final String CLIENT_QUIT = "clientQuit";
 }

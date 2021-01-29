@@ -1,3 +1,7 @@
+/*
+*   The class that represents a player
+*/
+
 package database.playerinfo;
 
 import java.io.File;
@@ -11,13 +15,14 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author ahmed
+ * @author Ahmed Mamdouh Abdel-Wahab
  */
 
 
 public class Player {
-    public  static  enum statusType {offline,online,busy,none}   // modification 17/1 ingame -> busy
-    public  static  enum orderType {ASC,DESC}   // modification 17/1 ingame -> busy
+    
+    public  static  enum statusType {offline,online,busy,none} 
+    public  static  enum orderType {ASC,DESC}  
     private static orderType order ;
 
     public static orderType getOrder() {
@@ -35,7 +40,7 @@ public class Player {
     private String passwd ;
     private String email ; 
     private statusType status ;
-    InputStream avatar ;    //need File DataType
+    InputStream avatar ;
     
 
     public Long getPid() {
@@ -90,12 +95,11 @@ public class Player {
         this.status = _status;
     }
 
-    public void setAvatar(InputStream avatar) {  // new FileInputStream((new File("C:/honda.jpg"))
+    public void setAvatar(InputStream avatar) {  
         this.avatar = avatar;
     }
     public void setAvatar(File _avatar) {  
         try {
-            // new FileInputStream((new File("C:/honda.jpg"))
             this.avatar = new FileInputStream( _avatar);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,17 +135,17 @@ public class Player {
     
    
     // public static methods 
-   // add 
+    // add 
     public static Player createPlayer(ResultSet _rs) {
         Player p ;
         try {
           p = new Player(_rs.getLong("pid"),_rs.getString("username"),_rs.getString("passwd"),_rs.getString("email"));
           p.setStatus(Player.statusType.valueOf(_rs.getString("status")));
-          p.setAvatar((InputStream)null);//_rs.getBlob("avatar").getBinaryStream(0, _rs.getBlob("avatar").length() ));
+          p.setAvatar((InputStream)null);
           p.setScore(_rs.getLong("score"));
-          ////System.out.println("creating player ok ");
+
         } catch (SQLException ex) {
-            ////System.out.println("error creating player");
+ 
             return null ;
         }
         return p;

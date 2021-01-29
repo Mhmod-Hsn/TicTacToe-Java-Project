@@ -131,31 +131,6 @@
             <Bloom threshold="0.0" />
          </effect>
       </Text>
-      <AnchorPane fx:id="savingSubscene" layoutX="58.0" layoutY="86.0" prefHeight="248.0" prefWidth="474.0">
-         <children>
-            <SubScene height="248.0" width="482.0">
-              <root>
-                <Region />
-              </root>
-            </SubScene>
-            <ImageView fitHeight="248.0" fitWidth="579.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/resultbg.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="savingLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="119.0" layoutY="20.0" prefHeight="43.0" prefWidth="268.0" text="Saving game. Please wait." textAlignment="CENTER" textFill="#ffbc51">
-               <font>
-                  <Font name="Tw Cen MT Condensed Extra Bold" size="22.0" />
-               </font>
-            </Label>
-            <Button fx:id="homeBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="207.0" layoutY="135.0" mnemonicParsing="false" onAction="#homeBtnHandler" prefHeight="38.0" prefWidth="92.0" text="Go Home" textAlignment="CENTER" />
-            <ImageView fitHeight="60.0" fitWidth="152.0" layoutX="195.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/loading.gif" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
       <AnchorPane fx:id="resultAnchor" layoutX="22.0" layoutY="55.0" prefHeight="293.0" prefWidth="579.0">
          <children>
             <SubScene fx:id="resultSubscene" blendMode="SRC_ATOP" fill="#ffffff00" height="292.0" width="570.0">
@@ -193,28 +168,53 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="waitingSubscene" layoutX="41.0" layoutY="81.0" prefHeight="259.0" prefWidth="517.0">
+      <AnchorPane fx:id="savingSubscene" layoutX="20.0" layoutY="50.0" prefHeight="304.0" prefWidth="561.0">
          <children>
-            <SubScene height="237.0" layoutX="-5.0" width="474.0">
-               <root>
-                  <Region />
-               </root>
+            <SubScene height="282.0" layoutY="10.0" width="561.0">
+              <root>
+                <Region />
+              </root>
             </SubScene>
-            <ImageView fitHeight="248.0" fitWidth="522.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="299.0" fitWidth="561.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/resultbg.jpg" />
                </image>
             </ImageView>
-            <Label fx:id="waitingLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" prefHeight="79.0" prefWidth="521.0" text="Please wait till opponent accepts your request." textAlignment="CENTER" textFill="#ffbf47" wrapText="true">
+            <Label fx:id="savingLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="165.0" layoutY="14.0" prefHeight="43.0" prefWidth="268.0" text="Saving game. Please wait." textAlignment="CENTER" textFill="#ffbc51">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="22.0" />
+               </font>
+            </Label>
+            <Button fx:id="homeBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="253.0" layoutY="132.0" mnemonicParsing="false" onAction="#homeBtnHandler" prefHeight="38.0" prefWidth="92.0" text="Go Home" textAlignment="CENTER" />
+            <ImageView fitHeight="60.0" fitWidth="152.0" layoutX="241.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/loading.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="waitingSubscene" layoutX="25.0" layoutY="58.0" prefHeight="293.0" prefWidth="570.0">
+         <children>
+            <SubScene height="288.0" layoutX="-5.0" width="561.0">
+               <root>
+                  <Region />
+               </root>
+            </SubScene>
+            <ImageView fitHeight="293.0" fitWidth="570.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/resultbg.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="waitingLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="25.0" prefHeight="79.0" prefWidth="521.0" text="Please wait till opponent accepts your request." textAlignment="CENTER" textFill="#ffbf47" wrapText="true">
                <font>
                   <Font name="Tw Cen MT Condensed Extra Bold" size="23.0" />
                </font>
             </Label>
-            <Button fx:id="okBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="162.0" mnemonicParsing="false" onAction="#okBtnHandler" prefHeight="41.0" prefWidth="80.0" style="-fx-background-color: orange;" text="Ok" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="okBtn" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="246.0" layoutY="160.0" mnemonicParsing="false" onAction="#okBtnHandler" prefHeight="41.0" prefWidth="80.0" style="-fx-background-color: orange;" text="Ok" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
                </font></Button>
-            <ImageView fitHeight="79.0" fitWidth="152.0" layoutX="196.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="79.0" fitWidth="152.0" layoutX="210.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/loading.gif" />
                </image>

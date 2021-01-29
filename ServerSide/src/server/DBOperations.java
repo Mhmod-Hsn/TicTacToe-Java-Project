@@ -1,8 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    This is an abstract class that is responsbile for interacing with database.
  */
+
 package server;
 
 import database.gameinfo.Game;
@@ -13,10 +12,11 @@ import database.playerinfo.Player;
 
 /**
  *
- * @author ahmed mamoduh 2
+ * @author Ahmed Mamdouh Mostafa
  */
 
 public abstract class DBOperations {
+    
     //indicates if the db is updated from the last check
     private static boolean isDBChanged = false;
     
@@ -150,46 +150,12 @@ public abstract class DBOperations {
     
     
     /*******Game related methods***********/
-   private static Game.cellType[] convertToOneDimension( Game.cellType [][]arr){
-        
-            Game.cellType []oneDimensionArr = new Game.cellType[9];
-            int index=0;
-            
-            for (int i = 0; i < 3; i++) {
-                
-                for (int j = 0; j < 3; j++) {
-                    oneDimensionArr[index] = arr[i][j];
-                    index++;
-                }
-            }
-            return oneDimensionArr;
-        }
-    
-    private static Game.cellType [][] convertToTwoDimension(Game.cellType [] arr){
-        
-        Game.cellType[][] twoDimensionArr = new Game.cellType[3][3];
-        int index=0;
-        
-        for (int i = 0; i < 3; i++) {
-            
-            for (int j = 0; j < 3; j++) {
-                twoDimensionArr[i][j] = arr[index];
-                index++;
-            }
-        }
-        return twoDimensionArr;
-        
-    }
-    
-    
-    public static boolean addGame(Game.cellType [][] gameBoard, String player1 ,String player2,  Game.cellType nextMove)  
+    public static boolean addGame(Game.cellType []gameBoard, String player1 ,String player2,  Game.cellType nextMove)  
     {
         //**ADD GAME ***/
-
-        System.out.println("GAME ADDED");
-        return DBMethods.addNewGame(nextMove,convertToOneDimension(gameBoard),player1,player2);
+        return DBMethods.addNewGame(nextMove,gameBoard,player1,player2);
     }
-    
+
     public static boolean deleteGame (long gameId)
     {
         return DBMethods.deleteGame(gameId);
