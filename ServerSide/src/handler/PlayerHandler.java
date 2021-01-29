@@ -120,7 +120,7 @@ public class PlayerHandler extends Thread{
                 
                 //wait for response on the same request from player 2
                 while(! isReceived) {
-                    System.out.println("");
+                    //System.out.println("");
                     receiverJson = receiverPlayerHandler.getForwardedRequest();
 
                     if (receiverJson == null);
@@ -314,7 +314,6 @@ public class PlayerHandler extends Thread{
     //Players Requests handeling
     private JSONObject playerRequestHandler(String jsonStr) throws ParseException
     {       
-        //System.out.println("in player handler: "+jsonStr);
         jsonObj = JSONHandeling.parseStringToJSON(jsonStr);
         
         JSONObject responseJsonObj = new JSONObject();

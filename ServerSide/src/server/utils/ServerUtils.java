@@ -21,7 +21,7 @@ import java.util.Date;
 public abstract class ServerUtils {
     
     public static final int PORT_NUMBER = 7777;
-    public static final String logsFilePath = "src\\server\\logs\\logs.txt";    
+    public static final String logsFilePath = "logs.txt";    
             
     public static Boolean clearLog(Boolean statusFlag){
         File logsFile =  new File(logsFilePath);
@@ -39,12 +39,10 @@ public abstract class ServerUtils {
                 fileWriter.close();
                 return true ;
             }catch (IOException ioe){
-                System.err.println("IOException");
                 return false ;
             }
         }
         else{
-            System.out.println("Does not Exists"); 
             return false ;
         }
     

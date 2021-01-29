@@ -94,9 +94,7 @@ public class GameHandler extends Thread {
     
     @Override
     public void run ()
-    {
-        //System.out.println("In game Handler");
-        
+    {  
         //construct the init json to boradcast
         responseObj = constructGameStartJSON();
 
@@ -107,7 +105,7 @@ public class GameHandler extends Thread {
         while (!isGameEnded)
         {
             
-            System.out.println("");
+            //System.out.println("");
             
             //listen from both players
             xPlayerRequestObj = xPlayerHandler.getForwardedRequest();
@@ -116,14 +114,12 @@ public class GameHandler extends Thread {
             //received request from x player 
             if ( xPlayerRequestObj != null)
             {
-                //System.out.println("In game Handler: read from x player" + xPlayerRequestObj);
                 handlePlayerRequest(xPlayerRequestObj, true);
             }
             
             //received request from o player
             if (oPlayerRequestObj != null)
             {
-                //System.out.println("In game Handler: read from o player"+ oPlayerRequestObj);
                 handlePlayerRequest(oPlayerRequestObj , false);
             }
  

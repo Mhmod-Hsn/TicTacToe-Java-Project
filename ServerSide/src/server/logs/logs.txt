@@ -1,2 +1,9 @@
-[ Fri Jan 29 22:18:48 GMT+02:00 2021 ] :  Server is Stopped
-[ Fri Jan 29 22:18:57 GMT+02:00 2021 ] :  [Server class]: Server stopped successfully.
+[ Fri Jan 29 22:25:53 GMT+02:00 2021 ] :  Server is Running
+[ Fri Jan 29 22:25:53 GMT+02:00 2021 ] :  [Server class]: Server is up and running on port:7777
+[ Fri Jan 29 22:26:01 GMT+02:00 2021 ] :  [ClientAcceptListener class]: Client has been accepted. 
+[ Fri Jan 29 22:26:10 GMT+02:00 2021 ] :  [AuthenHandler class]:signin rejected: error msg [fail ]
+[ Fri Jan 29 22:26:10 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Fri Jan 29 22:26:21 GMT+02:00 2021 ] :  [PlayerHandler class]: Player [ ahmedmamdouh ] has loggedout
+[ Fri Jan 29 22:26:29 GMT+02:00 2021 ] :  [ClientAcceptListener class]: Client has been accepted. 
+[ Fri Jan 29 22:26:41 GMT+02:00 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Fri Jan 29 22:26:44 GMT+02:00 2021 ] :  [PlayerHandler class]: Player [ ahmeddoh ] has loggedout
