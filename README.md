@@ -27,7 +27,9 @@ TODO
 
 Clone the project in your working directory.
 
-`git clone https://github.com/ahmedmumdouh/TicTacToe-Java-Project.git`
+```bash
+git clone https://github.com/ahmedmumdouh/TicTacToe-Java-Project.git
+```
 
 or download the zipped file and unzip it in your working directory.
 
@@ -38,11 +40,25 @@ or download the zipped file and unzip it in your working directory.
 
 #### Run The Server
 
-TODO
+Using File Explorer : Navigate to the ServerSide folder and double click Server.jar.
+
+Using the Terminal : Navigate to the ServerSide directory and run the following command:
+
+```bash
+java -jar ./.jar
+```
 
 #### Run The Client
 
-TODO
+Using File Explorer : Navigate to the ClientSide folder and double click Server.jar.
+
+Using the Terminal : Navigate to the ClientSide directory and run the following command:
+
+```bash
+java -jar ./.jar
+```
+
+
 
 ## 🎮 Demo 
 
