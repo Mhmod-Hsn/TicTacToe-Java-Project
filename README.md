@@ -15,7 +15,7 @@ While the game of tic-tac-toe is really old, dating back to ancient Egyptians at
 ![single player demo](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/demos/singleGame.gif)
 
 This project is a simple Tic-Tac-Toe online game developed as a final project for the java course.
-The game is developed using java and javafx utilizing socket programming
+The game is developed using java and javafx utilizing socket programming, multi-threading
 and JSON data transmission to allow for a multiplayer online game with other features such as ingame Chat and much more.
 
 ---
@@ -50,7 +50,7 @@ and JSON data transmission to allow for a multiplayer online game with other fea
 
 ### Client-Side
 
-- Play in single mode vs. computer in two levels of difficulty.
+- Play in single mode vs. computer in two levels of difficulty, implemented using minimax algorithm.
 - A live list of the status and score of other players in the game.
 - Chat with the opponent inside the game.
 - Save the game to continue playing it later.
@@ -67,11 +67,25 @@ and JSON data transmission to allow for a multiplayer online game with other fea
 ---
 ## 🎮 Demo
 
-Two gifs
+### Server-side Interface
 
+![server gui gif](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/demos/server.gif)
 
+You can start and stop the server from the GUI, as well as view the server logs, the database and a live players list.
 
-For the full demo video refer to the following link: www.rgijgrmor.com
+### Multiplayer Mode
+
+![multiplayer gif](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/demos/multiGame.gif)
+
+Two players can challenge each other and play together online, and they can also chat with each other during the game.
+
+### Saving and Loading
+
+![save gif](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/demos/save_load.gif)
+
+The players can save the game to continue playing at another time.
+
+For the full demo video refer to the following link: [Demo Video](https://drive.google.com/file/d/1xS0jdz3L2U-QqoeBnXbGfMWgWpbPNS03/view?usp=sharing)
 
 ---
 ## 💻 How To Use
