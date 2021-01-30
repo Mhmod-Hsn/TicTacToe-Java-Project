@@ -1,8 +1,9 @@
-[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/uses-brains.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-black-magic.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
+
 # **Tic Tac Toe**
 
 This is a simple Tic-Tac-Toe online game developed by a team of students at ITI intake 41, 
@@ -40,8 +41,8 @@ or download the zipped file and unzip it in your working directory.
 
 ### Setup the database
 
-- Import sql schema file in any MySQL Server ( Recommended: phpMyAdmin ) or implement SQl Statments Manual in MySQL Shell as descriped in /ServerSide/DBSchema/tictactoedb.sql.
-- Edit DBconfig.java file in database package to fit your database username ,password ,port number ,and database server url .
+- Import sql schema file in any MySQL Server ( <u>Recommended: phpMyAdmin</u> ) or implement SQl Statments Manual in MySQL Shell as described in tictactoedb.sql in [DBSchema directory](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/DBSchema)
+- Edit DBconfig.java file in  [Database Package ](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/src/database ) to fit your database username ,password ,port number ,and database server url .
 
 ### Run The Server
 
