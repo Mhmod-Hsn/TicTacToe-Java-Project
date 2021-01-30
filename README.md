@@ -6,28 +6,37 @@
 
 # **Tic Tac Toe**
 
-This is a simple Tic-Tac-Toe online game developed by a team of students at ITI intake 41,
-Smart Village branch, as a final project for the Java programming course.
+Tic-tac-toe has been a part of almost everyone’s childhood.
+While the game of tic-tac-toe is really old, dating back to ancient Egyptians at around 1300 B.C., the underlying principles of the game have endured the test of time. The game seems simple enough. Two opponents, one using X and one using O, use a 3 x 3 grid to mark their symbols. The first one to get all three of his/her symbols in a row, whether it’s diagonal, horizontal, or vertical, wins the game.
 
+---
+## Overview
+
+This project is a simple Tic-Tac-Toe online game developed as a final project for the java course.
+The game is developed using java and javafx utilizing socket programming
+and JSON data transmission to allow for a multiplayer online game with other features such as ingame Chat and much more.
+
+---
 ## Table of Contents
 
 <!-- TOC -->
-
 - [Main Features](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/README.md#%EF%B8%8F-main-features)
 - [Game Features](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/README.md#-game-features)
 - [Demo](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/README.md#-demo)
 - [How To Use](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/README.md#-how-to-use)
     - [Database Setup](#database-setup)
-    - [How to Run The Server](#how-to-run-the-server)
-    - [How to Run The Client](#how-to-run-the-client)
+    - [Run The Server](#run-the-server)
+    - [Run The Client](#run-the-client)
 - [Dependencies](#dependencies)
 - [Limitations](#limitations)
 - [Possible Improvements](#possible-improvements)
-- [Developers](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/README.md#-developers)
+- [About Us](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/README.md#-about-us)
 
 <!-- /TOC -->
----
 
+
+
+---
 ## 🕹️ Main Features
 
 ### Server-Side
@@ -45,7 +54,7 @@ Smart Village branch, as a final project for the Java programming course.
 - Save the game to continue playing it later.
 - User-friendly GUI.
 
-
+---
 ## 💡 Game Features
 
 - A score metrics for each player that is calculated upon winning or losing.
@@ -79,7 +88,7 @@ or download the zipped file and unzip it in your working directory.
 - Import SQL schema file in any MySQL Server ( <u>Recommended: phpMyAdmin</u> ) or implement SQl statements manually in mySQL Shell as described in tictactoedb.sql in [DBSchema directory.](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/DBSchema)
 - Edit DBconfig.java file in  [Database Package ](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/src/database ) to fill your database username ,password ,port number ,and database server url .
 
-### How to Run The Server
+### Run The Server
 
 Using File Explorer : Navigate to the ServerSide folder then inside dist folder double click ServerSide.jar
 
@@ -91,7 +100,7 @@ java -jar ServerSide.jar
 
 ⚠️**Note that the server and the client run on port 7777.**
 
-### How to Run The Client
+### Run The Client
 
 Using File Explorer : Navigate to the ClientSide folder then inside dist folder double click ClientSide.jar
 
@@ -106,24 +115,44 @@ java -jar ClientSide.jar
 
 * [MySQL](https://www.mysql.com/)
 * [Java 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html/)
+* [Json-simple library](https://github.com/fangyidong/json-simple)
+* [mysql-connector](https://dev.mysql.com/downloads/connector/j/)
+
 
 ---
 ## Limitations
 
-- A potential shortcoming could be reveled when the database goes down while the server is running.
-- Client-Server communication is reliability is about 90% sometimes the requests from the client are not caught by the server.
+- A potential shortcoming could appear when the database goes down while the server is running.
+- The reliability of the Client-Server communication is about 90%; sometimes the requests from the client are not caught by the server.
 
 ---
 ## Possible Improvements
 
-- A possible improvment would be to implement a notification system to notify players about others signning in / out.
-- Another potential improvment could be to allow the player to share the vectory to his social media accounts.
+- Implement a notification system to notify players about others signning in/out.
+- To allow the player to share his game result on his social media accounts.
 ---
-## 👨‍💻 Developers
+## 👨‍💻 About Us
 
-- Ahmed Mamdouh Abdelwahab: https://www.linkedin.com/in/ahmed-mamdouh-935120100/
-- Ahmed Mamdouh Mostafa: https://www.linkedin.com/in/ahmed-mamdouh-816273134/
-- Aya Hamed: https://www.linkedin.com/in/aya-hamed/
-- Ghada Ragab:	https://www.linkedin.com/in/ghadaragab/
-- Hossam Khalil:	https://www.linkedin.com/in/hossam-khalil01/
-- Sarah Magdy:	https://www.linkedin.com/in/sarah-mostafa-0647b61b8/
+We are a team of software enginnering students at ITI intake 41, Smart Village branch, Open-source application track.
+
+### Contacts
+
+You can find us on:
+
+#### Linkedin
+
+- [Ahmed Mamdouh Abdelwahab](https://www.linkedin.com/in/ahmed-mamdouh-935120100/)
+- [Ahmed Mamdouh Mostafa](https://www.linkedin.com/in/ahmed-mamdouh-816273134/)
+- [Aya Hamed](https://www.linkedin.com/in/aya-hamed/)
+- [Ghada Ragab](https://www.linkedin.com/in/ghadaragab/)
+- [Hossam Khalil](https://www.linkedin.com/in/hossam-khalil01/)
+- [Sarah Magdy](https://www.linkedin.com/in/sarah-mostafa-0647b61b8/)
+
+#### GitHub
+
+- [Ahmed Mamdouh Abdelwahab](https://github.com/ahmedmumdouh)
+- [Ahmed Mamdouh Mostafa](https://github.com/AhmedMamdouh996)
+- [Aya Hamed](https://github.com/AyaHamedd)
+- [Ghada Ragab](https://github.com/ghadara109)
+- [Hossam Khalil](https://github.com/hossamkhalil01)
+- [Sarah Magdy](https://github.com/SarahOuf)
