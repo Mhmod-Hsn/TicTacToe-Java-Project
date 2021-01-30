@@ -5,7 +5,6 @@
 package server.serverfx;
 
 import database.DBConfig;
-import static database.DatabaseDriver.DB_CON_STATUS;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,7 +34,10 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import database.playerinfo.Player;
 import database.DBMethods;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import server.Server;
+import static server.serverfx.ServerSide.DBStatusFlag;
 import server.utils.ServerUtils;
 
 /**
@@ -59,7 +61,6 @@ public class FXMLDocumentBase extends AnchorPane {
     protected final TableColumn tableColumn0;
     protected final TableColumn tableColumn1;
     protected final Label playerLabel;
-    protected final Label label;
     protected final WebView webView;
 
     // vars
@@ -104,7 +105,6 @@ public class FXMLDocumentBase extends AnchorPane {
         tableColumn0 = new TableColumn();
         tableColumn1 = new TableColumn();
         playerLabel = new Label();
-        label = new Label();
         webView = new WebView();
 
         setId("AnchorPane");
@@ -117,10 +117,12 @@ public class FXMLDocumentBase extends AnchorPane {
         controlBtn.setMnemonicParsing(false);
         controlBtn.setPrefHeight(111.0);
         controlBtn.setPrefWidth(228.0);
-        controlBtn.setStyle("-fx-background-color: #800000; -fx-border-color: #000000;");
-        controlBtn.setText("Stopped");
-        controlBtn.setTextFill(javafx.scene.paint.Color.WHITE);
-        controlBtn.setFont(new Font("Arial Bold", 40.0));
+        if (DBStatusFlag){
+            buttonStyle("Stopped",40.0);
+        }
+        else{
+            buttonStyle("Check Database",23.0);
+        }
 
         logsView.setLayoutX(12.0);
         logsView.setLayoutY(8.0);
@@ -213,14 +215,6 @@ public class FXMLDocumentBase extends AnchorPane {
         playerLabel.setTextFill(javafx.scene.paint.Color.valueOf("#FFFFFF"));
         playerLabel.setFont(new Font(28.0));
         playerLabel.setAlignment(javafx.geometry.Pos.CENTER);
-        
-        label.setAlignment(javafx.geometry.Pos.CENTER);
-        label.setLayoutX(467.0);
-        label.setLayoutY(607.0);
-        label.setPrefHeight(84.0);
-        label.setPrefWidth(361.0);
-        label.setStyle("-fx-background-color: #00ffff;");
-        label.setTextFill(javafx.scene.paint.Color.RED);
 
         webView.setLayoutX(8.0);
         webView.setLayoutY(4.0);
@@ -242,7 +236,6 @@ public class FXMLDocumentBase extends AnchorPane {
         tableView.getColumns().add(tableColumn1);
         getChildren().add(tableView);
         getChildren().add(playerLabel);
-        //getChildren().add(label);
         getChildren().add(webView);
         
         ServerUtils.clearLog(controlFlag);
@@ -250,28 +243,38 @@ public class FXMLDocumentBase extends AnchorPane {
         controlBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if (DBStatusFlag){
+                    if((!controlFlag)){
+                        controlFlag = true ;
+                        ServerUtils.clearLog(controlFlag);
+                        serverInGUI.start();
+                        buttonStyle("Running",40.0);
+                        controlBtn.setStyle("-fx-background-color: #006622; -fx-border-color: #000000;");
+                                     
+                    }else{
+
+                        controlFlag = false ;
+                        ServerUtils.clearLog(controlFlag);
+                        serverInGUI.stop();
+
+                        //create new object
+                        serverInGUI = new Server();
+                        buttonStyle("Stopped",40.0);
                 
-                if(!controlFlag){
-                    controlFlag = true ;
-                    ServerUtils.clearLog(controlFlag);
-                    serverInGUI.start();
-                    controlBtn.setStyle("-fx-background-color: #006622; -fx-border-color: #000000;");
-                    controlBtn.setText("Running");
-                    controlBtn.setTextFill(javafx.scene.paint.Color.WHITE);
-                    controlBtn.setFont(new Font("Arial Bold", 40.0));                                       
+                    }
+                  
                 }else{
-                    
-                    controlFlag = false ;
-                    ServerUtils.clearLog(controlFlag);
-                    serverInGUI.stop();
-                    
-                    //create new object
-                    serverInGUI = new Server();
-                    
-                    controlBtn.setStyle("-fx-background-color: #800000; -fx-border-color: #000000;");
-                    controlBtn.setText("Stopped");
-                    controlBtn.setTextFill(javafx.scene.paint.Color.WHITE);
-                    controlBtn.setFont(new Font("Arial Bold", 40.0));                   
+                    Alert a = new Alert(AlertType.NONE); 
+                    if( DBMethods.checkDBConnection()){ 
+                        buttonStyle("Stopped",40.0);
+                        DBStatusFlag = true ;
+                    }else{                        
+                        a.setAlertType(Alert.AlertType.ERROR); 
+                        a.setContentText("Connection to Database Server Failed ...");
+                        a.show();
+                        buttonStyle("Check Database",23.0);
+                        DBStatusFlag= false ;                       
+                    }                    
                 }
                 window = (Stage)((Node)event.getSource()).getScene().getWindow();
                 window.show();
@@ -292,6 +295,14 @@ public class FXMLDocumentBase extends AnchorPane {
         });
     }
     
+
+    public void buttonStyle(String text, double font){
+        controlBtn.setDisable(false);
+        controlBtn.setStyle("-fx-background-color: #800000; -fx-border-color: #000000;");
+        controlBtn.setText(text);
+        controlBtn.setTextFill(javafx.scene.paint.Color.WHITE);
+        controlBtn.setFont(new Font("Arial Bold", font));   
+    }
     
     protected  void logViewHandler() {
         
@@ -318,22 +329,21 @@ public class FXMLDocumentBase extends AnchorPane {
                     this.logsView.setDisable(false);
                 }catch(FileNotFoundException ef){
                     try {
-                        System.err.println("FileNotFoundException");
-                        if (logsFile.createNewFile()) {
-                            out = new BufferedWriter(new FileWriter(logsFile, true));
-                            out.write("[ "+d.toString()+" ] :  Creating new logFile\n");
-                            fr=new FileReader(logsFile);   //reads the file
-                            br=new BufferedReader(fr);  //creates a buffering character input stream
-                            sb=new StringBuffer();    //constructs a string buffer with no characters
-                            while((line=br.readLine())!=null)
-                            {
-                                _logsView.add(line);
+                            if (logsFile.createNewFile()) {
+                                out = new BufferedWriter(new FileWriter(logsFile, true));
+                                out.write("[ "+d.toString()+" ] :  Creating new Logs File\n");
+                                fr=new FileReader(logsFile);   //reads the file
+                                br=new BufferedReader(fr);  //creates a buffering character input stream
+                                sb=new StringBuffer();    //constructs a string buffer with no characters
+                                while((line=br.readLine())!=null)
+                                {
+                                    _logsView.add(line);
+                                }
+                                fr.close();
+                                out.close();
                             }
-                            fr.close();
-                            out.close();
-                        }
 
-                        this.logsView.setDisable(false);
+                            this.logsView.setDisable(false);
                         } catch (IOException ex) {
                             this.logsView.setDisable(true);
                         }
@@ -345,9 +355,9 @@ public class FXMLDocumentBase extends AnchorPane {
 
     public  void clientChartHandler(){
 
-        int online = 0 ;
-        int offline = 0 ;
-        int busy = 0 ;
+        double online = 0 ;
+        double offline = 0.1 ;
+        double busy = 0 ;
         if(DBMethods.getAllRecords(Player.statusType.offline.toString()) != null )
             offline = DBMethods.getAllRecords(Player.statusType.offline.toString()).size();
         
@@ -366,16 +376,17 @@ public class FXMLDocumentBase extends AnchorPane {
     }
 
     protected  void dbViewHandler(){
-        
-        this.refreshLoadIndicator();
         _dbView.clear();
         _dbView.add("Database Scheme          :    "+ DBConfig.DB_SCHEME);
         _dbView.add("Database Name             :    "+ DBConfig.DB_NAME); 
         _dbView.add("Database Port                :    "+ DBConfig.DB_PORT);
         _dbView.add("Database URL                :    "+ DBConfig.DB_URL); 
         _dbView.add("Database User               :    "+ DBConfig.DB_USER);
-        _dbView.add("Database InConnection :    "+ DB_CON_STATUS); 
+        _dbView.add("Database Connection    :    [[ "+ DBStatusFlag+" ]] "); 
         this.dbView.setItems(_dbView);
+        if( DBStatusFlag ){
+            this.refreshLoadIndicator();                      
+        }
     }
 
     protected  void tableViewHandler(){
@@ -400,18 +411,24 @@ public class FXMLDocumentBase extends AnchorPane {
         double offline = 0 ;
         double none = .001 ;
         int busy = 0 ;
+        
         if(DBMethods.getAllRecords(Player.statusType.online.toString()) != null )
             online = DBMethods.getAllRecords(Player.statusType.online.toString()).size();
+        
         if(DBMethods.getAllRecords(Player.statusType.offline.toString()) != null )
             offline = DBMethods.getAllRecords(Player.statusType.offline.toString()).size();
+        
         if(DBMethods.getAllRecords(Player.statusType.busy.toString()) != null )
             busy = DBMethods.getAllRecords(Player.statusType.busy.toString()).size();
+        
         if(DBMethods.getAllRecords(Player.statusType.none.toString()) != null )
             busy = DBMethods.getAllRecords(Player.statusType.none.toString()).size();
+        
         if( offline == 0 && online+busy >0 )
             all = 1;
         else
-            all = (double)(online+busy) / (none+online+offline+busy)  ;
+            all = (double)(online+busy) / (none+online+offline+busy);
+        
         loadIndicator.setProgress(all);
     }
 }

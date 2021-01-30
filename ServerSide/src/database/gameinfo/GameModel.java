@@ -23,6 +23,8 @@ public interface  GameModel {
     static boolean insertRecord(cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 if(_board.length != 9){
                     db.endStatConnection();
@@ -44,6 +46,8 @@ public interface  GameModel {
     static boolean insertRecord(cellType _turn , cellType[] _board , String _player1UserName  , String _player2UserName ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 if(_board.length != 9){
                     db.endStatConnection();
@@ -67,6 +71,8 @@ public interface  GameModel {
     static boolean updateIdRecord(Long _gid ,cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ; 
                 if(_board.length != 9){
                     db.endStatConnection();
@@ -90,6 +96,8 @@ public interface  GameModel {
     static boolean updateBoardWhereP1P2( cellType _turn , cellType[] _board , Long _player1  , Long _player2 ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ; 
                 if(_board.length != 9){
                     db.endStatConnection();
@@ -111,6 +119,8 @@ public interface  GameModel {
     static boolean updateBoardWhereP1P2Date( cellType _turn , cellType[] _board , Long _player1  , Long _player2 ,String _created_at ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ; 
                 if(_board.length != 9){
                     db.endStatConnection();
@@ -134,6 +144,8 @@ public interface  GameModel {
     static boolean deleteIdRecord(long _gid){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE gid="+_gid); 
@@ -151,6 +163,8 @@ public interface  GameModel {
     static boolean deleteP1Record(long _player1){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE player1="+_player1); 
@@ -168,6 +182,8 @@ public interface  GameModel {
     static boolean deleteP2Record(long _player2){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE player2="+_player2); 
@@ -185,6 +201,8 @@ public interface  GameModel {
     static boolean deleteP1P2Record(long _player1 ,long _player2){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE player2="+_player2+" and player1="+_player1); 
@@ -203,6 +221,8 @@ public interface  GameModel {
     static boolean deleteP1P2Record(long _player1 ,long _player2, String  _created_at){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return false ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 
                 int checkDelete=db.getStatement().executeUpdate("DELETE FROM games WHERE player2="+_player2+" and player1="+_player1+" and created_at= '"+_created_at+"'"); 
@@ -220,6 +240,8 @@ public interface  GameModel {
     static Game selectGameWhereId (Long _gid ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games where gid= "+_gid);
                 db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
@@ -244,6 +266,8 @@ public interface  GameModel {
     static Game selectGameWhereP1P2Date (Long _player1 , Long _player2 ,String _created_at){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games where player1= "+_player1+" and player2="+_player2+" and created_at= '"+_created_at+"'");
                 db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
@@ -269,6 +293,8 @@ public interface  GameModel {
     static Vector<Game> selectAllWhereP1P2(Long _player1 , Long _player2 ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games where player1= "+_player1+" and player2="+_player2);
   
@@ -298,6 +324,8 @@ public interface  GameModel {
     static Vector<Game> selectAllGames(){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games ");
   
@@ -325,6 +353,8 @@ public interface  GameModel {
     static Vector<Game> selectAllGamesOrderByDESC(String colName ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games ORDER BY "+colName+" DESC ");
   
@@ -351,6 +381,8 @@ public interface  GameModel {
     static Vector<Game> selectAllGamesOrderByASC(String colName ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games ORDER BY "+colName+" ASC ");
   
@@ -379,6 +411,8 @@ public interface  GameModel {
     static Vector<Game> selectAllWhereP1(String _player1UserName ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games where player1= "+PlayerModel.selectIdWhereUsr(_player1UserName)+" ORDER BY created_at DESC");
   
@@ -409,6 +443,8 @@ public interface  GameModel {
     static Vector<Game> selectAllWhereP1OrderedDesc(String _player1UserName , String _colOrder ){
         try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games where player1= "+PlayerModel.selectIdWhereUsr(_player1UserName)+" ORDER BY "+_colOrder+" DESC");
 
@@ -438,6 +474,8 @@ public interface  GameModel {
     static Vector<Game> selectAllWhereP1OrderedDescDate(String _player1UserName ){
          try {
                 db.startConnection();
+                if(db.getConnection() == null )
+                        return null ;
                 db.setStatement(db.getConnection().createStatement()) ;
                 db.setQuerystr("select * from games where player1 = "+
                         PlayerModel.selectIdWhereUsr(_player1UserName)+ 

@@ -18,6 +18,14 @@ import database.playerinfo.Player.orderType;
 public abstract class DBMethods {
     
     // public static methods 
+    
+    public static Boolean checkDBConnection(){
+     if (GameModel.db.checkConnection())
+         return true ;
+     else
+         return false;
+    }
+    
     public static boolean addPlayer(String _username , String _passwd , String _email  , String _status ,long _score , String _avatar){
         return PlayerModel.insertRecord(_username, _passwd, _email, _status, _score, _avatar) ;
     }

@@ -23,7 +23,6 @@ public class DatabaseDriver {
     private PreparedStatement preparedStatement;
     private String queryStr;
     private ResultSet resultSet; // used for store data from database    
-    public static Boolean DB_CON_STATUS = false ;
 
     public DatabaseDriver(){
         //startConnection();
@@ -73,9 +72,23 @@ public class DatabaseDriver {
         try {
             Class.forName(DBConfig.DB_DRV);
             connection = DriverManager.getConnection(DBConfig.DB_URL,DBConfig.DB_USER,DBConfig.DB_PASSWD);
-            DB_CON_STATUS = true ;
         } catch (ClassNotFoundException | SQLException ex) {
-            DB_CON_STATUS = false ;
+            // Handled in checkConnection Function 
+        }
+    }
+    
+    public Boolean checkConnection(){
+        this.startConnection();
+        if (this.getConnection() == null ){
+            return false ;
+        }
+        else{
+            try {
+                connection.close(); 
+                return true ;
+            } catch (SQLException ex) {
+                return false ;
+            }
         }
     }
     public void endStatConnection() {

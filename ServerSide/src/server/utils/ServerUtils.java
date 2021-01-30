@@ -38,7 +38,7 @@ public abstract class ServerUtils {
                     printWriter.println("[ "+d.toString()+" ] :  "+"Server is Stopped");
                 fileWriter.close();
                 return true ;
-            }catch (IOException ioe){
+            }catch (IOException io){
                 return false ;
             }
         }
@@ -68,22 +68,14 @@ public abstract class ServerUtils {
                     out.write("[ "+d.toString()+" ] :  "+logStr+"\n");
                 }
             }
+
+            out.close(); 
+            return true;
         }
         
         catch (IOException io) {
+            return false;
         } 
-        finally { 
-            
-            try { 
-                
-                out.close(); 
-                return true;
-            } 
-            catch (IOException io) { 
-                return false; 
-            } 
-        }
-        
     }
     
 }
