@@ -7,7 +7,7 @@ Smart Village branch, as a final project for the Java programming course.
 
 TODO
 
-### 🕹️ Main features
+## 🕹️ Main features
 
 - Play in single mode vs. computer in two levels of difficulty.
 - Play with your friends in multiplayer mode (online).
@@ -15,7 +15,7 @@ TODO
 - Save the game to continue playing it later.
 - User-friendly GUI.
 
-### 💡 Additional Features
+## 💡 Additional Features
 
 - A score metrics for each player that is calculated upon winning or losing.
 - A live list of the status and score of other players in the game.
@@ -23,7 +23,7 @@ TODO
 - Playing again with the same player.
 - Quit the game in the middle, but it will result in loosing the game.
 
-### 💻 Setup 
+## 💻 Setup 
 
 Clone the project in your working directory.
 
@@ -44,7 +44,7 @@ TODO
 
 TODO
 
-### 🎮 Demo 
+## 🎮 Demo 
 
 Two gifs 
 
@@ -54,7 +54,7 @@ For the full demo video refer to the following link: www.rgijgrmor.com
 
 
 
-### 👨‍💻 Developers
+## 👨‍💻 Developers
 
 - Ahmed Mamdouh Abdelwahab: https://www.linkedin.com/in/ahmed-mamdouh-935120100/
 - Ahmed Mamdouh Mostafa: https://www.linkedin.com/in/ahmed-mamdouh-816273134/
