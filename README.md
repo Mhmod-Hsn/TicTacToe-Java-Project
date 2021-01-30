@@ -12,6 +12,8 @@ While the game of tic-tac-toe is really old, dating back to ancient Egyptians at
 ---
 ## Overview
 
+![single player demo](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/blob/master/demos/singleGame.gif)
+
 This project is a simple Tic-Tac-Toe online game developed as a final project for the java course.
 The game is developed using java and javafx utilizing socket programming
 and JSON data transmission to allow for a multiplayer online game with other features such as ingame Chat and much more.
