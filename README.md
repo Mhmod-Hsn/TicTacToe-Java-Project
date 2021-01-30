@@ -142,7 +142,7 @@ You can find us on:
 #### Linkedin
 
 - [Ahmed Mamdouh Abdelwahab](https://www.linkedin.com/in/ahmed-mamdouh-935120100/)
-- [Ahmed Mamdouh Mostafa](https://www.linkedin.com/in/ahmed-mamdouh-816273134/)
+- [Ahmed Mamdouh Mostafa](www.linkedin.com/in/ahmed-mamdouh96/)
 - [Aya Hamed](https://www.linkedin.com/in/aya-hamed/)
 - [Ghada Ragab](https://www.linkedin.com/in/ghadaragab/)
 - [Hossam Khalil](https://www.linkedin.com/in/hossam-khalil01/)
