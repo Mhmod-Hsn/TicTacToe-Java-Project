@@ -8,6 +8,7 @@ import database.gameinfo.Game;
 import java.util.Vector;
 import database.DBMethods;
 import database.playerinfo.Player;
+import server.BCrypt;
 
 
 /**
@@ -58,6 +59,9 @@ public abstract class DBOperations {
         return DBMethods.isRecordExists(username, password);
     }
     
+    public static String getUserPass(String _username){
+        return DBMethods.getPass(_username);
+    }
     public static boolean isLoggedIn(String username, String password){
         String status = DBMethods.getStatus(username);
         
@@ -170,4 +174,14 @@ public abstract class DBOperations {
     {
         return DBMethods.getGame(gameId);
     } 
+    /***************** Others****************/
+    public static String hashPassword(String plainTextPassword){
+        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+    }
+    public static boolean checkPass(String plainPassword, String hashedPassword) {
+        if (BCrypt.checkpw(plainPassword, hashedPassword))
+            return true ;
+        else
+            return false ;
+    }
 }

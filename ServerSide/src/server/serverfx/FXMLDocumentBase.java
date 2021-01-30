@@ -5,6 +5,7 @@
 package server.serverfx;
 
 import database.DBConfig;
+import static database.DBConfig.DB_SERVER_PORT;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -356,7 +357,7 @@ public class FXMLDocumentBase extends AnchorPane {
     public  void clientChartHandler(){
 
         double online = 0 ;
-        double offline = 0.1 ;
+        double offline = 0 ;
         double busy = 0 ;
         if(DBMethods.getAllRecords(Player.statusType.offline.toString()) != null )
             offline = DBMethods.getAllRecords(Player.statusType.offline.toString()).size();
@@ -381,8 +382,10 @@ public class FXMLDocumentBase extends AnchorPane {
         _dbView.add("Database Name             :    "+ DBConfig.DB_NAME); 
         _dbView.add("Database Port                :    "+ DBConfig.DB_PORT);
         _dbView.add("Database URL                :    "+ DBConfig.DB_URL); 
-        _dbView.add("Database User               :    "+ DBConfig.DB_USER);
+        _dbView.add("Database Server Port     :    "+ DB_SERVER_PORT);
+        _dbView.add("Database User               :    "+ DBConfig.DB_USER);        
         _dbView.add("Database Connection    :    [[ "+ DBStatusFlag+" ]] "); 
+        
         this.dbView.setItems(_dbView);
         if( DBStatusFlag ){
             this.refreshLoadIndicator();                      

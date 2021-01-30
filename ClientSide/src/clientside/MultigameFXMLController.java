@@ -13,12 +13,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.json.simple.JSONObject;
@@ -77,7 +80,7 @@ public class MultigameFXMLController implements Initializable {
     @FXML
     private TextArea chatBox;
     @FXML
-    private TextArea msgBox;
+    public TextArea msgBox;
     
     Game game;
     char player1Value;
@@ -578,7 +581,9 @@ public class MultigameFXMLController implements Initializable {
             msgBox.setText("");
         }
     }
-
+    
+    
+    
     @FXML
     private void playAgainHandler(ActionEvent event) {
         ClientHandler.invitePlayerRequest(ClientHandler.getPlayer().getOpponent());
@@ -658,5 +663,18 @@ public class MultigameFXMLController implements Initializable {
         chatBox.appendText("["+ClientHandler.getPlayer().getOpponent()+"]: "
         +msg+String.format("\n"));
     }
+
+    @FXML
+    private void msgBoxHandler(KeyEvent event) {
+         if(event.getCode().equals(KeyCode.ENTER)) {
+            if(!msgBox.getText().equals(""))
+              {
+                  ClientHandler.sendChatRequest(msgBox.getText());
+                  chatBox.appendText("[You]: "+msgBox.getText()+String.format("\n"));
+                  msgBox.setText("");
+              }
+          }
+    }
+    
     
 }

@@ -99,7 +99,7 @@ public class LoginFXMLController implements Initializable {
             JSONObject signReq = new JSONObject();
             signReq.put("type", "signup");
             signReq.put("username", username);
-            signReq.put("password", password);
+            signReq.put("password", BCrypt.hashpw(password, BCrypt.gensalt()));
             ClientHandler.sendRequest(signReq);
         }
     }   

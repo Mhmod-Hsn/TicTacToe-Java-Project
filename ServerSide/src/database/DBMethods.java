@@ -9,6 +9,7 @@ import database.playerinfo.*;
 
 import java.util.Vector;
 import database.playerinfo.Player.orderType;
+import server.DBOperations;
 
 /**
  *
@@ -18,7 +19,7 @@ import database.playerinfo.Player.orderType;
 public abstract class DBMethods {
     
     // public static methods 
-    
+     
     public static Boolean checkDBConnection(){
      if (GameModel.db.checkConnection())
          return true ;
@@ -99,7 +100,10 @@ public abstract class DBMethods {
         return PlayerModel.selectWhereUsrPass(_username, _passwd);
     }
     public static Player getPlayer(String _username ,String _passwd ){
-        return PlayerModel.selectPlayerWhereUsrPass(_username, _passwd);
+        if( DBOperations.checkPass(_passwd,DBOperations.getUserPass(_username)))
+            return PlayerModel.selectPlayerWhereUsr(_username);
+        else
+            return null ;
     }
     public static Vector<Player> getAllRecords(String _status ){
         return PlayerModel.selectAllWhereStatus(_status);

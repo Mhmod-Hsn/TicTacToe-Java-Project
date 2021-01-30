@@ -97,7 +97,7 @@
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
          </font></Button>
-      <TextArea fx:id="msgBox" layoutX="24.0" layoutY="436.0" prefHeight="38.0" prefWidth="474.0" promptText="Chat with the player!" />
+      <TextArea fx:id="msgBox" layoutX="24.0" layoutY="436.0" onKeyReleased="#msgBoxHandler" prefHeight="38.0" prefWidth="474.0" promptText="Chat with the player!" />
       <Button layoutX="505.0" layoutY="439.0" mnemonicParsing="false" onMouseReleased="#sendHandler" prefHeight="29.0" prefWidth="80.0" style="-fx-background-color: #95D500;" text="Send" textFill="#007204">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="18.0" />

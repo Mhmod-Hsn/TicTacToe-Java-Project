@@ -481,6 +481,34 @@ public interface PlayerModel {
         }
     } 
      
+    static Player selectPlayerWhereUsr(String _username ){
+        try {
+            db.startConnection();
+            if(db.getConnection() == null )
+                        return null ;
+            db.setStatement(db.getConnection().createStatement()) ;
+            db.setQuerystr("select * from players where username= '"+_username+"'");
+            db.setResultSet(db.getStatement().executeQuery(db.getQuerystr()));  
+
+             if(db.getResultSet().next() == false){
+
+                 db.endResultSet();
+                 db.endStatConnection();
+
+                 return null ;
+             }
+             else{
+                 Player p = Player.createPlayer(db.getResultSet()) ;
+
+                 db.endResultSet();
+                 db.endStatConnection();
+                 return p ;
+             }
+        } catch (SQLException ex) {
+            return null ;
+        }
+    } 
+    
     static String selectMailWhereUsr(String _username ){
         try {
             db.startConnection();

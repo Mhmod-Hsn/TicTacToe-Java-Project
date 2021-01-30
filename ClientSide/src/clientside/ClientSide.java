@@ -33,7 +33,9 @@ public class ClientSide extends Application {
 
             root = FXMLLoader.load(getClass().getResource("ConfailedFXML.fxml"));
         }
-
+        
+        
+        
         Scene scene = new Scene(root);
         ClientHandler.setWindow(stage);
         stage.resizableProperty().setValue(false);

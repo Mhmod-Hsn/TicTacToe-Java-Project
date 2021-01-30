@@ -163,9 +163,10 @@ public class AuthenHandler extends Thread {
     
     private Player signIn(String uname, String password)
     {
-        if (DBOperations.isUserExists(uname, password)) 
+        if ( DBOperations.checkPass(password,DBOperations.getUserPass(uname)) ) 
         {
-            if (DBOperations.isLoggedIn(uname, password)) 
+            System.out.println("true"+password+"  "+ DBOperations.getUserPass(uname) );
+            if (DBOperations.isLoggedIn(uname, password)) //checkPass("123", str)
             {
                 errorMsg = Errors.SIGNNED_IN;
             }
@@ -176,6 +177,7 @@ public class AuthenHandler extends Thread {
         }
         else
         {
+            System.out.println("false"+password+"  "+ DBOperations.getUserPass(uname) );
             errorMsg = Errors.NOT_EXIST;
         }
         return null;
@@ -230,4 +232,5 @@ public class AuthenHandler extends Thread {
         //close this thread
         this.stop();
     }
+   
 }

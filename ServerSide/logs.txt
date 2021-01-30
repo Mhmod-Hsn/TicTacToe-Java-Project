@@ -1,0 +1,9 @@
+[ Sat Jan 30 22:50:21 EET 2021 ] :  Server is Running
+[ Sat Jan 30 22:50:21 EET 2021 ] :  [Server class]: Server is up and running on port:7777
+[ Sat Jan 30 22:50:23 EET 2021 ] :  [ClientAcceptListener class]: Client has been accepted. 
+[ Sat Jan 30 22:51:04 EET 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Sat Jan 30 22:51:30 EET 2021 ] :  [ClientAcceptListener class]: Client has been accepted. 
+[ Sat Jan 30 22:51:39 EET 2021 ] :  [AuthenHandler class]: A Client has just signed in
+[ Sat Jan 30 22:51:47 EET 2021 ] :  [PlayerHandler class]: Player Request [ invitePlayer] has succeeded
+[ Sat Jan 30 22:51:53 EET 2021 ] :  [GameEstablishHandler class]: Game Invitation Accepted [ ali] vs [ ahmed ]
+[ Sat Jan 30 22:52:17 EET 2021 ] :  [PlayerHandler class]: Player [ ali ] has loggedout
