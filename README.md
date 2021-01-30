@@ -9,9 +9,9 @@
 This is a simple Tic-Tac-Toe online game developed by a team of students at ITI intake 41, 
 Smart Village branch, as a final project for the Java programming course.
 
-### Table of Contents
+## Table of Contents
 
-TODO
+[toc]
 
 ## 🕹️ Main features
 
