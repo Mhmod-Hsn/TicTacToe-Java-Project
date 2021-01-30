@@ -55,27 +55,29 @@ or download the zipped file and unzip it in your working directory.
 
 ### Setup the database
 
-- Import sql schema file in any MySQL Server ( <u>Recommended: phpMyAdmin</u> ) or implement SQl Statments Manual in MySQL Shell as described in tictactoedb.sql in [DBSchema directory](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/DBSchema)
-- Edit DBconfig.java file in  [Database Package ](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/src/database ) to fit your database username ,password ,port number ,and database server url .
+- Import SQL schema file in any MySQL Server ( <u>Recommended: phpMyAdmin</u> ) or implement SQl statements manually in mySQL Shell as described in tictactoedb.sql in [DBSchema directory.](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/DBSchema)
+- Edit DBconfig.java file in  [Database Package ](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/src/database ) to fill your database username ,password ,port number ,and database server url .
 
 ### Run The Server
 
 Using File Explorer : Navigate to the ServerSide folder then inside dist folder double click ServerSide.jar
 
-Using the Terminal : Navigate to the ServerSide/dist directory and run the following command:
+Using the Terminal : Navigate to the [ServerSide/dist](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/dist) directory and run the following command:
 
 ```bash
-java -jar .ServerSide.jar/.jar
+java -jar ServerSide.jar
 ```
+
+⚠️**Note that the server and the client run on port 7777.**
 
 ### Run The Client
 
 Using File Explorer : Navigate to the ClientSide folder then inside dist folder double click ClientSide.jar
 
-Using the Terminal : Navigate to the ClientSide/dist directory and run the following command:
+Using the Terminal : Navigate to the [ClientSide/dist](https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ClientSide/dist) directory and run the following command:
 
 ```bash
-java -jar .ClientSide/.jar
+java -jar ClientSide.jar
 ```
 
 
