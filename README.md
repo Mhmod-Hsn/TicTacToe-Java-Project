@@ -5,6 +5,7 @@ Smart Village branch, as a final project for the Java programming course.
 
 ### Table of Contents
 
+TO DO
 
 
 ### 🕹️ Main features
@@ -37,10 +38,10 @@ or download the zipped file and unzip it in your working directory.
 - Edit DBconfig.java file in database package to fit your database username ,password ,port number ,and database server url .
 
 #### Run The Server
+TODO
 
 #### Run The Client
-
-
+TODO
 
 ### 🎮 Demo 
 
