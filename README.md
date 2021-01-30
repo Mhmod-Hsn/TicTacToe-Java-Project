@@ -111,7 +111,7 @@ java -jar ClientSide.jar
 ```
 
 ---
-## Dependencies
+## 📋Dependencies
 
 * [MySQL](https://www.mysql.com/)
 * [Java 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html/)
@@ -120,13 +120,13 @@ java -jar ClientSide.jar
 
 
 ---
-## Limitations
+## 🚫Limitations
 
 - A potential shortcoming could appear when the database goes down while the server is running.
 - The reliability of the Client-Server communication is about 90%; sometimes the requests from the client are not caught by the server.
 
 ---
-## Possible Improvements
+## 📈Possible Improvements
 
 - Implement a notification system to notify players about others signning in/out.
 - To allow the player to share his game result on his social media accounts.
@@ -135,7 +135,7 @@ java -jar ClientSide.jar
 
 We are a team of software enginnering students at ITI intake 41, Smart Village branch, Open-source application track.
 
-### Contacts
+### 📞Contacts
 
 You can find us on:
 
