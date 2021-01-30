@@ -102,10 +102,9 @@ public class MultigameFXMLController implements Initializable {
     private void checkWinOrDraw(){
 
         int win = game.checkWin();
-        //System.out.println("allllloooo!: "+win);
+
         if(win == 1){
             finish = true;
-            //System.out.println("Player " + player1Value + " won!");
             
             if(player1Value == 'X'){
                 
@@ -157,7 +156,7 @@ public class MultigameFXMLController implements Initializable {
              }
 
             finish = true;
-            //System.out.println("Its a draw!");
+
             winnerLabel.setText("It's a draw!");
             setSceneVisibility(true);
 
@@ -327,8 +326,7 @@ public class MultigameFXMLController implements Initializable {
         else{
             play = true;
         }
-        
-        //System.out.println("play: " + play);
+
     }
     
     private void toggleNextMove(){
@@ -346,8 +344,7 @@ public class MultigameFXMLController implements Initializable {
             
             //get cell move of the second player
             Game.CellPosition resultCell = Game.getMoveOfNextPlayer();
-            //System.out.println(resultCell.row);
-            //System.out.println(resultCell.col);
+            
             if(resultCell.row == 0){
                 
                 switch (resultCell.col) {
@@ -475,10 +472,7 @@ public class MultigameFXMLController implements Initializable {
             player2Label.setText(ClientHandler.getPlayer().getOpponent());
             play = false;
         }
-        //System.out.println("Player 1 : "+player1Value+" "+player1Label.getText());
-        //System.out.println("Player 2 : "+player2Value+" "+player2Label.getText());
-        //System.out.println("Play: " + play);
-        //System.out.println("next move:" + game.getNextMove());
+
         game.setBoard(ClientHandler.getBoard());
         game.printBoard();
     }
@@ -561,8 +555,6 @@ public class MultigameFXMLController implements Initializable {
         
         game = new Game();
         
-        //System.out.println(ClientHandler.getIsLoaded());
-        
         if(ClientHandler.getIsLoaded()){
             
             setGameLoaded();
@@ -571,7 +563,6 @@ public class MultigameFXMLController implements Initializable {
         else{
             game.setNextMove(0);
             setPlayerData();
-            //System.out.println("play: " + play);
         }
         
         finish = false;

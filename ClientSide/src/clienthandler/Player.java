@@ -1,5 +1,4 @@
 package clientHandler;
-import java.util.HashMap;
 import java.util.regex.Pattern;
 import org.json.simple.JSONObject;
 
@@ -86,7 +85,6 @@ public class Player {
         }
         else if(username.length() > 20){
             check = false;
-            ////System.out.println(check);
         }
         else{
             check = Pattern.matches("^[a-zA-Z1-9-_]*$", username);

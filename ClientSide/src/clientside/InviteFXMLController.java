@@ -78,7 +78,6 @@ public class InviteFXMLController implements Initializable {
         if(inviteBox.getValue() != null && !inviteBox.getValue().equals("")){
             
             ClientHandler.invitePlayerRequest(inviteBox.getValue());
-            //System.out.println("after invite sent");
             waitingLbl.setText("Please wait for opponent response.");
             waitingSubscene.setVisible(true);
         }

@@ -81,16 +81,14 @@ public class GameFXMLController implements Initializable {
         int win = game.checkWin();
         if(win == 1){
             finish = true;
-            //System.out.println("Player " + value + " won!");
             if(value == 'X'){
                 winnerLabel.setText(player1Label.getText() + " won!");
-                //TODO
+
                 //update score here if needed
                 setSceneVisibility(true);
             }
             else{
                 winnerLabel.setText(player2Label.getText() + " won!");
-                //TODO
                 //update score here if needed
                 setSceneVisibility(true);
             }
@@ -98,7 +96,7 @@ public class GameFXMLController implements Initializable {
         }
         else if(win == 2){
             finish = true;
-            //System.out.println("Its a draw!");
+
             winnerLabel.setText("It's a draw!");
             setSceneVisibility(true);
         }
@@ -390,8 +388,6 @@ public class GameFXMLController implements Initializable {
         value = 'X';
         play = true;
         finish = false;
-        ////System.out.println(game.getBoard().length);
-      //  th.start();
     }    
 
     @FXML

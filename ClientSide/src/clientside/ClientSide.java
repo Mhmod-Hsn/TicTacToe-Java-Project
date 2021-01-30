@@ -23,15 +23,14 @@ public class ClientSide extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         if (connected){
-            //System.out.println("Connected To server.");
+
             root = FXMLLoader.load(getClass().getResource("LoginFXML.fxml"));
             
             readerThread = new Thread(new ClientHandler.recieveRespone());
             readerThread.start();
         }
         else{
-            
-            //System.out.println("Connection Failed.");
+
             root = FXMLLoader.load(getClass().getResource("ConfailedFXML.fxml"));
         }
 

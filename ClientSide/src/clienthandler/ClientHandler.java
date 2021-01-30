@@ -14,13 +14,10 @@ import clientside.PlayingModeFXMLController;
 import clientside.StartFXMLController;
 import clientside.InvitationFXMLController;
 import clientside.MultigameFXMLController;
-import clientHandler.Game;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -81,7 +78,6 @@ public class ClientHandler {
             clientSocket = new Socket("127.0.0.1", 7777);
             ds = new DataInputStream(clientSocket.getInputStream());
             ps = new DataOutputStream(clientSocket.getOutputStream());
-            //ps = new PrintStream(clientSocket.getOutputStream());
             
         } catch (IOException ex) {
             res = false;
@@ -98,7 +94,6 @@ public class ClientHandler {
             clientSocket.close();
         }
         catch(IOException ex){
-            //System.out.println("No connection exists to close.");
         }
     }
     
@@ -110,10 +105,8 @@ public class ClientHandler {
         try {
             ps.writeUTF(jsonMsg.toJSONString());
         } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
  
-        //System.out.println("Sent a new request:"+ jsonMsg.toString());
         
     }
     
@@ -123,7 +116,6 @@ public class ClientHandler {
         String response;
         @Override
         public void run(){
-            //System.out.println("Recieve Response Thread has Started.");
             while (running) {
                 try {
                     response = ds.readUTF();
@@ -131,7 +123,6 @@ public class ClientHandler {
                         handleResponse(response);
                     }
                 } catch (IOException ex) {
-                    //System.out.println("Connection is down.");
                     running=false;
                     changeScene("Confailed");
                 }
@@ -144,7 +135,6 @@ public class ClientHandler {
      */
     private static void handleResponse(String response)
     {
-        //System.out.println("Received a new response: "+response);
         try {
             JSONParser parser = new JSONParser();
             JSONObject jsonMsg = (JSONObject) parser.parse(response);
@@ -199,7 +189,6 @@ public class ClientHandler {
                 
             }
         } catch (ParseException ex) {
-            //System.out.println("Exception in handle response.");
         }
     }
 
@@ -209,7 +198,6 @@ public class ClientHandler {
     @FXML
     public static void changeScene(String newScene)
     {   
-        //System.out.println("Changing scene to: "+newScene);
         setCurrentScene(newScene);
         Platform.runLater(() -> {   
             try {
@@ -220,7 +208,6 @@ public class ClientHandler {
                 window.show();
             } catch (IOException ex) {
                 ex.printStackTrace();
-                //System.out.println("Exception in change scene function.");
             }
         });
     }
@@ -326,7 +313,6 @@ public class ClientHandler {
         String request = response.get("type").toString();
         String resStatus = response.get("responseStatus").toString();
         if(resStatus.equals("true")){
-            //System.out.println(response);
             player.setScore(Integer.parseInt(response.get("score").toString()));
             player.setUsername(response.get("username").toString());
             player.setStatus(response.get("status").toString());
@@ -344,7 +330,6 @@ public class ClientHandler {
                 warning="Username already exists.";
             else
                 warning="unexpected";
-            //System.out.println("Error :"+warning);
             Platform.runLater(() -> {loginctrl.getLabel().setText(warning);});
         }
     }
@@ -353,11 +338,8 @@ public class ClientHandler {
     private static void updateStatus(JSONObject response){
         String resStatus = response.get("responseStatus").toString();
         if(resStatus.equals("true")){
-            //System.out.println(response);
-            //changeScene("Game");
         }
         else{
-            //System.out.println("Fail update status");
         }
     }
     
@@ -371,7 +353,6 @@ public class ClientHandler {
         status = FXCollections.observableArrayList ();
         score= FXCollections.observableArrayList ();
         
-        //System.out.println(" list size : "+list.size());
         for (int i = 0 ; i < list.size(); i++) {
             try {
                 JSONplayer  = (JSONObject) parser.parse(list.get(i).toString());
@@ -379,7 +360,6 @@ public class ClientHandler {
                 score.add(JSONplayer.get("score").toString());
                 status.add(JSONplayer.get("status").toString());
             } catch (ParseException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         switch (currentScene) {
@@ -407,7 +387,6 @@ public class ClientHandler {
     
     /********************* Invite another player request and response *********************/
     public static void invitePlayerRequest(String invitedPlayerUsername){
-        //System.out.println("inside invite request");
         JSONObject inviteRequest = new JSONObject();
         inviteRequest.put("type", "invitePlayer");
         inviteRequest.put("username", invitedPlayerUsername);
@@ -450,7 +429,6 @@ public class ClientHandler {
     /********************* New game invitation response handler *********************/
     private static void newGameInviteHandler(String username , String inviteStatus){
         if(inviteStatus.equals("true")){
-            //System.out.println("invitation to a new game accepted.");
             player.setInvited(false);
             player.setOpponent(username);
             gameAccepted = true;
@@ -462,7 +440,6 @@ public class ClientHandler {
             }                
         }
         else{
-            //System.out.println("invitation to a new game declined.");
             gameAccepted = false;
             if(replay){
                 Platform.runLater(() -> {multigameCtrl.getWaitingLbl().setText(username + " declined your invitation."); multigameCtrl.getOkBtn().setDisable(false);});
@@ -476,13 +453,11 @@ public class ClientHandler {
     /********************* Replay an old game invitation response handler *********************/
     private static void replayGameInviteHandler(String username,String inviteStatus){
         if(inviteStatus.equals("false")){
-            //System.out.println("invitation to an old game declined.");
             Platform.runLater(() -> { loadgamectrl.getRejectionLabel().setText("Player rejected your request");
             loadgamectrl.requestRejectionHandler();});
         }
         else if (inviteStatus.equals("true")){
             player.setOpponent(username);
-            //System.out.println("invitation to an old game accpeted, waiting game from server.");
         }
     }
     
@@ -491,7 +466,6 @@ public class ClientHandler {
         String username = request.get("username").toString();
         String newGame = request.get("newGame").toString();
         invitingUsername = username;        
-        //System.out.println("invitation recieved from "+ username); 
         ClientHandler.changeScene("Invitation");
         Platform.runLater(()->{
             if(newGame.equals("false")){
@@ -546,7 +520,6 @@ public class ClientHandler {
             }
         }
         else{
-            //System.out.println("game failed to start");
         }
     }
     
@@ -580,7 +553,6 @@ public class ClientHandler {
         String errormsg = response.get("errorMsg").toString();
         if(errormsg.equals("")){
             String newScore = response.get("score").toString();
-            //System.out.println("Updated Your score to : "+newScore);       
             player.setScore(Integer.parseInt(newScore));
         }
         else if(errormsg.equals("clientDropped")){
@@ -595,7 +567,6 @@ public class ClientHandler {
     
     /************** Send Move request and Response **************/
     public static void sendMoveRequest(int row, int col){
-        //System.out.println("inside send move request");
         JSONObject sendMoveRequest = new JSONObject();
         sendMoveRequest.put("type", "sendMove");
         sendMoveRequest.put("row", (Integer)row);
@@ -607,8 +578,6 @@ public class ClientHandler {
         int col = Integer.parseInt(response.get("col").toString());
         
         Game.CellPosition move = new Game.CellPosition(row, col);
-        //System.out.println(move.row);
-        //System.out.println(move.col);
         Game.setMoveOfNextPlayer(move);
         
         Platform.runLater(()->{multigameCtrl.secondPlayerMove();});
@@ -628,10 +597,6 @@ public class ClientHandler {
             Platform.runLater(() -> {multigameCtrl.getSavingSubscene().setVisible(true);
             multigameCtrl.getSavingLbl().setText("Game saved successfully."); 
             multigameCtrl.getHomtBtn().setDisable(false);});
-        }
-        else{
-//            Platform.runLater(() -> {multigameCtrl.getSavingSubscene().setVisible(true);});
-            //System.out.println("failed game save");
         }
     }
     
@@ -655,8 +620,8 @@ public class ClientHandler {
         loadGameReq.put("newGame", false);
         loadGameReq.put("gameId", gameId);
         sendRequest(loadGameReq);
-        //System.out.println("Sent a load game request.");
     }
+    
     private static void loadGameResponse(JSONObject response){
         String resStatus = response.get("responseStatus").toString();
         JSONParser parser = new JSONParser();
@@ -701,7 +666,6 @@ public class ClientHandler {
                 game=(JSONObject) parser.parse(gamesFullInfo.get(i).toString());
                 games.add((i+1)+". ["+game.get("date").toString()+"] with "+game.get("player").toString());
             } catch (ParseException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         Platform.runLater(() -> {loadgamectrl.displayGames(games);});

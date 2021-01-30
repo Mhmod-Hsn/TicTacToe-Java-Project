@@ -19,16 +19,13 @@ public class ConfailedFXMLController implements Initializable {
 
     @FXML
     private void tryagainHandler(MouseEvent event) {
-        //System.out.println("Trying to connect again.");
+
         if(ClientHandler.connectToServer())
         {
-            //System.out.println("Connected successfully.");
+
             Thread readerThread = new Thread(new ClientHandler.recieveRespone());
             readerThread.start();
             ClientHandler.changeScene("Login");
-        }
-        else{
-            //System.out.println("Failed to Connect.");
         }
     }
     

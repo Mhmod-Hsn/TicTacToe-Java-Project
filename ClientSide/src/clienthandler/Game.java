@@ -141,7 +141,6 @@ public class Game {
                     else{
                         winner = 1;
                     }
-                    ////System.out.println("Row complete");
                 }
             }
         }
@@ -160,7 +159,6 @@ public class Game {
                     else{
                         winner = 1;
                     }
-                    ////System.out.println("col complete");
                 }
             }
         }
@@ -179,7 +177,6 @@ public class Game {
                 else{
                     winner = 1;
                 }
-                ////System.out.println("diag complete");
             }
         }
         if(board[0][2] != ' '){
@@ -191,7 +188,6 @@ public class Game {
                 else{
                     winner = 1;
                 }
-                ////System.out.println("diag complete");
             }
         }
         
@@ -219,9 +215,6 @@ public class Game {
         
         if(resultCols || resultRows || resultDiagonals){
             win = 1;
-//            //System.out.println(resultCols);
-//            //System.out.println(resultRows);
-//            //System.out.println(resultDiagonals);
         }
         else{
             resultMoves = checkNumberOfMoves();
@@ -238,9 +231,8 @@ public class Game {
     {
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                //System.out.print("" + board[i][j] + "   ");
+
             }
-            //System.out.println("");
         }
     }
     
@@ -444,14 +436,6 @@ public class Game {
             }
         }
         return twoDimensionArr;
-        
-    }
-    
-    public static void main(String[] args) {
-        // TODO code application logic here
-        Game g = new Game();
-        g.setCell6('X');
-        
         
     }
 }

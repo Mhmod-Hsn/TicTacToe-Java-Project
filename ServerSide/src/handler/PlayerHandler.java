@@ -120,9 +120,9 @@ public class PlayerHandler extends Thread{
                 
                 //wait for response on the same request from player 2
                 while(! isReceived) {
-                    //System.out.println("");
+                    System.out.println("");
                     receiverJson = receiverPlayerHandler.getForwardedRequest();
-
+                    
                     if (receiverJson == null);
 
                     else if (receiverJson.get("type").equals(Requests.RECEIVE_INVITATION))

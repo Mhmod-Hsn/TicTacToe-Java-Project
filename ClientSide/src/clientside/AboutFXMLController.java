@@ -46,7 +46,7 @@ public class AboutFXMLController implements Initializable {
 
     @FXML
     private void switchRigth(MouseEvent event) {
-        System.out.println(page);
+
         page++;
         if(page>3)
             page=1;

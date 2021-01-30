@@ -3,8 +3,6 @@ package clientside;
 import clientHandler.Player;
 import java.io.IOException;
 import javafx.scene.text.*;
-import java.lang.*;
-import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -12,7 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import java.util.regex.*;
+
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
@@ -203,7 +201,6 @@ public class LoginFXMLDocumentBase extends BorderPane {
                 
                 boolean checkUname = player.checkUsername(username);
                 boolean checkPass = player.checkPassword(password);
-                ////System.out.println(checkUname);
                 if(!checkUname){
                     warningLbl.setText("Invalid username format");
                 }
@@ -212,7 +209,6 @@ public class LoginFXMLDocumentBase extends BorderPane {
                 }
                 else{
                     warningLbl.setText("");
-                    //TODO
                     //send data to server to check for existence before changing
                     //to the next scene
                     try {

@@ -105,7 +105,7 @@ public class GameHandler extends Thread {
         while (!isGameEnded)
         {
             
-            //System.out.println("");
+            System.out.println("");
             
             //listen from both players
             xPlayerRequestObj = xPlayerHandler.getForwardedRequest();
@@ -161,6 +161,8 @@ public class GameHandler extends Thread {
 
     private boolean handlePlayerRequest(JSONObject playerRequest, boolean isXPlayer )
     {
+        
+                
         //find out which request
         String requestType = (String)playerRequest.get("type");
         
