@@ -1,3 +1,8 @@
+[![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/uses-brains.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-black-magic.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://forthebadge.com)
 # **Tic Tac Toe**
 
 This is a simple Tic-Tac-Toe online game developed by a team of students at ITI intake 41, 
@@ -40,22 +45,22 @@ or download the zipped file and unzip it in your working directory.
 
 ### Run The Server
 
-Using File Explorer : Navigate to the ServerSide folder and double click Server.jar.
+Using File Explorer : Navigate to the ServerSide folder then inside dist folder double click ServerSide.jar
 
-Using the Terminal : Navigate to the ServerSide directory and run the following command:
+Using the Terminal : Navigate to the ServerSide/dist directory and run the following command:
 
 ```bash
-java -jar ./.jar
+java -jar .ServerSide.jar/.jar
 ```
 
 ### Run The Client
 
-Using File Explorer : Navigate to the ClientSide folder and double click Server.jar.
+Using File Explorer : Navigate to the ClientSide folder then inside dist folder double click ClientSide.jar
 
-Using the Terminal : Navigate to the ClientSide directory and run the following command:
+Using the Terminal : Navigate to the ClientSide/dist directory and run the following command:
 
 ```bash
-java -jar ./.jar
+java -jar .ClientSide/.jar
 ```
 
 
