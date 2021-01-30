@@ -5,8 +5,7 @@ Smart Village branch, as a final project for the Java programming course.
 
 ### Table of Contents
 
-TO DO
-
+TODO
 
 ### 🕹️ Main features
 
@@ -38,9 +37,11 @@ or download the zipped file and unzip it in your working directory.
 - Edit DBconfig.java file in database package to fit your database username ,password ,port number ,and database server url .
 
 #### Run The Server
+
 TODO
 
 #### Run The Client
+
 TODO
 
 ### 🎮 Demo 
@@ -55,9 +56,9 @@ For the full demo video refer to the following link: www.rgijgrmor.com
 
 ### 👨‍💻 Developers
 
-• Ahmed Mamdouh Abdelwahab: https://www.linkedin.com/in/ahmed-mamdouh-935120100/
-• Ahmed Mamdouh Mostafa: https://www.linkedin.com/in/ahmed-mamdouh-816273134/
-• Aya Hamed: https://www.linkedin.com/in/aya-hamed/
-• Ghada Ragab:	https://www.linkedin.com/in/ghadaragab/
-• Hossam Khalil:	https://www.linkedin.com/in/hossam-khalil01/
-• Sarah Magdy:	https://www.linkedin.com/in/sarah-mostafa-0647b61b8/
+- Ahmed Mamdouh Abdelwahab: https://www.linkedin.com/in/ahmed-mamdouh-935120100/
+- Ahmed Mamdouh Mostafa: https://www.linkedin.com/in/ahmed-mamdouh-816273134/
+- Aya Hamed: https://www.linkedin.com/in/aya-hamed/
+- Ghada Ragab:	https://www.linkedin.com/in/ghadaragab/
+- Hossam Khalil:	https://www.linkedin.com/in/hossam-khalil01/
+- Sarah Magdy:	https://www.linkedin.com/in/sarah-mostafa-0647b61b8/
