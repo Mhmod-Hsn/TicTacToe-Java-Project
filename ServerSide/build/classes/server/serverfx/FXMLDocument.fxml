@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane id="AnchorPane" prefHeight="902.0" prefWidth="1190.0" style="-fx-background-color: #00ffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="serverside.FXMLDocumentController">
+   <children>
+      <ToggleButton fx:id="controlBtn" layoutX="528.0" layoutY="469.0" mnemonicParsing="false" prefHeight="111.0" prefWidth="228.0" style="-fx-background-color: #99ff99; -fx-border-color: #3002ff;" text="Stopped" textFill="RED">
+         <font>
+            <Font name="Arial Bold" size="40.0" />
+         </font>
+      </ToggleButton>
+      <ListView fx:id="logsView" layoutX="12.0" layoutY="8.0" onMouseClicked="#logViewHandle" onMouseDragged="#logViewHandle" onMouseEntered="#logViewHandle" onMouseExited="#logViewHandle" onMouseMoved="#logViewHandle" onMousePressed="#logViewHandle" onMouseReleased="#logViewHandle" prefHeight="450.0" prefWidth="442.0" style="-fx-border-color: #3002ff; -fx-background-color: #b3ffff;" />
+      <Label fx:id="logsLabel" layoutX="12.0" layoutY="458.0" prefHeight="52.0" prefWidth="442.0" style="-fx-background-color: #99ff99; -fx-border-color: #6600cc;" text=" Server Logs" textFill="#2412e3">
+         <font>
+            <Font size="28.0" />
+         </font></Label>
+      <PieChart fx:id="clientChart" layoutX="461.0" layoutY="10.0" onMouseClicked="#clientChartHandle" onMouseDragged="#clientChartHandle" onMouseEntered="#clientChartHandle" onMouseExited="#clientChartHandle" onMouseMoved="#clientChartHandle" onMousePressed="#clientChartHandle" onMouseReleased="#clientChartHandle" prefHeight="388.0" prefWidth="374.0" style="-fx-background-color: #00ffff;" title="Clients Status" titleSide="BOTTOM" />
+      <ListView fx:id="dbView" layoutX="12.0" layoutY="515.0" onMouseClicked="#dbViewHandle" onMouseDragged="#dbViewHandle" onMouseEntered="#dbViewHandle" onMouseExited="#dbViewHandle" onMouseMoved="#dbViewHandle" onMousePressed="#dbViewHandle" onMouseReleased="#dbViewHandle" prefHeight="242.0" prefWidth="442.0" style="-fx-border-color: #3002ff; -fx-background-color: #b3ffff;" />
+      <ProgressIndicator fx:id="loadIndicator" layoutX="724.0" layoutY="724.0" progress="0.0" />
+      <Label fx:id="loadLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="550.0" layoutY="721.0" prefHeight="41.0" prefWidth="170.0" text="Current Load" textFill="#2412e3">
+         <font>
+            <Font size="28.0" />
+         </font></Label>
+      <Pagination fx:id="pagination" layoutX="543.0" layoutY="844.0" maxPageIndicatorCount="2" pageCount="2" prefHeight="62.0" prefWidth="187.0" style="-fx-background-color: #b3ffff; -fx-border-color: #3002ff;" />
+      <Label fx:id="dbLabel" layoutX="12.0" layoutY="759.0" prefHeight="41.0" prefWidth="442.0" style="-fx-background-color: #99ff99; -fx-border-color: #6600cc;" text=" DataBase" textFill="#2412e3">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableView" layoutX="843.0" layoutY="10.0" onMouseClicked="#tableViewHandle" onMouseDragged="#tableViewHandle" onMouseEntered="#tableViewHandle" onMouseExited="#tableViewHandle" onMouseMoved="#tableViewHandle" onMousePressed="#tableViewHandle" onMouseReleased="#tableViewHandle" prefHeight="752.0" prefWidth="333.0" style="-fx-border-color: #3002ff; -fx-background-color: #b3ffff;">
+        <columns>
+          <TableColumn prefWidth="153.0" style="-fx-text-fill: #3002ff;" text="PlayerName" />
+          <TableColumn prefWidth="106.0" style="-fx-text-fill: #3002ff;" text="Status" />
+            <TableColumn prefWidth="72.0" style="-fx-text-fill: #3002ff;" text="Score" />
+        </columns>
+      </TableView>
+      <Label fx:id="playerLabel" alignment="CENTER_RIGHT" layoutX="843.0" layoutY="764.0" prefHeight="40.0" prefWidth="333.0" style="-fx-background-color: #99ff99; -fx-border-color: #6600cc;" text="Player List " textFill="#2412e3">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="467.0" layoutY="607.0" prefHeight="84.0" prefWidth="361.0" style="-fx-background-color: #00ffff;" textFill="RED" />
+      <WebView fx:id="webView" layoutX="8.0" layoutY="4.0" prefHeight="828.0" prefWidth="1173.0" visible="false" />
+   </children>
+</AnchorPane>

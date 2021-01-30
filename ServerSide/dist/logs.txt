@@ -1,0 +1,2 @@
+[ Sat Jan 30 15:59:12 GMT+02:00 2021 ] :  Creating new logFile
+[ Sat Jan 30 15:59:19 GMT+02:00 2021 ] :  [Server class]: Server stopped successfully.
