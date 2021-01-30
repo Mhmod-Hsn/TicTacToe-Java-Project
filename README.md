@@ -114,6 +114,8 @@ Using the Terminal : Navigate to the [ServerSide/dist](https://github.com/ahmedm
 java -jar ServerSide.jar
 ```
 
+You can also simply double click the .jar file found in the bin directory(https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ServerSide/bin)
+
 ⚠️**Note that the server and the client run on port 7777.**
 
 ### Run The Client
@@ -126,6 +128,7 @@ Using the Terminal : Navigate to the [ClientSide/dist](https://github.com/ahmedm
 java -jar ClientSide.jar
 ```
 
+You can also simply double click the .jar file found in the bin directory(https://github.com/ahmedmumdouh/TicTacToe-Java-Project/tree/master/ClientSide/bin)
 ---
 ## 📋 Dependencies
 
