@@ -33,12 +33,12 @@ git clone https://github.com/ahmedmumdouh/TicTacToe-Java-Project.git
 
 or download the zipped file and unzip it in your working directory.
 
-#### Setup the database
+### Setup the database
 
 - Import sql schema file in any MySQL Server ( Recommended: phpMyAdmin ) or implement SQl Statments Manual in MySQL Shell as descriped in /ServerSide/DBSchema/tictactoedb.sql.
 - Edit DBconfig.java file in database package to fit your database username ,password ,port number ,and database server url .
 
-#### Run The Server
+### Run The Server
 
 Using File Explorer : Navigate to the ServerSide folder and double click Server.jar.
 
@@ -48,7 +48,7 @@ Using the Terminal : Navigate to the ServerSide directory and run the following 
 java -jar ./.jar
 ```
 
-#### Run The Client
+### Run The Client
 
 Using File Explorer : Navigate to the ClientSide folder and double click Server.jar.
 
