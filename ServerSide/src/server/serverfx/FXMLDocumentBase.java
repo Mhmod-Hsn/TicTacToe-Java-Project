@@ -356,7 +356,7 @@ public class FXMLDocumentBase extends AnchorPane {
     public  void clientChartHandler(){
 
         double online = 0 ;
-        double offline = 0.1 ;
+        double offline = 0 ;
         double busy = 0 ;
         if(DBMethods.getAllRecords(Player.statusType.offline.toString()) != null )
             offline = DBMethods.getAllRecords(Player.statusType.offline.toString()).size();
@@ -421,8 +421,6 @@ public class FXMLDocumentBase extends AnchorPane {
         if(DBMethods.getAllRecords(Player.statusType.busy.toString()) != null )
             busy = DBMethods.getAllRecords(Player.statusType.busy.toString()).size();
         
-        if(DBMethods.getAllRecords(Player.statusType.none.toString()) != null )
-            busy = DBMethods.getAllRecords(Player.statusType.none.toString()).size();
         
         if( offline == 0 && online+busy >0 )
             all = 1;
