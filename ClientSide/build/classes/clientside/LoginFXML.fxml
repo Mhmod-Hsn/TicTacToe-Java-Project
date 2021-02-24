@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientside.LoginFXMLController">
+   <children>
+      <ImageView fitHeight="500.0" fitWidth="675.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/loginbg.jpg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="txtUsername" layoutX="46.0" layoutY="342.0" prefHeight="35.0" prefWidth="220.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Label fx:id="passLbl" alignment="BASELINE_CENTER" layoutX="345.0" layoutY="299.0" prefHeight="15.0" prefWidth="203.0" text="Password" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="userLbl" alignment="BASELINE_CENTER" layoutX="55.0" layoutY="299.0" prefHeight="15.0" prefWidth="203.0" text="Username" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="warningLbl" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="394.0" prefHeight="37.0" prefWidth="588.0" textFill="#ff5500">
+         <font>
+            <Font name="Calibri Italic" size="17.0" />
+         </font></Label>
+      <Button fx:id="btnLogin" layoutX="112.0" layoutY="438.0" mnemonicParsing="false" onMouseReleased="#loginHandler" prefHeight="17.0" prefWidth="88.0" text="Log In">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
+         </font></Button>
+      <PasswordField fx:id="txtPassword" layoutX="336.0" layoutY="342.0" prefHeight="35.0" prefWidth="220.0">
+         <font>
+            <Font size="14.0" />
+         </font></PasswordField>
+      <Button fx:id="btnSignup" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="398.0" layoutY="438.0" mnemonicParsing="false" onMouseReleased="#signupHandler" prefHeight="17.0" prefWidth="97.0" text="Sign Up" textAlignment="CENTER">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="20.0" />
+         </font></Button>
+      <ImageView fitHeight="176.0" fitWidth="247.0" layoutX="183.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/login.gif" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="320.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Time ?">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="16.0" />
+         </font>
+      </Text>
+      <Text fill="#ff7300" layoutX="119.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you up to the challenge?" textAlignment="CENTER" wrappingWidth="361.9999913573265">
+         <font>
+            <Font name="OCR A Extended" size="40.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
