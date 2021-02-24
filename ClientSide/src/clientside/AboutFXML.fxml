@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #C7EAFB;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientside.AboutFXMLController">
+   <children>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="15.0" prefHeight="17.0" prefWidth="593.0" text="Tic Tac Toe" textFill="#ff5e5e">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="45.0" />
+         </font>
+         <effect>
+            <DropShadow color="#ffa1b5" />
+         </effect>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="55.0" prefHeight="73.0" prefWidth="578.0" text="This is a simple Tic-Tac-Toe online game that is developed by a team of students at ITI, Smart Village branch,as a final project for the Java programming course." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+         </font>
+      </Label>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseReleased="#homeBtn" style="-fx-background-color: white;" text="Home">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="15.0" />
+         </font></Button>
+      <Button layoutX="11.0" layoutY="388.0" mnemonicParsing="false" onMouseReleased="#switchLeft" prefHeight="19.0" prefWidth="30.0" style="-fx-background-color: #FEFFE2;" text="&lt;">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+         </font>
+      </Button>
+      <Pane fx:id="pageTwo" layoutX="64.0" layoutY="281.0" prefHeight="233.0" prefWidth="481.0">
+         <children>
+            <Label alignment="CENTER" layoutX="63.0" layoutY="14.0" prefHeight="35.0" prefWidth="356.0" text="Additional Features" textFill="#c32f2f" wrapText="true">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="49.0" prefHeight="194.0" prefWidth="488.0" text="• A score metrics for each player that is calculated upon winning or losing.                                                                                             • A live list of the status and score of other players in the game.    • Invite any online player in multiplayer mode.                               • Play again with the same player.                                                 • Quit the game in the middle (will result in lossing the game)." wrapText="true">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pageThree" layoutX="60.0" layoutY="247.0" prefHeight="211.0" prefWidth="488.0">
+         <children>
+            <Label alignment="CENTER" layoutX="11.0" layoutY="50.0" prefHeight="35.0" prefWidth="467.0" text="Developers" textFill="#c32f2f" wrapText="true">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="22.0" />
+               </font>
+            </Label>
+            <Hyperlink layoutX="200.0" layoutY="85.0" prefHeight="28.0" prefWidth="286.0" text="linkedin.com/in/ahmed-mamdouh-935120100/">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink layoutX="199.0" layoutY="112.0" prefHeight="28.0" prefWidth="286.0" text="linkedin.com/in/ahmed-mamdouh-816273134/">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink layoutX="199.0" layoutY="139.0" prefHeight="28.0" prefWidth="286.0" text="linkedin.com/in/aya-hamed/">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink layoutX="199.0" layoutY="166.0" prefHeight="28.0" prefWidth="286.0" text="linkedin.com/in/ghadaragab/">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink layoutX="200.0" layoutY="193.0" prefHeight="28.0" prefWidth="286.0" text="linkedin.com/in/hossam-khalil01/">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink layoutX="200.0" layoutY="220.0" prefHeight="28.0" prefWidth="286.0" text="linkedin.com/in/sarah-mostafa-0647b61b8/">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Hyperlink>
+            <Label layoutX="3.0" layoutY="90.0" text="Ahmed Mamdouh Abdelwahab">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="30.0" layoutY="115.0" text="Ahmed Mamdouh Mostafa">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="125.0" layoutY="143.0" text="Aya Hamed">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="111.0" layoutY="170.0" text="Ghada Ragab">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="108.0" layoutY="196.0" text="Hossam Khalil">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="111.0" layoutY="223.0" text="Sarah Magdy">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="17.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pageOne" layoutX="64.0" layoutY="262.0" prefHeight="239.0" prefWidth="481.0" style="-fx-background-color: #C7EAFB;">
+         <children>
+            <Label alignment="CENTER" layoutX="11.0" layoutY="34.0" prefHeight="35.0" prefWidth="459.0" text="Main features" textFill="#c32f2f" wrapText="true">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="75.0" prefHeight="129.0" prefWidth="505.0" text="• Play in single mode vs. computer in two levels of difficulities.          • Play with your friends in multi mode (online).                                   • Chat with the opponent inside the game.                                           • Save the game to continue playing it later.                                      • User-friendly GUI." wrapText="true">
+               <font>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button layoutX="548.0" layoutY="388.0" mnemonicParsing="false" onMouseReleased="#switchRigth" prefHeight="19.0" prefWidth="30.0" style="-fx-background-color: #FEFFE2;" text="&gt;">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+         </font></Button>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="146.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/about.gif" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
