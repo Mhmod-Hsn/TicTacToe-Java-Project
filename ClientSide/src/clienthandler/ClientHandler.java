@@ -69,6 +69,34 @@ public class ClientHandler {
     private ClientHandler(){  
     }
     
+    /** Connect to the server
+     ** @return  status of connection.
+     */
+    public static boolean connectToServer(){
+        boolean res = true;
+        try {
+            clientSocket = new Socket("127.0.0.1", 7777);
+            ds = new DataInputStream(clientSocket.getInputStream());
+            ps = new DataOutputStream(clientSocket.getOutputStream());
+            
+        } catch (IOException ex) {
+            res = false;
+        }
+        return res;
+    }
+    
+    /** Close the connection with the server.
+     */
+    public static void closeCon(){
+        try{
+            ps.close();
+            ds.close();
+            clientSocket.close();
+        }
+        catch(IOException ex){
+        }
+    }
+    
     /** Send a new request to the server
      * @param jsonMsg
      */
@@ -197,6 +225,16 @@ public class ClientHandler {
         return currentScene;
     }
     
+    /** Set the player to the current user player.
+     * @param p
+     */
+    public static void setPlayer(Player p) {
+        player = p;
+    }
+    public static Player getPlayer() {
+        return player;
+    }
+    
     /** Set scene controllers to be able to access and change them.
      * @param ctrl 
      */
@@ -224,6 +262,18 @@ public class ClientHandler {
     public static void setMultigameCtrl(MultigameFXMLController ctrl){
         multigameCtrl = ctrl;
     }
+    public static boolean getGameAccepted(){
+        return gameAccepted;
+    }
+    public static void setReplay(boolean replay){
+       ClientHandler.replay = replay;
+    }
+    public static boolean getReplay(){
+        return replay;
+    }
+    public static JSONArray getGames (){
+        return gamesFullInfo;
+    }
     public static ObservableList<String> getNameList (){
         return name;
     }  
@@ -232,6 +282,24 @@ public class ClientHandler {
     }  
     public static ObservableList<String> getScoreList(){
         return score;
+    }
+    public static char[][] getBoard(){
+        return gameBoard;
+    }
+    public static void setIsLoaded(boolean isloaded){
+        isLoaded = isloaded;
+    }
+    public static boolean getIsLoaded(){
+        return isLoaded;
+    }
+    public static char getNextMove(){
+        return nextMove;
+    }
+    public static String getNextPlayer(){
+        return nextPlayer;
+    }
+    public static boolean getClientDropped(){
+        return clientDropped;
     }
 
     
